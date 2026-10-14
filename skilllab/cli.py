@@ -12,7 +12,7 @@ from . import __version__
 from .agent import ClaudeAgent, CommandAgent, find_claude
 from .lab import to_lab_html
 from .report import to_html, to_markdown
-from .runner import load_results, plan, run_all
+from .runner import final_results, load_results, plan, run_all
 from .skills import Skill, load_sources
 from .tasks import DEFAULT_SUITE, TIERS, Task, load_suites, matches
 from .verdict import DEFAULT_ALPHA, DEFAULT_THRESHOLD, summarize
@@ -72,12 +72,13 @@ def cmd_plan(args) -> int:
 
 def _write_reports(out: Path, model: str, threshold: float, alpha: float = DEFAULT_ALPHA) -> dict:
     meta = json.loads((out / "meta.json").read_text(encoding="utf-8"))
-    records = load_results(out / "results.jsonl")
+    lines = load_results(out / "results.jsonl")
+    records = final_results(lines)
     summary = summarize(records, meta["skills"], meta["tasks"], meta["untested"], threshold, alpha)
     (out / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     (out / "report.md").write_text(to_markdown(summary, model), encoding="utf-8")
     (out / "report.html").write_text(to_html(summary, model), encoding="utf-8")
-    (out / "lab.html").write_text(to_lab_html(summary, records, meta), encoding="utf-8")
+    (out / "lab.html").write_text(to_lab_html(summary, records, meta, len(lines)), encoding="utf-8")
     return summary
 
 
@@ -147,7 +148,7 @@ def cmd_calibrate(args) -> int:
             budget_usd=None if args.agent_cmd else args.budget)
     rows = []
     for t in tasks:
-        recs = [r for r in load_results(out / "results.jsonl")
+        recs = [r for r in final_results(load_results(out / "results.jsonl"))
                 if r["task"] == t.id and r["arm"] == "baseline" and not r.get("infra_error")]
         rate = sum(r["passed"] for r in recs) / len(recs) if recs else None
         if rate is None:

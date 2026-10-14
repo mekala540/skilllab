@@ -2,6 +2,10 @@
 
 **Does this agent skill actually help? Run it and see.**
 
+[![The lab view replaying 162 real runs](https://mekala540.github.io/skilllab/lab.gif)](https://mekala540.github.io/skilllab/)
+
+**[Watch the live replay](https://mekala540.github.io/skilllab/)** of a real batch (30 skills on Claude Haiku 5.5, public tasks only) · [full report](https://mekala540.github.io/skilllab/report.html)
+
 Skill packs for Claude Code collect hundreds of thousands of stars. Stars measure popularity, and a static scan ([skillprint](https://github.com/mekala540/skillprint)) measures cost. Neither tells you whether the agent does better work with the skill installed.
 
 skilllab answers that the way a lab would:
@@ -50,7 +54,7 @@ Every `run` and `report` also writes `lab.html`: an animated replay of the batch
 - **The wave**: each run streams from its skill on the ring (or from the centre, for baselines) to one of 12 agent lanes, then lands green (pass) or red (fail).
 - **Panels**: live run feed, lift by task (best skill vs baseline), verdicts and gaps. Hover a tick for details.
 
-It's one self-contained file with no network calls. Open it in a browser. `lab.html#t=20` starts 20 seconds in. With `run --watch` or `skilllab watch <folder>`, it's served on localhost and picks up new runs every few seconds while the batch is going.
+It's one self-contained file with no network calls. Open it in a browser. `lab.html#t=20` starts 20 seconds in. With `run --watch` or `skilllab watch <folder>`, it's served on localhost and picks up new runs every few seconds while the batch is going. Retried runs count once.
 
 To preview it without spending anything, run a batch with the fake agent in demo mode. Its outcomes are random, so never publish them:
 

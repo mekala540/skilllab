@@ -286,3 +286,18 @@ def test_live_server_serves_results(tmp_path):
         assert '"task": "t"' in body
     finally:
         httpd.shutdown()
+
+
+def test_final_results_counts_a_retried_run_once():
+    from skilllab.runner import final_results
+    recs = [
+        {"key": "a", "infra_error": "usage limit", "passed": False},
+        {"key": "b", "infra_error": "", "passed": True},
+        {"key": "a", "infra_error": "", "passed": True},
+        {"key": "a", "infra_error": "logged out", "passed": False},
+        {"key": "c", "infra_error": "usage limit", "passed": False},
+    ]
+    out = {r["key"]: r for r in final_results(recs)}
+    assert len(final_results(recs)) == 3
+    assert out["a"]["passed"] and not out["a"]["infra_error"]
+    assert out["c"]["infra_error"]

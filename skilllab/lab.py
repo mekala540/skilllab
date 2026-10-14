@@ -5,12 +5,13 @@ lands as pass or fail. Self-contained: one file, no network."""
 from __future__ import annotations
 
 import json
-from typing import List
+from typing import List, Optional
 
 LANES = 12
 
 
-def to_lab_html(summary: dict, records: List[dict], meta: dict) -> str:
+def to_lab_html(summary: dict, records: List[dict], meta: dict, lines: Optional[int] = None) -> str:
+    """lines: how many raw lines results.jsonl had, so live mode reads on from there."""
     verdicts = {s["id"]: s for s in summary["skills"]}
     skills = []
     for s in meta["skills"]:
@@ -39,7 +40,7 @@ def to_lab_html(summary: dict, records: List[dict], meta: dict) -> str:
     gaps = {k: len(v or []) for k, v in summary["gaps"].items()}
     data = {
         "model": _model_label(meta.get("model", "")), "skills": skills, "tasks": tasks, "runs": runs,
-        "gaps": gaps, "lanes": LANES, "threshold": summary["threshold"],
+        "gaps": gaps, "lanes": LANES, "lines": len(records) if lines is None else lines, "threshold": summary["threshold"],
         "gapItems": {k: [_label(k, i) for i in (v or [])[:6]] for k, v in summary["gaps"].items()},
     }
     payload = json.dumps(data).replace("</", "<\\/")
@@ -339,8 +340,8 @@ async function poll() {
   try {
     const text = await (await fetch('results.jsonl?' + Date.now(), {cache: 'no-store'})).text();
     const lines = text.split('\n').filter(l => l.trim());
-    for (let i = D.runs.length; i < lines.length; i++) {
-      try { D.runs.push(toRun(JSON.parse(lines[i]))); } catch (e) {}
+    for (; D.lines < lines.length; D.lines++) {
+      try { D.runs.push(toRun(JSON.parse(lines[D.lines]))); } catch (e) {}
     }
     $('model').textContent = 'model ' + D.model + ' · LIVE · ' + D.runs.length + ' runs so far';
   } catch (e) {}

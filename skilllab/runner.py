@@ -146,6 +146,17 @@ def load_results(path: Path) -> List[dict]:
     return out
 
 
+def final_results(records: List[dict]) -> List[dict]:
+    """One record per run key. A retried run keeps its success over earlier
+    infrastructure errors; otherwise the latest record wins."""
+    by_key: Dict[str, dict] = {}
+    for r in records:
+        old = by_key.get(r["key"])
+        if old is None or old.get("infra_error") or not r.get("infra_error"):
+            by_key[r["key"]] = r
+    return list(by_key.values())
+
+
 def run_all(runs: List[Run], agent, model: str, results_path: Path, workers: int = 4,
             budget_usd: Optional[float] = None, keep: bool = False,
             log: Callable[[str], None] = print) -> Dict[str, float]:
