@@ -1,0 +1,22 @@
+{
+  "id": "write-tests-slugify",
+  "tier": "easy",
+  "title": "Write a test suite that catches real bugs",
+  "tags": [
+    "test",
+    "tests",
+    "testing",
+    "tdd",
+    "unit test",
+    "unit tests",
+    "test coverage"
+  ],
+  "fixture": "fixtures/slugify",
+  "hidden": "fixtures/slugify-hidden",
+  "prompt": "Write a thorough unittest test suite for slugify.py in tests/test_slugify.py. Cover every rule in the docstring, including edge cases. Use only the standard library. Do not modify slugify.py.",
+  "check": "{python} check_slugify_tests.py",
+  "protect": [
+    "slugify.py"
+  ],
+  "timeout": 600
+}

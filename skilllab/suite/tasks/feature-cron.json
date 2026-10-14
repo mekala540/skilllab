@@ -1,0 +1,12 @@
+{
+  "id": "feature-cron",
+  "tier": "standard",
+  "title": "Implement a tricky spec (cron scheduling)",
+  "tags": ["tdd", "spec", "specification", "implement", "implementation", "feature", "features", "plan", "planning", "requirements", "verification", "verify", "edge cases"],
+  "fixture": "fixtures/cron",
+  "hidden": "fixtures/cron-hidden",
+  "prompt": "Implement next_run in cron.py so it follows SPEC.md exactly, including every edge case and error rule. Standard library only. Do not edit SPEC.md.",
+  "check": "{python} -m unittest -q test_hidden_cron",
+  "protect": ["SPEC.md"],
+  "timeout": 1200
+}

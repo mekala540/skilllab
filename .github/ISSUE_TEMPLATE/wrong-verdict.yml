@@ -1,0 +1,25 @@
+name: Wrong verdict
+description: A skill got a verdict you think is wrong
+labels: [verdict]
+body:
+  - type: input
+    id: skill
+    attributes:
+      label: Skill and task
+      description: e.g. obra/superpowers/systematic-debugging on debug-ledger
+    validations:
+      required: true
+  - type: textarea
+    id: row
+    attributes:
+      label: Report row
+      description: Paste the row from report.md (pass rates, n, p-value, notes) and the model
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it's wrong
+      description: e.g. checker rejects a correct answer, skill never installed, environment problem
+    validations:
+      required: true

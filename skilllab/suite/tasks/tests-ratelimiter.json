@@ -1,0 +1,12 @@
+{
+  "id": "tests-ratelimiter",
+  "tier": "standard",
+  "title": "Write tests that catch subtle boundary bugs",
+  "tags": ["test", "tests", "testing", "tdd", "unit test", "unit tests", "test coverage", "edge cases"],
+  "fixture": "fixtures/ratelimiter",
+  "hidden": "fixtures/ratelimiter-hidden",
+  "prompt": "Write a unittest test suite for ratelimit.py in tests/test_ratelimit.py. It should catch any change that breaks a rule in the TokenBucket docstring, so test every rule and its boundaries. Use a fake clock rather than sleeping. Standard library only. Do not modify ratelimit.py.",
+  "check": "{python} check_ratelimit_tests.py",
+  "protect": ["ratelimit.py"],
+  "timeout": 900
+}

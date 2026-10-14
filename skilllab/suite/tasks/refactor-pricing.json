@@ -1,0 +1,11 @@
+{
+  "id": "refactor-pricing",
+  "tier": "standard",
+  "title": "Refactor legacy code with hidden state, without changing behavior",
+  "tags": ["refactor", "refactoring", "clean code", "readability", "simplify", "simplification", "deep modules", "module", "legacy"],
+  "fixture": "fixtures/pricing",
+  "hidden": "fixtures/pricing-hidden",
+  "prompt": "pricing.py is legacy code: one long function and global state. Refactor it so no function body is longer than 15 lines and there are no `global` statements. Behavior must stay exactly the same for every input and every sequence of calls, including return values, which exceptions are raised and their exact messages, and how state carries over between calls. Keep quote(customer, items, day) and reset() as the public API.",
+  "check": "{python} check_pricing_refactor.py",
+  "timeout": 900
+}

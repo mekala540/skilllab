@@ -1,0 +1,18 @@
+{
+  "id": "refactor-orders",
+  "tier": "easy",
+  "title": "Refactor a long function without changing behavior",
+  "tags": [
+    "refactor",
+    "refactoring",
+    "clean code",
+    "readability",
+    "simplify",
+    "simplification"
+  ],
+  "fixture": "fixtures/orders",
+  "hidden": "fixtures/orders-hidden",
+  "prompt": "process_order in orders.py is long and hard to follow. Refactor it into small, well-named functions. Behavior must stay exactly the same, including which inputs raise errors. Keep process_order(order) as the public entry point with the same signature, and keep its body short.",
+  "check": "{python} check_refactor.py",
+  "timeout": 600
+}

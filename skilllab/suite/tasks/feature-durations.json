@@ -1,0 +1,25 @@
+{
+  "id": "feature-durations",
+  "tier": "easy",
+  "title": "Implement a feature from a written spec",
+  "tags": [
+    "tdd",
+    "spec",
+    "specification",
+    "implement",
+    "implementation",
+    "feature",
+    "features",
+    "plan",
+    "planning",
+    "requirements"
+  ],
+  "fixture": "fixtures/durations",
+  "hidden": "fixtures/durations-hidden",
+  "prompt": "Implement parse_duration in durations.py so it follows SPEC.md exactly. Use only the standard library. Do not edit SPEC.md.",
+  "check": "{python} -m unittest -q test_hidden_durations",
+  "protect": [
+    "SPEC.md"
+  ],
+  "timeout": 600
+}

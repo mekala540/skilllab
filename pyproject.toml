@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skilllab"
+version = "0.1.0"
+description = "Run a fixed task suite with and without an agent skill and report whether it actually helps."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "mekala" }]
+dependencies = []
+
+[project.scripts]
+skilllab = "skilllab.cli:main"
+
+[tool.setuptools]
+packages = ["skilllab"]
+
+[tool.setuptools.package-data]
+skilllab = ["suite/**/*", "suite/**/.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["tests/solutions", "tests/shallow"]

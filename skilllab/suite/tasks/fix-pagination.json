@@ -1,0 +1,21 @@
+{
+  "id": "fix-pagination",
+  "tier": "easy",
+  "title": "Find and fix the pagination bugs",
+  "tags": [
+    "debug",
+    "debugging",
+    "bug",
+    "bugs",
+    "root cause",
+    "fix"
+  ],
+  "fixture": "fixtures/pagination",
+  "hidden": "fixtures/pagination-hidden",
+  "prompt": "Users report that the first page of results skips items, and the page count looks wrong too. pager.py should behave as its docstrings say. Find the root cause and fix pager.py. Do not edit the tests.",
+  "check": "{python} -m unittest -q test_hidden_pager",
+  "protect": [
+    "tests/test_pager.py"
+  ],
+  "timeout": 600
+}

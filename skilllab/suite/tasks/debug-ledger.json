@@ -1,0 +1,12 @@
+{
+  "id": "debug-ledger",
+  "tier": "standard",
+  "title": "Debug a small package with several root causes",
+  "tags": ["debug", "debugging", "bug", "bugs", "root cause", "fix", "investigate"],
+  "fixture": "fixtures/ledger",
+  "hidden": "fixtures/ledger-hidden",
+  "prompt": "Users of this ledger package report that monthly report totals are wrong and some transactions go missing. tests/test_report.py reproduces one case. Find and fix the root causes in the ledger package so that every function behaves as its docstring says, not just the one failing test. Do not edit the tests or the data.",
+  "check": "{python} -m unittest -q test_hidden_ledger tests.test_report",
+  "protect": ["tests/test_report.py", "data/march.csv"],
+  "timeout": 900
+}

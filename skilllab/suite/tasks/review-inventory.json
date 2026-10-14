@@ -1,0 +1,20 @@
+{
+  "id": "review-inventory",
+  "tier": "easy",
+  "title": "Review code and find the real bugs",
+  "tags": [
+    "review",
+    "code review",
+    "reviewing",
+    "audit",
+    "bugs"
+  ],
+  "fixture": "fixtures/inventory",
+  "hidden": "fixtures/inventory-hidden",
+  "prompt": "Review inventory.py for correctness bugs (not style). Write your findings to REVIEW.md as a bulleted list, one bug per bullet, each naming the function it is in and explaining the failure. Report only real bugs, at most 5 bullets. Do not modify inventory.py.",
+  "check": "{python} check_review.py",
+  "protect": [
+    "inventory.py"
+  ],
+  "timeout": 600
+}

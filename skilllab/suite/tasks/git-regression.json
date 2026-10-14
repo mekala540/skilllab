@@ -1,0 +1,14 @@
+{
+  "id": "git-regression",
+  "tier": "standard",
+  "title": "Find the commit that caused a regression and fix it on a branch",
+  "tags": ["git", "bisect", "regression", "commit", "commits", "branch", "branches", "worktree", "worktrees", "development branch"],
+  "fixture": "fixtures/gitrepo",
+  "setup": "fixtures/gitrepo-setup",
+  "hidden": "fixtures/gitrepo-hidden",
+  "prompt": "This git repo's tests pass, but distance(-5, -2) in calc.py returns -3 instead of 3, and it used to work. Find the commit on main that introduced this regression and write its full hash to CULPRIT.txt (untracked is fine). Then fix the bug in a new commit on a new branch named fix/distance created from main. Do not change main or rewrite any history.",
+  "check": "{python} check_git_regression.py",
+  "tools": ["Bash(git:*)"],
+  "requires": ["git"],
+  "timeout": 900
+}

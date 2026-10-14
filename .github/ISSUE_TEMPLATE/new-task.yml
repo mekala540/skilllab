@@ -1,0 +1,28 @@
+name: Task proposal
+description: Propose a new benchmark task
+labels: [task]
+body:
+  - type: textarea
+    id: job
+    attributes:
+      label: The job
+      description: What is the agent asked to do? Why is it realistic?
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: How it's checked
+      description: How does code decide pass/fail? What would a lazy agent do, and why does that fail?
+    validations:
+      required: true
+  - type: input
+    id: tags
+    attributes:
+      label: Skill claims it tests
+      description: Words skills use, e.g. debugging, tdd, code review
+  - type: input
+    id: baseline
+    attributes:
+      label: Baseline pass rate (if calibrated)
+      description: Output of `skilllab calibrate --task <id>`, with the model

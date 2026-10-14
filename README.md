@@ -1,0 +1,154 @@
+# skilllab
+
+**Does this agent skill actually help? Run it and see.**
+
+Skill packs for Claude Code collect hundreds of thousands of stars. Stars measure popularity, and a static scan ([skillprint](https://github.com/mekala540/skillprint)) measures cost. Neither tells you whether the agent does better work with the skill installed.
+
+skilllab answers that the way a lab would:
+
+1. **Collect** skills from folders or git repos (every `SKILL.md`).
+2. **Match** each skill's claim (its description) to tasks in a fixed suite.
+3. **Run** every task without skills (baseline) and with each matching skill, several times, in parallel, each in a fresh throwaway workspace.
+4. **Check** results with hidden tests that are copied in only after the agent finishes. No AI grading.
+5. **Judge** each skill: `helps`, `no lift`, `hurts`, `mixed` or `flagged`.
+6. **Report gaps**: skills that cost context without helping, skills the agent never triggers, tasks nobody solves, claims no task tests, and look-alike skills across repos.
+
+## Install
+
+```bash
+git clone <this repo> && cd skilllab
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e .
+```
+
+No dependencies. Python 3.9+. Running real batches needs [Claude Code](https://claude.com/claude-code) logged in (`claude` on your PATH or in `~/.local/bin`).
+
+## Use
+
+```bash
+skilllab skills https://github.com/obra/superpowers          # what's there, what each skill is tested on
+skilllab plan   https://github.com/obra/superpowers          # how many runs a batch needs (free)
+skilllab calibrate --repeats 3 --budget 5                    # how hard each task is for your model
+skilllab run    https://github.com/obra/superpowers \
+    --task fix-pagination --repeats 3 --budget 3 --out results/superpowers
+skilllab run ... --watch                                     # live lab view in your browser while it runs
+skilllab watch results/superpowers                           # live view of a batch running elsewhere
+skilllab report results/superpowers                          # rebuild report.md / report.html / lab.html
+skilllab new-task my-task                                    # scaffold a new task
+skilllab suggest https://github.com/obra/superpowers --out drafts   # draft tasks for untested skills
+```
+
+Start small. One task, a few skills, `--repeats 3`, then grow. Every run is a full agent session and costs real money; `--budget` (default $5) stops new runs once spend reaches it, and rerunning the same command resumes where it left off.
+
+Useful options for `run`: `--skill NAME` (repeatable), `--limit-skills N`, `--model`, `--workers` (agents running at once, default 4), `--run-budget` (USD cap per session), `--keep` (keep workspaces to inspect), `--all-tasks` (test every skill on every task).
+
+## The lab view
+
+Every `run` and `report` also writes `lab.html`: an animated replay of the batch, in the style of the "Paper Lab" demo.
+
+- **The ring** revolves with one tick per skill. Color = verdict, length = tokens on use. Faint chords connect skills tested on the same task.
+- **The wave**: each run streams from its skill on the ring (or from the centre, for baselines) to one of 12 agent lanes, then lands green (pass) or red (fail).
+- **Panels**: live run feed, lift by task (best skill vs baseline), verdicts and gaps. Hover a tick for details.
+
+It's one self-contained file with no network calls. Open it in a browser. `lab.html#t=20` starts 20 seconds in. With `run --watch` or `skilllab watch <folder>`, it's served on localhost and picks up new runs every few seconds while the batch is going.
+
+To preview it without spending anything, run a batch with the fake agent in demo mode. Its outcomes are random, so never publish them:
+
+```bash
+FAKE_AGENT_MODE=demo skilllab run https://github.com/obra/superpowers --yes --out results/demo \
+    --agent-cmd "python3 tests/fake_agent.py {prompt_file}"
+```
+
+## First results
+
+On Claude Haiku 5.5 we ran every matching skill from obra/superpowers and mattpocock/skills (234 runs, $2.97). The headline: **33 of 35 skills were never invoked**, even on tasks matching their own description, while still adding tokens to every session. Today's models also pass these tasks without help (223/234), so pass-rate lift needs longer, messier tasks. Details: [docs/calibration.md](docs/calibration.md).
+
+## The task suite
+
+Every task has a hidden checker, a reference solution that passes it, and (for standard tasks) a plausible-but-incomplete solution that must fail it, so a task can't quietly become easy.
+
+**Standard tier** (default):
+
+| Task | Tests claims about | What makes it hard |
+| --- | --- | --- |
+| `debug-ledger` | debugging, root cause | 4 separate root causes across a package; the failing test only shows some |
+| `tests-ratelimiter` | testing, TDD | mutation testing with 12 subtle mutants (boundaries, clock going backwards) |
+| `refactor-pricing` | refactoring, module design | hidden global state and exact error messages must survive; every function ≤ 15 lines |
+| `feature-cron` | specs, planning, verification | cron's day-of-month/day-of-week OR rule, leap days, `7` = Sunday, steps |
+| `git-regression` | git, branches | find the culprit in 30 commits, fix on a new branch, leave `main` untouched |
+| `js-lru-cache` | JavaScript, debugging | TTL boundary, recency on get *and* set, expired entries counted as live |
+
+Six more standard tasks (code review and security, hooks, PR writing, skill writing, docs, parallel fixes) are **held out**: not published, so results on them can't be gamed. See "Public and held-out tasks" below.
+
+**Easy tier** (`--tier easy`): five small tasks for smoke tests. Current models usually pass them without help, so they can't show lift.
+
+Tasks needing a program that isn't installed (`node`, `git`) are skipped with a message.
+
+## Calibrate before you compare
+
+A task can only show lift if the agent sometimes fails it without help. Measure that first:
+
+```bash
+skilllab calibrate --repeats 3 --budget 5      # baseline only, writes calibration.md
+```
+
+Tasks the baseline passes more than 60% of the time are marked "too easy for this model".
+
+## How it decides
+
+- **Workspaces.** Each run copies the task's fixture into a new temp folder. The *with* arm also gets the skill folder in `.claude/skills/`. Nothing else differs.
+- **Agent.** Claude Code headless (`claude -p`) with `--permission-mode dontAsk` and an allowlist: read, edit, write, search, the Skill tool, and `python`/`ls`/`cat`. A skill's own scripts don't run unless a task allows them. Only project settings are loaded (`--setting-sources project`).
+- **Pass/fail.** The task's check command, run after the agent finishes. Hidden check files are copied in last, overwriting anything the agent wrote with the same name. Changing a protected file fails the run.
+- **Baselines are shared.** Each task runs `--repeats` times without skills, and every skill on that task is compared with the same baseline.
+- **Lift** = pass rate with the skill minus pass rate without. `helps` needs both a lift of at least 30 points (`--threshold 0.3`) and a two-sided Fisher's exact test p ≤ 0.1 (`--alpha 0.1`). `hurts` is the mirror. Anything else is `no lift`, with a note when the change was large but not significant.
+- **Sample size matters.** With 3 repeats, only 3-of-3 vs 0-of-3 is significant (p = 0.1). With 5 repeats, 4-of-5 vs 0-of-5 is (p ≈ 0.05). Reports show 90% Wilson intervals for each pass rate and warn about small samples.
+- **Cost per pass** = total spend on a pair's runs ÷ passing runs, shown next to the baseline's, because a skill that makes the agent cheaper at the same pass rate is still worth knowing about.
+- **Triggered** = the agent actually called the Skill tool for that skill (read from Claude Code's `stream-json` events). A difference when the skill never triggered is reported as `flagged`, not `helps`: it's noise.
+- **Errors.** Runs where the agent never really started (missing CLI, bad auth) are excluded and retried on resume. Timeouts and max-turn stops count as failed attempts, because a skill that makes the agent loop is a real result.
+- **Matching.** A task tests a skill when one of the task's tags appears as a whole word in the skill's name or description. `contest` does not match `test`.
+- **Untested skills** are split in two: those built around a conversation with a person (grilling, teaching, hand-offs), which an unattended run can't judge, and those that simply have no task yet.
+- **Setup and tools.** Some tasks run a setup script first (e.g. to build a git history) and allow extra tools (`git`, `node`) for that task only.
+- **Token costs** are characters ÷ 4: name + description up front, the body on use.
+
+## Read results carefully
+
+- Verdicts hold for *these tasks on this model*. A skill can help on work this suite doesn't cover.
+- A few repeats show direction, not proof. Before telling a maintainer their skill doesn't help, rerun with more `--repeats`, and include the logs.
+- If you use this to contribute upstream, open one issue per repo with the evidence and offer a small fix. Don't send automated pull requests.
+
+## Adding a task
+
+A task is `suite/tasks/<id>.json` plus a fixture folder and a hidden folder. Every task needs a reference solution in `tests/solutions/<id>/`; the test suite checks that the untouched fixture **fails** the check and the solution **passes** it. `skilllab suggest` drafts tasks with Claude, but drafts stay `"status": "draft"` (and are ignored) until a person has checked them that way.
+
+## Public and held-out tasks
+
+This repo ships the full engine, the easy tier and a set of **public** standard tasks. Anyone can read a public task's checker, which is good for transparency and contributions, but it also means a skill or model could be tuned to pass it.
+
+Trustworthy ratings therefore also use **held-out tasks** that are never published. skilllab loads extra suites with `--suite path/to/private-suite` (repeatable), so you can keep your own held-out tasks next to the public ones.
+
+## For teams
+
+The engine is free and MIT-licensed. For companies that want answers about their own work rather than toy tasks, we're building:
+
+- **Custom task suites from your codebase**: real bugs and features from your repos, with hidden checks, kept private
+- **Held-out benchmark suites**: maintained tasks that aren't published, so results can't be gamed
+- **Skill and model comparisons**: which skills, packs and models pay for themselves on your tasks, with cost per successful task
+- **CI gating**: block a skill-pack update that makes your agents worse
+- **Hosted runs and private reports**
+
+Interested? Open an issue titled "Teams" (it can be a one-liner) and we'll follow up.
+
+## Roadmap
+
+- [x] With/without runs, hidden checks, parallel dispatch, budget, resume, verdicts, gap report
+- [x] Standard tier: 12 harder tasks, calibration, Fisher's exact test, confidence intervals
+- [x] Live lab view, task scaffolding, held-out suites
+- [ ] Longer, messier tasks where today's models fail without help (the main open problem)
+- [ ] More languages (TypeScript, Go, frontend)
+- [ ] Several models in one batch, side by side
+- [ ] Pull skillprint footprints into the report
+- [ ] Public ratings page
+
+## License
+
+MIT

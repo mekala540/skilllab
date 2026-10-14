@@ -1,0 +1,14 @@
+{
+  "id": "js-lru-cache",
+  "tier": "standard",
+  "title": "Debug a JavaScript cache against its documented contract",
+  "tags": ["javascript", "js", "node", "nodejs", "typescript", "debug", "debugging", "bug", "bugs", "root cause"],
+  "fixture": "fixtures/jscache",
+  "hidden": "fixtures/jscache-hidden",
+  "prompt": "src/cache.mjs has bugs: users see entries evicted too early and stale values returned. test/cache.test.mjs reproduces one case (run it with `node --test test/cache.test.mjs`). Fix TtlLru so it follows every rule in its doc comment, not just the failing test. Do not edit the test file.",
+  "check": "node --test hidden.test.mjs test/cache.test.mjs",
+  "protect": ["test/cache.test.mjs"],
+  "tools": ["Bash(node:*)"],
+  "requires": ["node"],
+  "timeout": 900
+}
