@@ -47,6 +47,36 @@ Start small. One task, a few skills, `--repeats 3`, then grow. Every run is a fu
 
 Useful options for `run`: `--skill NAME` (repeatable), `--limit-skills N`, `--model`, `--workers` (agents running at once, default 4), `--run-budget` (USD cap per session), `--keep` (keep workspaces to inspect), `--pair SKILL:TASK` (run this pair whatever the relevance check says), `--no-judge` (count every keyword match), `--all-tasks` (test every skill on every task).
 
+## Your own work: `fit`
+
+The suite answers "does this skill help on our sample tasks?" `fit` answers "which of these skills does *my* work need?"
+
+```bash
+skilllab fit https://bitbucket.org/acme/agent-skills.git --project ./myapp --tasks tasks.md \
+    --sessions-per-day 200 --price-per-mtok 3          # triage: about $0.05 per task
+skilllab fit ... --measure --check "pytest -q"          # also run with and without (costs more)
+```
+
+**Giving it your tasks.** List the work you really do, in whatever form you have it:
+
+| Input | How it's read |
+| --- | --- |
+| `tasks.md` | Each `# Title` (or `##`, or Jira's `h1.`) starts a task; the lines below are its description |
+| A pasted Jira story or ticket | One task, acceptance criteria included. Several stories: start each with its key (`SHOP-482: ...`) or separate them with `---` |
+| A plain list (`- Fix login`, one per line) | One task per line |
+| Jira CSV export (`--tasks sprint.csv`) | One task per row: *Summary*, *Issue key*, *Description*, any *Acceptance Criteria* column, optional *Check* |
+| Jira REST JSON (an issue, a search result, or a list) | Summary, description (Jira Cloud's rich-text format included), acceptance criteria |
+| `--task-text "..."` | One task, however many lines |
+
+A `check: <command>` line in a task (or `--check` for all of them) is the command that passes once it's done. The agent never sees it. Put the check's test files in a separate folder and pass `--check-dir checks/`: they're copied into the project copy only after the agent finishes, at the same paths, so the agent can't read them, and a test it writes with the same name is overwritten.
+
+1. **Reads your project** (no model calls): languages, frameworks and tools from the manifests, tests, git, CI, docs. A skill for a stack you don't use doesn't fit.
+2. **Triage:** for each task, a cheap model lists the skills that fit and why. Decisions are saved in `matches.json` (edit to overrule) and reused until the task or project changes.
+3. **Report** (`fit.md`): skills per task, skills that fit none of your tasks with the tokens they add to every session (and per month, and in dollars if you give your session count and price), and packs whose hooks add context every session.
+4. **`--measure`:** runs each task in a fresh copy of your project (without `node_modules`, `.venv` and the like), with and without each fitting skill (or `--pack`), and reports pass rates, usage and cost like the suite does. A task's check must **fail** on your untouched project (with `--check-dir` files in place), otherwise it can't show a difference and is skipped. Tasks without a check are skipped too. `--allow 'Bash(npm:*)'` lets the agent run your tools.
+
+"Fits" means the description matches the task. Only `--measure` tells you whether a skill helps.
+
 ## The lab view
 
 Every `run` and `report` also writes `lab.html`: an animated replay of the batch, in the style of the "Paper Lab" demo.
@@ -161,7 +191,8 @@ Interested? Open an issue titled "Teams" (it can be a one-liner) and we'll follo
 - [x] Live lab view, task scaffolding, held-out suites
 - [x] Relevance check for skill/task pairs, whole-pack testing with plugin hooks, user-only skills
 - [ ] Test on larger models (Sonnet 5.5, Opus 5.5): so far skills were tested on Haiku 5.5 only
-- [ ] Your own project instead of sample tasks: your codebase, your task list, past fixed bugs and PRs replayed as tasks, plus a report of tokens spent on skills your work doesn't need
+- [x] `fit`: your own project and tasks (tasks.md, Jira stories, CSV and JSON exports), project profile, tokens spent on skills your work doesn't need, measured runs with hidden checks
+- [ ] Fetch tasks from Jira directly; replay past fixed bugs and PRs as tasks; a short project brief to sharpen fit decisions
 - [ ] Longer, messier tasks where today's models fail without help (the main open problem)
 - [ ] More languages (TypeScript, Go, frontend)
 - [ ] Several models in one batch, side by side

@@ -20,6 +20,7 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
 - `skilllab/skills.py`: find `SKILL.md`, parse frontmatter, dedupe, clone git sources.
 - `skilllab/tasks.py`: load the suite, propose skill/task candidates by tag words.
 - `skilllab/relevance.py`: judge each candidate (fair test or not), cached in `matches.json`.
+- `skilllab/fit.py`: `fit` for your own work: task parsing (tasks.md, stories, Jira CSV/JSON), project profile, triage, token waste, precheck.
 - `skilllab/agent.py`: `ClaudeAgent` (headless, tool allowlist) and `CommandAgent`; both parsed from stream-json by `parse_stream`.
 - `skilllab/runner.py`: `plan` (shared baselines), `execute` (one run in a temp workspace), `run_all` (parallel, budget, resume).
 - `skilllab/verdict.py`: verdicts and gaps. `skilllab/report.py`: markdown and HTML. `skilllab/lab.py`: the animated `lab.html` replay (canvas, no dependencies). `skilllab/cli.py`: commands only.

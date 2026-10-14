@@ -101,7 +101,8 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
     task = run.task
     ws = Path(tempfile.mkdtemp(prefix="skilllab-"))
     try:
-        shutil.copytree(task.fixture, ws, dirs_exist_ok=True)
+        shutil.copytree(task.fixture, ws, dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns(*task.ignore) if task.ignore else None)
         if task.setup:
             _run_setup(task, ws)
         prompt, extra = task.prompt, {}

@@ -313,6 +313,121 @@ def cmd_report(args) -> int:
     return 0
 
 
+def cmd_fit(args) -> int:
+    from . import fit as fitmod
+    project = Path(args.project).resolve() if args.project else None
+    if project and not project.is_dir():
+        print(f"not a folder: {args.project}", file=sys.stderr)
+        return 2
+    hidden = Path(args.check_dir).resolve() if args.check_dir else None
+    if hidden and not hidden.is_dir():
+        print(f"not a folder: {args.check_dir}", file=sys.stderr)
+        return 2
+    opts = dict(project=project, default_check=args.check, tools=args.allow, hidden=hidden)
+    tasks = []
+    try:
+        if args.tasks:
+            fmt = args.tasks_format
+            if fmt == "auto" and args.tasks.lower().endswith((".csv", ".json")):
+                fmt = args.tasks.lower().rsplit(".", 1)[1]
+            tasks += fitmod.parse_tasks(Path(args.tasks).read_text(encoding="utf-8-sig"), fmt=fmt, **opts)
+        for t in args.task_text or []:
+            tasks += fitmod.story_task(t, **opts)
+    except (ValueError, OSError) as e:
+        print(f"Can't read the tasks: {e}", file=sys.stderr)
+        return 2
+    ids = set()
+    for t in tasks:  # ids must be unique across the file and --task-text
+        base, n = t.id, 2
+        while t.id in ids:
+            t.id, n = f"{base}-{n}", n + 1
+        ids.add(t.id)
+    if not tasks:
+        print("No tasks. Pass --tasks FILE or --task-text \"...\".", file=sys.stderr)
+        return 2
+    print(f"{len(tasks)} tasks: " + "; ".join(t.title[:60] for t in tasks))
+    skills = load_sources(args.sources, CACHE)
+    profile = fitmod.profile_project(project) if project else None
+    ptext = fitmod.profile_text(profile)
+    if ptext:
+        print("Project:\n" + ptext)
+    if not find_claude():
+        print("claude CLI not found: the fit check needs Claude Code.", file=sys.stderr)
+        return 2
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    decisions, cost = fitmod.triage(skills, tasks, relevance.load(out / "matches.json"),
+                                    fitmod.claude_fit_judge(), ptext)
+    relevance.save(out / "matches.json", decisions)
+    fit = fitmod.summarize_fit(skills, tasks, decisions, args.sessions_per_day, args.price_per_mtok, profile)
+    (out / "fit.json").write_text(json.dumps(fit, indent=2), encoding="utf-8")
+    (out / "fit.md").write_text(fitmod.to_markdown(fit, relevance.JUDGE_MODEL), encoding="utf-8")
+    c, tok = fit["counts"], fit["tokens"]
+    print(f"{c['skills']} skills · {c['fit']} fit at least one of your {len(tasks)} tasks · "
+          f"{c['not_needed']} fit none (≈{tok['unneeded_per_session']} tokens every session)"
+          + (f" · fit check ${cost:.3f}" if cost else ""))
+    print(f"Report: {out / 'fit.md'}  ·  decisions: {out / 'matches.json'}")
+    if not args.measure:
+        print("To measure pass rates with and without the fitting skills, add a check per task and --measure.")
+        return 0
+
+    if not project:
+        print("--measure needs --project.", file=sys.stderr)
+        return 2
+    measurable = []
+    for t in tasks:
+        if not t.check:
+            print(f"skipping {t.id}: no check, so no pass rate (add 'check: <command>' or --check)")
+            continue
+        passes, tail = fitmod.precheck(t)
+        if passes:
+            print(f"skipping {t.id}: its check already passes on the untouched project, so it can't "
+                  "show a difference. Use a check that fails until the task is done.")
+            continue
+        measurable.append(t)
+    if not measurable:
+        print("Nothing to measure.")
+        return 1
+    if args.pack:
+        pack_list = packs(skills)
+        runs, untested = plan(skills, measurable, args.repeats, pack_list=pack_list)
+    else:
+        runs, untested = plan(skills, measurable, args.repeats, relevant=relevance.relevant_pairs(decisions))
+    if not runs:
+        print("No skill fits the tasks that have a check, so there is nothing to compare. "
+              "See fit.md, or edit matches.json to pair a skill with a task.")
+        return 1
+    base = sum(1 for r in runs if r.arm == "baseline")
+    print(f"{len(runs)} runs = {base} baseline + {len(runs) - base} with a skill or pack "
+          f"({args.repeats} repeats each), each in a fresh copy of {project}")
+    if args.agent_cmd:
+        agent = CommandAgent(args.agent_cmd)
+    else:
+        agent = ClaudeAgent(args.model, max_budget_usd=args.run_budget)
+        print(f"Agent: Claude Code, model {args.model}, budget ${args.budget:.2f}")
+    if not args.yes and sys.stdin.isatty():
+        if input("Start? [y/N] ").strip().lower() != "y":
+            return 1
+    model = f"cmd:{args.agent_cmd}" if args.agent_cmd else args.model
+    meta = {
+        "model": model, "mode": "pack" if args.pack else "fit",
+        "skills": [p.meta() for p in packs(skills)] if args.pack else [s.meta() for s in skills],
+        "tasks": [t.meta() for t in measurable],
+        "untested": [s.id for s in untested],
+        "matches": decisions,
+    }
+    (out / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    (out / "results.jsonl").touch()
+    _write_reports(out, model, args.threshold, args.alpha)
+    if args.watch:
+        serve(out)
+    run_all(runs, agent, model, out / "results.jsonl", workers=args.workers,
+            budget_usd=None if args.agent_cmd else args.budget, keep=args.keep)
+    _write_reports(out, model, args.threshold, args.alpha)
+    print(f"Report: {out / 'report.md'}  ·  {out / 'report.html'}  ·  replay: {out / 'lab.html'}")
+    return 0
+
+
 def cmd_suggest(args) -> int:
     from .suggest import suggest
     skills, tasks = _select(args)
@@ -407,6 +522,37 @@ def main(argv=None) -> int:
     rep.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
     rep.add_argument("--alpha", type=float, default=DEFAULT_ALPHA)
     rep.set_defaults(fn=cmd_report)
+
+    f = sub.add_parser("fit", help="which skills does your own work need? (your tasks, your project)")
+    f.add_argument("sources", nargs="+", help="skill folders or git URLs (GitHub, Bitbucket, ...)")
+    f.add_argument("--tasks", help="tasks.md ('# Title' per task, optional 'check: <cmd>' line), a pasted "
+                                   "story or Jira issue text, a Jira CSV export, or Jira JSON")
+    f.add_argument("--tasks-format", choices=["auto", "text", "csv", "json"], default="auto",
+                   help="how to read --tasks (default: detect)")
+    f.add_argument("--task-text", action="append", help="one task as text, e.g. a pasted story (repeatable)")
+    f.add_argument("--check-dir", help="folder of check files (e.g. tests) copied into the project copy only "
+                                       "after the agent finishes, at the same paths; the agent never sees them")
+    f.add_argument("--project", help="your project folder: read for the fit check, copied for --measure")
+    f.add_argument("--check", help="default check command for tasks without their own (exit 0 = done)")
+    f.add_argument("--allow", action="append", default=[], metavar="TOOL",
+                   help="extra tool the agent may use in --measure, e.g. 'Bash(npm:*)' (repeatable)")
+    f.add_argument("--out", default="results/fit")
+    f.add_argument("--sessions-per-day", type=float, help="your team's agent sessions a day, for monthly totals")
+    f.add_argument("--price-per-mtok", type=float, help="your input price in USD per million tokens, for $ totals")
+    f.add_argument("--measure", action="store_true", help="also run the tasks with and without fitting skills (costs money)")
+    f.add_argument("--pack", action="store_true", help="with --measure: test each source as a whole pack")
+    f.add_argument("--model", default=DEFAULT_MODEL)
+    f.add_argument("--repeats", type=int, default=3)
+    f.add_argument("--workers", type=int, default=4)
+    f.add_argument("--budget", type=float, default=5.0)
+    f.add_argument("--run-budget", type=float, default=1.0)
+    f.add_argument("--agent-cmd")
+    f.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
+    f.add_argument("--alpha", type=float, default=DEFAULT_ALPHA)
+    f.add_argument("--keep", action="store_true")
+    f.add_argument("--watch", action="store_true")
+    f.add_argument("--yes", action="store_true")
+    f.set_defaults(fn=cmd_fit)
 
     sg = sub.add_parser("suggest", parents=[common], help="draft tasks for untested skills")
     sg.add_argument("--out", default="drafts")

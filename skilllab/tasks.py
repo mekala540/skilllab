@@ -29,6 +29,7 @@ class Task:
     setup: Optional[Path] = None  # folder with _setup.py, run in the workspace then removed
     tools: List[str] = field(default_factory=list)  # extra tools this task allows (e.g. git)
     requires: List[str] = field(default_factory=list)  # programs that must be on PATH
+    ignore: List[str] = field(default_factory=list)  # fixture patterns not copied (e.g. node_modules)
 
     def meta(self) -> dict:
         return {"id": self.id, "title": self.title, "tags": self.tags, "tier": self.tier}
