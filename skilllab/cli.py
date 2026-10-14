@@ -6,14 +6,15 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from . import __version__
 from .agent import ClaudeAgent, CommandAgent, find_claude
+from . import relevance
 from .lab import to_lab_html
 from .report import to_html, to_markdown
 from .runner import final_results, load_results, plan, run_all
-from .skills import Skill, load_sources
+from .skills import Skill, load_sources, packs
 from .tasks import DEFAULT_SUITE, TIERS, Task, load_suites, matches
 from .verdict import DEFAULT_ALPHA, DEFAULT_THRESHOLD, summarize
 
@@ -44,27 +45,62 @@ def cmd_skills(args) -> int:
     skills, tasks = _select(args)
     for s in skills:
         hit = [t.id for t in tasks if matches(s, t)]
-        print(f"{s.id}  ≈{s.upfront_tokens}/{s.onuse_tokens} tokens  tasks: {', '.join(hit) or '—'}")
-    print(f"\n{len(skills)} skills, {sum(1 for s in skills if any(matches(s, t) for t in tasks))} testable "
-          f"with this suite ({len(tasks)} tasks)")
+        who = "  (started by a person)" if s.user_invoked else ""
+        print(f"{s.id}  ≈{s.upfront_tokens}/{s.onuse_tokens} tokens{who}  candidate tasks: {', '.join(hit) or '—'}")
+    print(f"\n{len(skills)} skills, {sum(1 for s in skills if any(matches(s, t) for t in tasks))} with a "
+          f"keyword candidate in this suite ({len(tasks)} tasks). `plan` and `run` check whether each "
+          "candidate is a fair test before running it.")
     return 0
 
 
-def _plan_text(skills: List[Skill], tasks: List[Task], args) -> tuple:
-    runs, untested = plan(skills, tasks, args.repeats, args.all_tasks)
+def _decide(skills: List[Skill], tasks: List[Task], args, path: Optional[Path]) -> Optional[dict]:
+    """Relevance decisions for skill/task pairs, cached in matches.json (see relevance.py)."""
+    if args.all_tasks or args.pack:
+        return None
+    known = relevance.load(path)
+    judge = None
+    if not args.no_judge and not getattr(args, "agent_cmd", None):
+        if find_claude():
+            judge = relevance.claude_judge()
+        else:
+            print("claude CLI not found: using keyword matches without a relevance check", file=sys.stderr)
+    decisions, cost = relevance.decide(skills, tasks, known, judge, args.pair)
+    if cost:
+        print(f"Relevance check: ${cost:.3f}")
+    if path:
+        relevance.save(path, decisions)
+    return decisions
+
+
+def _plan_text(skills: List[Skill], tasks: List[Task], args, decisions: Optional[dict] = None) -> tuple:
+    if args.pack:
+        pack_list = packs(skills)
+        runs, untested = plan(skills, tasks, args.repeats, pack_list=pack_list)
+        base = sum(1 for r in runs if r.arm == "baseline")
+        lines = [f"{len(pack_list)} packs (whole), each on all {len(tasks)} tasks",
+                 f"{len(runs)} runs = {base} baseline + {len(runs) - base} with a pack ({args.repeats} repeats each)"]
+        plugins = [p.source for p in pack_list if p.plugin]
+        if plugins:
+            lines.append(f"Loaded as Claude Code plugins, so their hooks run on this machine: "
+                         f"{', '.join(plugins)}. Check them first (e.g. with skillprint).")
+        return runs, untested, lines
+    relevant = relevance.relevant_pairs(decisions) if decisions is not None else None
+    runs, untested = plan(skills, tasks, args.repeats, args.all_tasks, relevant=relevant)
     base = sum(1 for r in runs if r.skill is None)
     tested = len(skills) - len(untested)
-    lines = [
-        f"{len(skills)} skills · {tested} matched to a task · {len(untested)} untested claims",
-        f"{len(runs)} runs = {base} baseline + {len(runs) - base} with a skill "
-        f"({args.repeats} repeats each)",
-    ]
+    lines = [f"{len(skills)} skills · {tested} with a task that fairly tests them · {len(untested)} untested"]
+    if decisions is not None:
+        turned_down = sum(1 for d in decisions.values() if not d.get("relevant"))
+        lines.append(f"{turned_down} keyword candidates turned down as not a fair test (see matches.json)")
+    lines.append(f"{len(runs)} runs = {base} baseline + {len(runs) - base} with a skill "
+                 f"({args.repeats} repeats each)")
     return runs, untested, lines
 
 
 def cmd_plan(args) -> int:
     skills, tasks = _select(args)
-    _, _, lines = _plan_text(skills, tasks, args)
+    decisions = _decide(skills, tasks, args, Path(args.matches) if args.matches else None)
+    _, _, lines = _plan_text(skills, tasks, args, decisions)
     print("\n".join(lines))
     print("Every run is one full agent session. Set --budget on `run` to cap spend.")
     return 0
@@ -74,7 +110,8 @@ def _write_reports(out: Path, model: str, threshold: float, alpha: float = DEFAU
     meta = json.loads((out / "meta.json").read_text(encoding="utf-8"))
     lines = load_results(out / "results.jsonl")
     records = final_results(lines)
-    summary = summarize(records, meta["skills"], meta["tasks"], meta["untested"], threshold, alpha)
+    summary = summarize(records, meta["skills"], meta["tasks"], meta["untested"], threshold, alpha,
+                        matches=meta.get("matches"))
     (out / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     (out / "report.md").write_text(to_markdown(summary, model), encoding="utf-8")
     (out / "report.html").write_text(to_html(summary, model), encoding="utf-8")
@@ -84,10 +121,13 @@ def _write_reports(out: Path, model: str, threshold: float, alpha: float = DEFAU
 
 def cmd_run(args) -> int:
     skills, tasks = _select(args)
-    runs, untested, lines = _plan_text(skills, tasks, args)
+    out = Path(args.out)
+    decisions = _decide(skills, tasks, args, Path(args.matches) if args.matches else out / "matches.json")
+    runs, untested, lines = _plan_text(skills, tasks, args, decisions)
     print("\n".join(lines))
     if not runs:
-        print("Nothing to run: no skill matches a task. Try --all-tasks or `skilllab suggest`.")
+        print("Nothing to run: no task fairly tests these skills. See matches.json, use --pair "
+              "skill:task, or `skilllab suggest`.")
         return 1
     if args.agent_cmd:
         agent = CommandAgent(args.agent_cmd)
@@ -100,13 +140,14 @@ def cmd_run(args) -> int:
     if not args.yes and sys.stdin.isatty():
         if input("Start? [y/N] ").strip().lower() != "y":
             return 1
-    out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     meta = {
         "model": args.model if not args.agent_cmd else f"cmd:{args.agent_cmd}",
-        "skills": [s.meta() for s in skills],
+        "mode": "pack" if args.pack else "skill",
+        "skills": [p.meta() for p in packs(skills)] if args.pack else [s.meta() for s in skills],
         "tasks": [t.meta() for t in tasks],
         "untested": [s.id for s in untested],
+        "matches": decisions or {},
     }
     (out / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     budget = None if args.agent_cmd else args.budget
@@ -275,7 +316,12 @@ def cmd_report(args) -> int:
 def cmd_suggest(args) -> int:
     from .suggest import suggest
     skills, tasks = _select(args)
-    untested = [s for s in skills if not any(matches(s, t) for t in tasks)]
+    known = relevance.load(Path(args.matches)) if args.matches else {}
+    if known:  # a skill whose only candidates were turned down is untested too
+        fair = {sid for sid, _ in relevance.relevant_pairs(known)}
+        untested = [s for s in skills if s.id not in fair]
+    else:
+        untested = [s for s in skills if not any(matches(s, t) for t in tasks)]
     print(f"{len(untested)} skills have no matching task; drafting one each with {args.model}")
     n = suggest(untested, args.model, Path(args.out))
     print(f"{n} drafts in {args.out}. Each needs review: the fixture must fail the check and a "
@@ -300,7 +346,16 @@ def main(argv=None) -> int:
     common.add_argument("--limit-skills", type=int, help="only the first N skills")
     common.add_argument("--repeats", type=int, default=3)
     common.add_argument("--all-tasks", action="store_true",
-                        help="test every skill on every task, not just matching ones")
+                        help="test every skill on every task, skipping the relevance check")
+    common.add_argument("--pack", action="store_true",
+                        help="test each source as a whole pack, installed the way users install it "
+                             "(as a Claude Code plugin with its hooks, when it is one), on every task")
+    common.add_argument("--pair", action="append", metavar="SKILL:TASK",
+                        help="run this skill on this task whatever the relevance check says (repeatable)")
+    common.add_argument("--no-judge", action="store_true",
+                        help="skip the relevance check; every keyword match counts")
+    common.add_argument("--matches", help="relevance decisions file to read and update "
+                                          "(run: default <out>/matches.json)")
 
     sub.add_parser("skills", parents=[common], help="list skills and the tasks that test them").set_defaults(fn=cmd_skills)
     sub.add_parser("plan", parents=[common], help="show how many runs a batch needs").set_defaults(fn=cmd_plan)

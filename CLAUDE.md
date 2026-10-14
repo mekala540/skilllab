@@ -18,7 +18,8 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
 ## Code layout
 
 - `skilllab/skills.py`: find `SKILL.md`, parse frontmatter, dedupe, clone git sources.
-- `skilllab/tasks.py`: load the suite, match skills to tasks by tag words.
+- `skilllab/tasks.py`: load the suite, propose skill/task candidates by tag words.
+- `skilllab/relevance.py`: judge each candidate (fair test or not), cached in `matches.json`.
 - `skilllab/agent.py`: `ClaudeAgent` (headless, tool allowlist) and `CommandAgent`; both parsed from stream-json by `parse_stream`.
 - `skilllab/runner.py`: `plan` (shared baselines), `execute` (one run in a temp workspace), `run_all` (parallel, budget, resume).
 - `skilllab/verdict.py`: verdicts and gaps. `skilllab/report.py`: markdown and HTML. `skilllab/lab.py`: the animated `lab.html` replay (canvas, no dependencies). `skilllab/cli.py`: commands only.
@@ -36,4 +37,8 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
 - Tests never call the real Claude CLI or spend money. Use `CommandAgent` with `tests/fake_agent.py`.
 - Infra errors are excluded and retried; timeouts and max-turn stops count as failures. Don't change one into the other.
 - A difference when the skill never triggered is noise and must stay `flagged`.
+- **Only fair pairs count.** A skill is judged only on tasks that fairly test it (relevance check,
+  `matches.json`). Untested means unknown, never "not needed". Skills with
+  `disable-model-invocation: true` have no trigger rate and cost no up-front tokens.
+- Packs that ship as plugins are tested as plugins (`--plugin-dir`, hooks included), the way users install them.
 - Keep README's "How it decides" section in sync with any behavior change.

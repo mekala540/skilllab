@@ -301,3 +301,96 @@ def test_final_results_counts_a_retried_run_once():
     assert len(final_results(recs)) == 3
     assert out["a"]["passed"] and not out["a"]["infra_error"]
     assert out["c"]["infra_error"]
+
+
+# --- fair pairs: user-invoked skills, whole packs, relevance check ------------
+
+class Recorder:
+    """An agent that records what it was asked to do and invokes the named skills."""
+
+    def __init__(self, invoke=()):
+        self.calls, self.invoke = [], list(invoke)
+
+    def run(self, prompt, cwd, timeout, tools=None, plugin_dirs=None):
+        from skilllab.agent import AgentResult
+        installed = sorted(p.name for p in (Path(cwd) / ".claude" / "skills").glob("*"))
+        self.calls.append({"prompt": prompt, "plugin_dirs": plugin_dirs, "installed": installed})
+        return AgentResult(skills_invoked=self.invoke)
+
+
+def test_user_invoked_skill_costs_nothing_up_front_and_is_started_by_slash(tmp_path):
+    from skilllab.runner import Run, execute
+    write(tmp_path, "s/SKILL.md", "---\nname: grill-me\ndescription: Interview the user about a plan.\n"
+                                  "disable-model-invocation: true\n---\nAsk questions.\n")
+    skill = find_skills(tmp_path, "p")[0]
+    assert skill.user_invoked and skill.upfront_tokens == 0
+    task = [t for t in load_suite() if t.id == "fix-pagination"][0]
+    agent = Recorder()
+    rec = execute(Run(task, skill, 0), agent, "m")
+    assert agent.calls[0]["prompt"].startswith("/grill-me ")
+    assert rec["user_invoked"] and rec["skill_triggered"]
+
+
+def test_pack_loads_as_plugin_or_installs_every_skill(tmp_path):
+    from skilllab.runner import execute
+    from skilllab.skills import packs
+    plugin = tmp_path / "plugin"
+    write(plugin, ".claude-plugin/plugin.json", '{"name": "pl"}')
+    write(plugin, "skills/debug/SKILL.md", skill_md("debug", "Use when debugging"))
+    loose = tmp_path / "loose"
+    write(loose, "a/SKILL.md", skill_md("one", "first"))
+    write(loose, "b/SKILL.md", skill_md("two", "second"))
+    skills = find_skills(plugin, "me/plugin") + find_skills(loose, "me/loose")
+    task = [t for t in load_suite() if t.id == "fix-pagination"][0]
+    runs, untested = plan(skills, [task], repeats=1, pack_list=packs(skills))
+    assert [r.arm for r in runs] == ["baseline", "pack", "pack"] and untested == []
+
+    agent = Recorder(invoke=["pl:debug"])
+    plugin_rec = execute(runs[1], agent, "m")
+    assert agent.calls[0]["plugin_dirs"] == [plugin] and agent.calls[0]["installed"] == []
+    assert plugin_rec["skill"] == "pack:me/plugin" and plugin_rec["skill_triggered"]
+    loose_rec = execute(runs[2], agent, "m")
+    assert agent.calls[1]["installed"] == ["a", "b"] and agent.calls[1]["plugin_dirs"] is None
+    assert not loose_rec["skill_triggered"]  # pl:debug is not one of this pack's skills
+
+
+def test_relevance_check_turns_down_shared_word_matches(tmp_path):
+    from skilllab import relevance
+    write(tmp_path, "a/SKILL.md", skill_md("systematic-debugging", "Use when encountering any bug"))
+    write(tmp_path, "b/SKILL.md", skill_md("setup-pre-commit", "Set up Husky hooks to run tests on commit"))
+    write(tmp_path, "c/SKILL.md", skill_md("poems", "Writes poems"))
+    skills = find_skills(tmp_path, "p")
+    tasks = [t for t in load_suite() if t.id in ("fix-pagination", "write-tests-slugify")]
+    asked = []
+
+    def judge(batch):
+        asked.extend((s.name, t.id) for s, t in batch)
+        return {i: {"relevant": s.name == "systematic-debugging", "reason": "r"}
+                for i, (s, t) in enumerate(batch)}, 0.01
+
+    decisions, cost = relevance.decide(skills, tasks, {}, judge)
+    assert ("setup-pre-commit", "write-tests-slugify") in asked and cost == 0.01
+    pairs = relevance.relevant_pairs(decisions)
+    assert pairs == {("p/systematic-debugging", "fix-pagination")}
+    runs, untested = plan(skills, tasks, repeats=1, relevant=pairs)
+    assert {s.name for s in untested} == {"setup-pre-commit", "poems"}
+
+    # Saved decisions (including your edits) are never re-judged; --pair always wins.
+    path = tmp_path / "matches.json"
+    relevance.save(path, decisions)
+    asked.clear()
+    again, _ = relevance.decide(skills, tasks, relevance.load(path), judge,
+                                manual=["poems:write-tests-slugify"])
+    assert asked == []
+    assert again["p/poems|write-tests-slugify"]["by"] == "manual"
+
+
+def test_user_invoked_and_irrelevant_skills_are_not_never_triggered():
+    sk = SK + [{"id": "p/u", "name": "u", "description": "", "source": "p", "upfront_tokens": 0,
+                "onuse_tokens": 10, "user_invoked": True}]
+    recs = ([_rec("baseline", "t1", True)] * 3 + [_rec("skill", "t1", True, "p/a", triggered=False)] * 3
+            + [_rec("skill", "t1", True, "p/u")] * 3)
+    s = summarize(recs, sk, TK, [], matches={"p/a|t1": {"relevant": True, "reason": "fits"}})
+    assert [x["id"] for x in s["gaps"]["never_triggered"]] == ["p/a"]
+    by = {p["skill"]: p for p in s["pairs"]}
+    assert by["p/u"]["trigger_rate"] is None and by["p/a"]["match"] == "fits"

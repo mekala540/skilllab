@@ -71,7 +71,9 @@ def _med(values) -> Optional[float]:
 
 def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
               untested: List[str], threshold: float = DEFAULT_THRESHOLD,
-              alpha: float = DEFAULT_ALPHA) -> dict:
+              alpha: float = DEFAULT_ALPHA, matches: Optional[Dict[str, dict]] = None) -> dict:
+    """matches: the relevance decisions ({"skill|task": {relevant, reason, by}}), shown per pair."""
+    matches = matches or {}
     valid = [r for r in records if not r.get("infra_error")]
     errors = len(records) - len(valid)
 
@@ -88,12 +90,14 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
     pairs = []
     for s in skills:
         for t in tasks:
-            recs = [r for r in valid if r["arm"] == "skill" and r["skill"] == s["id"] and r["task"] == t["id"]]
+            recs = [r for r in valid if r["arm"] in ("skill", "pack")
+                    and r["skill"] == s["id"] and r["task"] == t["id"]]
             if not recs:
                 continue
             base = baseline.get(t["id"])
             with_rate = _rate(recs)
-            trig = sum(r.get("skill_triggered", False) for r in recs) / len(recs)
+            # A skill only a person can start has no trigger rate: the run starts it.
+            trig = None if s.get("user_invoked") else sum(r.get("skill_triggered", False) for r in recs) / len(recs)
             passes = sum(r["passed"] for r in recs)
             notes = []
             p_value = None
@@ -116,8 +120,10 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
                         notes.append("small sample: only large effects detectable")
                 if base["rate"] == 1.0 and with_rate == 1.0:
                     notes.append("ceiling: passes without the skill too")
+                if trig is None:
+                    notes.append(f"started by the user (/{s['name']}): lift only")
                 if trig == 0:
-                    notes.append("skill never triggered")
+                    notes.append("pack's skills never used" if s.get("pack") else "skill never triggered")
                     if verdict != NO_LIFT:
                         # A change without the skill ever loading is noise, not lift.
                         notes.append("difference is noise")
@@ -133,6 +139,7 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
                 "base_cost_per_pass": base["cost_per_pass"] if base else None,
                 "turns": _med(r.get("turns") for r in recs),
                 "verdict": verdict, "notes": notes,
+                "match": (matches.get(f"{s['id']}|{t['id']}") or {}).get("reason"),
             })
 
     per_skill = []
@@ -151,8 +158,9 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
             verdict = FLAGGED
         else:
             verdict = NO_LIFT
+        trigs = [p["trigger_rate"] for p in sp if p["trigger_rate"] is not None]
         per_skill.append({**s, "verdict": verdict, "tasks": [p["task"] for p in sp],
-                          "trigger_rate": sum(p["trigger_rate"] for p in sp) / len(sp)})
+                          "trigger_rate": sum(trigs) / len(trigs) if trigs else None})
 
     return {
         "runs": len(records), "errors": errors,

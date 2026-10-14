@@ -31,7 +31,9 @@ for a reference solution and a shallow solution under `tests/`. Then:
 4. **Write a shallow solution** in `tests/shallow/<id>/`: the plausible quick fix a hurried
    agent would make. It must fail. This is what proves the task measures care, not luck.
 5. **Tag it** with the words skills use to describe what they're for (`debugging`, `tdd`, ...).
-   A task tests every skill whose name or description contains one of its tags.
+   Tags propose candidates: every skill whose name or description contains one of them. A
+   relevance check then keeps only skills the task is a fair test of (see `matches.json`), so
+   broad tags are fine; they won't pair unrelated skills with your task.
 6. Run `pytest -q`. Remove `"status": "draft"` when it passes.
 7. If you can, run `skilllab calibrate --task my-task-id` and put the baseline pass rate in your
    PR. A task the baseline always passes can't show lift; make it harder.

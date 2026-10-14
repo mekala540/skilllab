@@ -144,7 +144,8 @@ class ClaudeAgent:
         self.max_budget_usd = max_budget_usd
         self.binary = binary or find_claude()
 
-    def run(self, prompt: str, cwd: Path, timeout: int, tools: Optional[List[str]] = None) -> AgentResult:
+    def run(self, prompt: str, cwd: Path, timeout: int, tools: Optional[List[str]] = None,
+            plugin_dirs: Optional[List[Path]] = None) -> AgentResult:
         if not self.binary:
             return AgentResult(infra_error="claude CLI not found on PATH or in ~/.local/bin")
         cmd = [
@@ -158,6 +159,8 @@ class ClaudeAgent:
         ]
         if self.max_budget_usd:
             cmd += ["--max-budget-usd", str(self.max_budget_usd)]
+        for d in plugin_dirs or []:
+            cmd += ["--plugin-dir", str(d)]
         cmd += ["--append-system-prompt", env_note(self.tools + list(tools or []))]
         # Prompt goes on stdin so it can't be mistaken for another --allowedTools value.
         return _run(cmd, cwd, timeout, stdin=prompt)
@@ -172,7 +175,8 @@ class CommandAgent:
     def __init__(self, template: str):
         self.template = template
 
-    def run(self, prompt: str, cwd: Path, timeout: int, tools: Optional[List[str]] = None) -> AgentResult:
+    def run(self, prompt: str, cwd: Path, timeout: int, tools: Optional[List[str]] = None,
+            plugin_dirs: Optional[List[Path]] = None) -> AgentResult:
         fd, prompt_file = tempfile.mkstemp(prefix="skilllab-prompt-", suffix=".txt")
         try:
             with os.fdopen(fd, "w", encoding="utf-8") as fh:

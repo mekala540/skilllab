@@ -1,4 +1,5 @@
-"""Plan and execute runs: every task once without skills (baseline), and once per matching skill."""
+"""Plan and execute runs: every task once without skills (baseline), and once per relevant
+skill (or per whole pack)."""
 
 from __future__ import annotations
 
@@ -16,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple
 
-from .skills import Skill
+from .skills import Pack, Skill
 from .tasks import Task, matches
 
 CHECK_TIMEOUT = 300
@@ -27,30 +28,52 @@ MAX_CONSECUTIVE_ERRORS = 8
 @dataclass
 class Run:
     task: Task
-    skill: Optional[Skill]  # None = baseline
+    skill: Optional[Skill]  # None = baseline (or a pack run)
     repeat: int
+    pack: Optional[Pack] = None
 
     @property
     def arm(self) -> str:
-        return "skill" if self.skill else "baseline"
+        return "pack" if self.pack else "skill" if self.skill else "baseline"
+
+    @property
+    def subject(self) -> Optional[str]:
+        return self.pack.id if self.pack else self.skill.id if self.skill else None
 
     def key(self, model: str) -> str:
-        return f"{model}|{self.arm}|{self.skill.id if self.skill else '-'}|{self.task.id}|{self.repeat}"
+        return f"{model}|{self.arm}|{self.subject or '-'}|{self.task.id}|{self.repeat}"
 
 
-def plan(skills: List[Skill], tasks: List[Task], repeats: int,
-         all_tasks: bool = False) -> Tuple[List[Run], List[Skill]]:
+def plan(skills: List[Skill], tasks: List[Task], repeats: int, all_tasks: bool = False,
+         relevant: Optional[set] = None,
+         pack_list: Optional[List[Pack]] = None) -> Tuple[List[Run], List[Skill]]:
     """Return the runs to do and the skills that no task tests (untested claims).
 
-    Baselines are shared: each task runs `repeats` times without skills, however many
-    skills it is compared against.
+    relevant: the (skill id, task id) pairs to run, from the relevance check. Without it,
+    keyword matches are used. pack_list: test these whole packs on every task instead of
+    single skills. Baselines are shared: each task runs `repeats` times without skills,
+    however many skills it is compared against.
     """
-    pairs = [(s, t) for s in skills for t in tasks if all_tasks or matches(s, t)]
+    if pack_list:
+        runs = [Run(t, None, r) for t in tasks for r in range(repeats)]
+        runs += [Run(t, None, r, pack=p) for p in pack_list for t in tasks for r in range(repeats)]
+        return runs, []
+    if all_tasks:
+        pairs = [(s, t) for s in skills for t in tasks]
+    elif relevant is not None:
+        pairs = [(s, t) for s in skills for t in tasks if (s.id, t.id) in relevant]
+    else:
+        pairs = [(s, t) for s in skills for t in tasks if matches(s, t)]
     used_tasks = [t for t in tasks if any(t is pt for _, pt in pairs)]
     runs = [Run(t, None, r) for t in used_tasks for r in range(repeats)]
     runs += [Run(t, s, r) for s, t in pairs for r in range(repeats)]
     tested = {s.id for s, _ in pairs}
     return runs, [s for s in skills if s.id not in tested]
+
+
+def _install(skill: Skill, ws: Path) -> None:
+    dest = ws / ".claude" / "skills" / skill.path.name
+    shutil.copytree(skill.path, dest, dirs_exist_ok=True, ignore=shutil.ignore_patterns(".git"))
 
 
 def _run_setup(task: Task, ws: Path) -> None:
@@ -81,13 +104,21 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
         shutil.copytree(task.fixture, ws, dirs_exist_ok=True)
         if task.setup:
             _run_setup(task, ws)
+        prompt, extra = task.prompt, {}
         if run.skill:
-            dest = ws / ".claude" / "skills" / run.skill.path.name
-            shutil.copytree(run.skill.path, dest, dirs_exist_ok=True,
-                            ignore=shutil.ignore_patterns(".git"))
+            _install(run.skill, ws)
+            if run.skill.user_invoked:
+                # Only a person can start it, so start it the way a person would.
+                prompt = f"/{run.skill.name} {task.prompt}"
+        elif run.pack:
+            if run.pack.plugin:
+                extra["plugin_dirs"] = [run.pack.root]
+            else:
+                for s in run.pack.skills:
+                    _install(s, ws)
         before = {p: _hash(ws / p) for p in task.protect}
 
-        res = agent.run(task.prompt, ws, task.timeout, tools=task.tools)
+        res = agent.run(prompt, ws, task.timeout, tools=task.tools, **extra)
 
         changed = [p for p, h in before.items() if _hash(ws / p) != h]
         passed, check_tail = False, ""
@@ -103,21 +134,27 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
                 check_tail = (proc.stdout + proc.stderr).strip()[-600:]
             except subprocess.TimeoutExpired:
                 check_tail = f"check timed out after {CHECK_TIMEOUT}s"
-        skill_name = run.skill.name if run.skill else None
+        if run.pack:
+            triggered = any(run.pack.owns(s) for s in res.skills_invoked)
+        elif run.skill and run.skill.user_invoked:
+            triggered = True  # started by the "person" in the prompt
+        else:
+            name = run.skill.name if run.skill else None
+            triggered = bool(name and any(
+                name == s or s.endswith(":" + name) or s.endswith("/" + name) for s in res.skills_invoked))
         return {
             "key": run.key(model),
             "model": model,
             "arm": run.arm,
-            "skill": run.skill.id if run.skill else None,
+            "skill": run.subject,
+            "user_invoked": bool(run.skill and run.skill.user_invoked),
             "task": task.id,
             "repeat": run.repeat,
             "passed": passed,
             "infra_error": res.infra_error,
             "note": res.note,
             "protected_changed": changed,
-            "skill_triggered": bool(skill_name and any(
-                skill_name == s or s.endswith(":" + skill_name) or s.endswith("/" + skill_name)
-                for s in res.skills_invoked)),
+            "skill_triggered": triggered,
             "skills_invoked": res.skills_invoked,
             "cost_usd": res.cost_usd,
             "input_tokens": res.input_tokens,

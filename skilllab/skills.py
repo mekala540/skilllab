@@ -6,7 +6,7 @@ import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "__pycache__", "dist", "build"}
 TEST_PATH = re.compile(r"(^|/)(tests?|__tests__|fixtures?|examples?)(/|$)", re.I)
@@ -20,11 +20,15 @@ class Skill:
     path: Path  # the folder that holds SKILL.md
     source: str
     body_chars: int
+    # disable-model-invocation: true. Only a person can start it (/name); the agent never
+    # sees its description, so it costs nothing up front and has no trigger rate.
+    user_invoked: bool = False
+    root: Optional[Path] = None  # the repo or folder it came from
 
     @property
     def upfront_tokens(self) -> int:
         """Name + description: loaded into every session. Characters / 4."""
-        return (len(self.name) + len(self.description)) // 4
+        return 0 if self.user_invoked else (len(self.name) + len(self.description)) // 4
 
     @property
     def onuse_tokens(self) -> int:
@@ -38,7 +42,50 @@ class Skill:
             "source": self.source,
             "upfront_tokens": self.upfront_tokens,
             "onuse_tokens": self.onuse_tokens,
+            "user_invoked": self.user_invoked,
         }
+
+
+@dataclass
+class Pack:
+    """A whole source installed the way its users install it: as a Claude Code plugin
+    (with its hooks) when it ships .claude-plugin/plugin.json, else every skill at once."""
+    source: str
+    root: Path
+    skills: List[Skill]
+
+    @property
+    def id(self) -> str:
+        return f"pack:{self.source}"
+
+    @property
+    def plugin(self) -> bool:
+        return (self.root / ".claude-plugin" / "plugin.json").is_file()
+
+    def owns(self, invoked: str) -> bool:
+        names = {s.name for s in self.skills}
+        return re.split(r"[:/]", invoked)[-1] in names
+
+    def meta(self) -> dict:
+        how = "plugin, with its hooks" if self.plugin else "all skills installed"
+        return {
+            "id": self.id,
+            "name": f"{self.source} (whole pack)",
+            "description": f"Every skill in {self.source} ({len(self.skills)}), {how}.",
+            "source": self.source,
+            "upfront_tokens": sum(s.upfront_tokens for s in self.skills),
+            "onuse_tokens": max((s.onuse_tokens for s in self.skills), default=0),
+            "user_invoked": False,
+            "pack": True,
+        }
+
+
+def packs(skills: List[Skill]) -> List[Pack]:
+    by_source: Dict[str, Pack] = {}
+    for s in skills:
+        if s.root is not None:
+            by_source.setdefault(s.source, Pack(s.source, s.root, [])).skills.append(s)
+    return list(by_source.values())
 
 
 def parse_frontmatter(text: str) -> Tuple[Dict[str, str], str]:
@@ -94,6 +141,8 @@ def find_skills(root: Path, source: str) -> List[Skill]:
             path=path.parent,
             source=source,
             body_chars=len(body),
+            user_invoked=fields.get("disable-model-invocation", "").strip().lower() == "true",
+            root=root,
         )
     return list(by_name.values())
 

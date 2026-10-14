@@ -8,16 +8,18 @@ from typing import Optional
 GAP_TITLES = {
     "costly_no_lift": ("Costs context, no measurable lift",
                        "Loaded tokens without moving the pass rate. Candidates to trim or drop."),
-    "never_triggered": ("Never triggered",
-                        "The agent never invoked the skill on tasks that match its claim. "
-                        "The description may not say when to use it."),
+    "never_triggered": ("Relevant but never used",
+                        "The agent could have invoked the skill and the task was judged a fair test of "
+                        "it, but the agent never did. The description may not say clearly when to use it."),
     "hurts": ("Made the agent worse", "Pass rate dropped with the skill on at least one task."),
     "ceiling_tasks": ("Tasks too easy to measure",
                       "Baseline already passes every time, so no skill can show lift. Add a harder task."),
     "unsolved_tasks": ("Nobody solves these",
                        "Fails without skills and no skill helped. An opening for a new skill."),
     "untested_claims": ("Claims with no task",
-                        "No task in the suite matches these skills. Run `skilllab suggest` to draft tasks."),
+                        "No task in the suite is a fair test of these skills, so nothing is known about "
+                        "them (not the same as \"not needed\"). Keyword candidates the relevance check "
+                        "turned down are in matches.json. Run `skilllab suggest` to draft tasks."),
     "needs_person": ("Needs a person in the loop",
                      "Built around a conversation (grilling, teaching, hand-offs). An unattended run "
                      "can't judge these; they need human evaluation."),
@@ -69,13 +71,13 @@ def to_markdown(summary: dict, model: str) -> str:
     out += ["", "## Per task", "",
             "Pass rates show a 90% confidence interval in brackets. Cost per pass = total spend / passing runs.",
             "",
-            "| Skill | Task | n | Pass with | Pass without | Lift | p | Cost/pass with | Cost/pass without | Notes |",
-            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+            "| Skill | Task | n | Pass with | Pass without | Lift | p | Cost/pass with | Cost/pass without | Why this pair | Notes |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
     for p in summary["pairs"]:
         out.append(f"| `{p['skill']}` | {p['task']} | {p['n']} | {_ci(p['with_rate'], p.get('ci'))} | "
                    f"{_ci(p['base_rate'], p.get('base_ci'))} | {_delta(p['delta'])} | {_p(p.get('p_value'))} | "
                    f"{_money(p.get('cost_per_pass'))} | {_money(p.get('base_cost_per_pass'))} | "
-                   f"{'; '.join(p['notes'])} |")
+                   f"{p.get('match') or '–'} | {'; '.join(p['notes'])} |")
     out += ["", "## Gaps", ""]
     for key, (title, why) in GAP_TITLES.items():
         items = summary["gaps"].get(key) or []
@@ -88,8 +90,11 @@ def to_markdown(summary: dict, model: str) -> str:
         out.append("")
     out += ["## How to read this", "",
             "- Each run starts from a fresh copy of the task's files. The skill is installed in "
-            "`.claude/skills/` for the *with* arm only. Pass/fail comes from hidden checks copied in "
-            "after the agent finishes.",
+            "`.claude/skills/` for the *with* arm only (a whole pack loads as a plugin, with its hooks). "
+            "Pass/fail comes from hidden checks copied in after the agent finishes.",
+            "- A skill is only run on tasks judged a fair test of it (see *Why this pair* and "
+            "matches.json). Skills only a person can start (`disable-model-invocation`) are started "
+            "with `/name` and have no trigger rate.",
             "- **Small samples.** With 3 repeats, only a 3-of-3 vs 0-of-3 split is significant. "
             "Use `--repeats 5` or more before telling a maintainer their skill doesn't help.",
             "- **Many comparisons.** Testing many skills means a few will look significant by chance. "
@@ -109,7 +114,8 @@ def to_html(summary: dict, model: str) -> str:
     pair_rows = "".join(
         f"<tr><td><code>{e(p['skill'])}</code></td><td>{e(p['task'])}</td>"
         f"<td class=n>{_pct(p['with_rate'])}</td><td class=n>{_pct(p['base_rate'])}</td>"
-        f"<td class=n>{_delta(p['delta'])}</td><td class=n>{_p(p.get('p_value'))}</td><td>{e('; '.join(p['notes']))}</td></tr>"
+        f"<td class=n>{_delta(p['delta'])}</td><td class=n>{_p(p.get('p_value'))}</td>"
+        f"<td class=d>{e(p.get('match') or '–')}</td><td>{e('; '.join(p['notes']))}</td></tr>"
         for p in summary["pairs"])
     gaps = ""
     for key, (title, why) in GAP_TITLES.items():
@@ -140,7 +146,7 @@ th{{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 <p class=meta>Model {e(model)} · {summary['runs']} runs · {summary['errors']} infrastructure errors excluded ·
 ${summary['cost_usd']:.2f} spent · verdicts need ≥{round(summary['threshold'] * 100)} pts and Fisher p ≤ {summary.get('alpha', 0.1)}. Small samples show direction, not proof.</p>
 <h2>Verdicts</h2><div class=wrap><table><tr><th>Skill</th><th>Verdict</th><th>Tasks</th><th>Triggered</th><th class=n>Up front</th><th class=n>On use</th></tr>{rows}</table></div>
-<h2>Per task</h2><div class=wrap><table><tr><th>Skill</th><th>Task</th><th class=n>With</th><th class=n>Without</th><th class=n>Lift</th><th class=n>p</th><th>Notes</th></tr>{pair_rows}</table></div>
+<h2>Per task</h2><div class=wrap><table><tr><th>Skill</th><th>Task</th><th class=n>With</th><th class=n>Without</th><th class=n>Lift</th><th class=n>p</th><th>Why this pair</th><th>Notes</th></tr>{pair_rows}</table></div>
 <h2>Gaps</h2>{gaps or '<p class=meta>None found.</p>'}
 </main></body></html>
 """

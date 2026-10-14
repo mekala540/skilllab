@@ -36,20 +36,40 @@ requirements, multi-hour work. That's the main open direction; see CONTRIBUTING.
 - Runs that fail before reaching the API (usage limit, logged out) are infrastructure errors:
   excluded, retried on resume, and 8 in a row stop the batch.
 
-## First real batch: 35 skills on Claude Haiku 5.5
+## First real batch (corrected)
 
 [obra/superpowers](https://github.com/obra/superpowers) and
-[mattpocock/skills](https://github.com/mattpocock/skills), every skill that matches a task,
-3 runs each with and without the skill: 234 runs, $2.97.
+[mattpocock/skills](https://github.com/mattpocock/skills) on Claude Haiku 5.5, public tasks,
+3 runs per pair. Results: `skill` mode 42 runs ($0.56), `--pack` mode for superpowers on 4 tasks
+12 more runs ($0.16).
 
-- **Pass rate:** 223/234. Every pair is "no lift", because the baseline already passes.
-- **Trigger rate: 33 of 35 skills were never invoked**, even on tasks matching their own
-  description. Only `mattpocock/skills/pr` (2/3) and `writing-for-agents` (1/3) were used.
-  The skills were installed and their descriptions loaded (they add tokens to every session),
-  but the agent didn't choose them.
-- **Cost:** median cost per pass with a skill was 0.96× the baseline. Individual differences
-  (0.4× to 1.45×) aren't significant at 3 runs.
+| | Result |
+| --- | --- |
+| Skills found | 53 (23 can only be started by a person) |
+| Keyword candidates | 48 pairs; the relevance check kept 10 and turned down 38 |
+| Fairly tested | 8 skills (7 auto-pickable, 1 started with `/implement`) |
+| Untested | 45: no fair task in this suite, so unknown |
+| Single skill installed | 0 of 27 runs used the relevant skill |
+| superpowers as a plugin | skills used in 7 of 12 runs: `systematic-debugging` 3/3 and 2/3 on the two debugging tasks, `test-driven-development` 2/3 on feature-cron, nothing on refactor-pricing |
+| Pass rate | 100% with and without, every pair (ceiling) |
+| Cost per pass | single skills 0.88–1.34× baseline; the plugin 1.09–1.31× (about 29% more input tokens) |
 
-The trigger result is the actionable one: a skill whose description doesn't make the agent
-reach for it costs context and does nothing. It's worth retesting with other models and
-longer tasks before telling any maintainer their skill is unused.
+What this shows: how a pack is installed decides whether its skills get used. superpowers'
+startup hook tells the agent to check its skills first, and with it the agent does. Testing one
+skill alone, without the pack's hook, says little about a pack built to work as a whole.
+
+What it doesn't show: whether any skill raises the pass rate. These tasks are too easy for that.
+
+### Correction
+
+The first version of this batch reported "33 of 35 skills never triggered, even on tasks
+matching their own description". That was wrong, for three reasons:
+
+1. Matching on one shared word paired skills with unrelated tasks (a skill that installs git
+   hooks with a task about finding a regression). Not using those was correct behavior.
+2. 9 of the counted skills set `disable-model-invocation: true`: only a person can start them,
+   so a 0% trigger rate was guaranteed.
+3. superpowers was tested without the startup hook it ships with.
+
+skilllab now judges each candidate pair before running it (`matches.json`), starts user-only
+skills with `/name`, and has `--pack` to load plugins with their hooks.

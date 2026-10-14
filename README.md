@@ -2,16 +2,16 @@
 
 **Does this agent skill actually help? Run it and see.**
 
-[![The lab view replaying 162 real runs](https://mekala540.github.io/skilllab/lab.gif)](https://mekala540.github.io/skilllab/)
+[![The lab view replaying a real batch](https://mekala540.github.io/skilllab/lab.gif)](https://mekala540.github.io/skilllab/)
 
-**[Watch the live replay](https://mekala540.github.io/skilllab/)** of a real batch (30 skills on Claude Haiku 5.5, public tasks only) · [full report](https://mekala540.github.io/skilllab/report.html)
+**[Watch the replay](https://mekala540.github.io/skilllab/)** of a real batch (Claude Haiku 5.5, public tasks only) · [full report](https://mekala540.github.io/skilllab/report.html)
 
 Skill packs for Claude Code collect hundreds of thousands of stars. Stars measure popularity, and a static scan ([skillprint](https://github.com/mekala540/skillprint)) measures cost. Neither tells you whether the agent does better work with the skill installed.
 
 skilllab answers that the way a lab would:
 
 1. **Collect** skills from folders or git repos (every `SKILL.md`).
-2. **Match** each skill's claim (its description) to tasks in a fixed suite.
+2. **Match** each skill's claim (its description) to tasks in a fixed suite, keeping only pairs where the task is a fair test of the skill.
 3. **Run** every task without skills (baseline) and with each matching skill, several times, in parallel, each in a fresh throwaway workspace.
 4. **Check** results with hidden tests that are copied in only after the agent finishes. No AI grading.
 5. **Judge** each skill: `helps`, `no lift`, `hurts`, `mixed` or `flagged`.
@@ -31,10 +31,11 @@ No dependencies. Python 3.9+. Running real batches needs [Claude Code](https://c
 
 ```bash
 skilllab skills https://github.com/obra/superpowers          # what's there, what each skill is tested on
-skilllab plan   https://github.com/obra/superpowers          # how many runs a batch needs (free)
+skilllab plan   https://github.com/obra/superpowers          # which pairs are fair tests, how many runs (≈1 cent)
 skilllab calibrate --repeats 3 --budget 5                    # how hard each task is for your model
 skilllab run    https://github.com/obra/superpowers \
     --task fix-pagination --repeats 3 --budget 3 --out results/superpowers
+skilllab run ... --pack                                      # test each repo as a whole pack (plugin + hooks)
 skilllab run ... --watch                                     # live lab view in your browser while it runs
 skilllab watch results/superpowers                           # live view of a batch running elsewhere
 skilllab report results/superpowers                          # rebuild report.md / report.html / lab.html
@@ -44,7 +45,7 @@ skilllab suggest https://github.com/obra/superpowers --out drafts   # draft task
 
 Start small. One task, a few skills, `--repeats 3`, then grow. Every run is a full agent session and costs real money; `--budget` (default $5) stops new runs once spend reaches it, and rerunning the same command resumes where it left off.
 
-Useful options for `run`: `--skill NAME` (repeatable), `--limit-skills N`, `--model`, `--workers` (agents running at once, default 4), `--run-budget` (USD cap per session), `--keep` (keep workspaces to inspect), `--all-tasks` (test every skill on every task).
+Useful options for `run`: `--skill NAME` (repeatable), `--limit-skills N`, `--model`, `--workers` (agents running at once, default 4), `--run-budget` (USD cap per session), `--keep` (keep workspaces to inspect), `--pair SKILL:TASK` (run this pair whatever the relevance check says), `--no-judge` (count every keyword match), `--all-tasks` (test every skill on every task).
 
 ## The lab view
 
@@ -65,7 +66,14 @@ FAKE_AGENT_MODE=demo skilllab run https://github.com/obra/superpowers --yes --ou
 
 ## First results
 
-On Claude Haiku 5.5 we ran every matching skill from obra/superpowers and mattpocock/skills (234 runs, $2.97). The headline: **33 of 35 skills were never invoked**, even on tasks matching their own description, while still adding tokens to every session. Today's models also pass these tasks without help (223/234), so pass-rate lift needs longer, messier tasks. Details: [docs/calibration.md](docs/calibration.md).
+Claude Haiku 5.5, obra/superpowers and mattpocock/skills, public tasks, 3 runs per pair ($0.72):
+
+- **Coverage is the real limit.** Of 53 skills, only 8 have a task in this suite that fairly tests them. The rest are *untested*: unknown, not "not needed".
+- **Installed one at a time, relevant skills went unused.** The agent never picked any of the 7 relevant, auto-pickable skills (0 of 27 runs).
+- **Installed the way users install it, superpowers was used.** Loaded as a plugin with its startup hook, its skills were invoked in 7 of 12 runs (`systematic-debugging` on debugging tasks, `test-driven-development` on the feature task). How a pack is installed changes whether its skills are used.
+- **No pass-rate lift either way**, because the baseline passes these tasks every time. The pack cost 9–31% more per passing task.
+
+An earlier version of this section said 33 of 35 skills were never used. That count included skills paired with unrelated tasks by a shared word, skills only a person can start, and superpowers without its hook. All three are fixed. Details: [docs/calibration.md](docs/calibration.md).
 
 ## The task suite
 
@@ -101,16 +109,18 @@ Tasks the baseline passes more than 60% of the time are marked "too easy for thi
 ## How it decides
 
 - **Workspaces.** Each run copies the task's fixture into a new temp folder. The *with* arm also gets the skill folder in `.claude/skills/`. Nothing else differs.
+- **Whole packs (`--pack`).** Many packs are meant to be installed whole. superpowers, for example, ships as a plugin whose startup hook tells the agent to use its skills. Testing one skill alone misses that. With `--pack`, each repo that ships `.claude-plugin/plugin.json` is loaded with `claude --plugin-dir`, hooks included, and runs on every task. Other repos get all their skills installed at once. Plugin hooks run code on your machine, so check a pack first (for example with [skillprint](https://github.com/mekala540/skillprint)).
+- **Skills only a person can start** (`disable-model-invocation: true`) never reach the agent's context, so they cost nothing up front and have no trigger rate. skilllab starts them the way a person would, with `/name` before the task, and measures only lift.
 - **Agent.** Claude Code headless (`claude -p`) with `--permission-mode dontAsk` and an allowlist: read, edit, write, search, the Skill tool, and `python`/`ls`/`cat`. A skill's own scripts don't run unless a task allows them. Only project settings are loaded (`--setting-sources project`).
 - **Pass/fail.** The task's check command, run after the agent finishes. Hidden check files are copied in last, overwriting anything the agent wrote with the same name. Changing a protected file fails the run.
 - **Baselines are shared.** Each task runs `--repeats` times without skills, and every skill on that task is compared with the same baseline.
 - **Lift** = pass rate with the skill minus pass rate without. `helps` needs both a lift of at least 30 points (`--threshold 0.3`) and a two-sided Fisher's exact test p ≤ 0.1 (`--alpha 0.1`). `hurts` is the mirror. Anything else is `no lift`, with a note when the change was large but not significant.
 - **Sample size matters.** With 3 repeats, only 3-of-3 vs 0-of-3 is significant (p = 0.1). With 5 repeats, 4-of-5 vs 0-of-5 is (p ≈ 0.05). Reports show 90% Wilson intervals for each pass rate and warn about small samples.
 - **Cost per pass** = total spend on a pair's runs ÷ passing runs, shown next to the baseline's, because a skill that makes the agent cheaper at the same pass rate is still worth knowing about.
-- **Triggered** = the agent actually called the Skill tool for that skill (read from Claude Code's `stream-json` events). A difference when the skill never triggered is reported as `flagged`, not `helps`: it's noise.
+- **Triggered** = the agent actually called the Skill tool for that skill (read from Claude Code's `stream-json` events). A difference when the skill never triggered is reported as `flagged`, not `helps`: it's noise. "Relevant but never used" only lists skills the agent could have picked, on tasks judged a fair test of them.
 - **Errors.** Runs where the agent never really started (missing CLI, bad auth) are excluded and retried on resume. Timeouts and max-turn stops count as failed attempts, because a skill that makes the agent loop is a real result.
-- **Matching.** A task tests a skill when one of the task's tags appears as a whole word in the skill's name or description. `contest` does not match `test`.
-- **Untested skills** are split in two: those built around a conversation with a person (grilling, teaching, hand-offs), which an unattended run can't judge, and those that simply have no task yet.
+- **Matching, in two steps.** First, keywords propose candidates: a task tag appearing as a whole word in the skill's name or description (`contest` does not match `test`). A shared word is not enough, though: "git" pairs a skill that installs git hooks with a task about finding a regression. So, second, a cheap model (Claude Haiku, about a cent per batch, no tools) judges each candidate: is the skill's own "use when" condition met by this task as given? Its yes/no and a one-line reason go to `matches.json` in the results folder and into the report. Edit the file to overrule it; saved decisions are never re-judged. `--pair SKILL:TASK` forces a pair, and `--no-judge` skips the check.
+- **Untested is not "not needed".** A skill with no fair task is listed as untested: nothing is known about it. Those built around a conversation with a person (grilling, teaching, hand-offs) are listed separately, because an unattended run can't judge them.
 - **Setup and tools.** Some tasks run a setup script first (e.g. to build a git history) and allow extra tools (`git`, `node`) for that task only.
 - **Token costs** are characters ÷ 4: name + description up front, the body on use.
 

@@ -159,7 +159,7 @@ $('verd').innerHTML = order.map(v => {
   return `<div style="color:${VC[v]}">${v.toUpperCase()} · ${list.length}</div>` +
     list.slice(0, v === 'untested' ? 2 : 4).map(s => `<div>&nbsp; ${esc(s.id)}</div>`).join('');
 }).join('');
-const GT = {costly_no_lift:'costs context, no lift', never_triggered:'never triggered', hurts:'made agent worse',
+const GT = {costly_no_lift:'costs context, no lift', never_triggered:'relevant, never used', hurts:'made agent worse',
   ceiling_tasks:'tasks too easy', unsolved_tasks:'nobody solves', untested_claims:'claims with no task', needs_person:'needs a person', lookalikes:'look-alike skills'};
 $('gaps').innerHTML = Object.keys(GT).filter(k => D.gaps[k]).map(k =>
   `<div><span class=warn>${D.gaps[k]}</span> ${GT[k]}<br><small>${esc((D.gapItems[k] || []).slice(0, 2).join(', '))}</small></div>`).join('') || '<small>none found</small>';
@@ -365,7 +365,7 @@ cv.addEventListener('mousemove', e => {
   let a = Math.atan2(y - cy, x - cx) - rot; a = ((a % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
   const s = skills[Math.round(a / (2 * Math.PI) * N) % N];
   tip.innerHTML = `<b>${esc(s.id)}</b><br><span style="color:${VC[s.verdict]}">${s.verdict}</span>` +
-    (s.tasks.length ? ` on ${esc(s.tasks.join(', '))}<br>triggered ${pct(s.trigger)}` : '') +
+    (s.tasks.length ? ` on ${esc(s.tasks.join(', '))}<br>${s.trigger === null ? 'started by the user' : 'triggered ' + pct(s.trigger)}` : '') +
     `<br>≈${s.upfront} tokens up front · ≈${s.onuse} on use`;
   tip.style.display = 'block';
   tip.style.left = Math.min(x + 14, W - 300) + 'px'; tip.style.top = (y + 14) + 'px';
