@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Skill Lab Replay</title>
+<style>
+:root{--bg:#050505;--panel:#0d0d0d;--line:#262626;--fg:#e5e5e5;--dim:#737373;--faint:#404040;
+--helps:#4ade80;--hurts:#f87171;--flag:#fbbf24;--none:#a3a3a3;--untested:#525252}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 28px;padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:15px;letter-spacing:.12em;font-weight:700}
+.sub{color:var(--dim);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.stat{min-width:64px}.stat b{display:block;font-size:15px}.stat span{color:var(--dim);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.ctl{margin-left:auto;display:flex;gap:6px}
+button{background:var(--panel);color:var(--fg);border:1px solid var(--line);font:inherit;padding:4px 10px;cursor:pointer;border-radius:3px}
+button:hover{border-color:var(--dim)}
+#stage{position:relative}
+canvas{display:block;width:100%;height:min(68vh,660px);min-height:420px}
+#tip{position:absolute;pointer-events:none;background:#000c;border:1px solid var(--line);padding:8px 10px;max-width:300px;display:none;z-index:2}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:8px 16px 16px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+html,body{overflow-x:hidden}
+@media (max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}.ctl{margin-left:0}}
+.p{background:var(--panel);border:1px solid var(--line);padding:10px;min-height:170px;overflow:hidden}
+.p h2{margin:0 0 8px;font-size:10px;letter-spacing:.14em;color:var(--dim);font-weight:600}
+.feed div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--dim)}
+.feed div:first-child{color:var(--fg)}
+.ok{color:var(--helps)}.bad{color:var(--hurts)}.warn{color:var(--flag)}
+.bar{display:grid;grid-template-columns:96px 1fr 68px;gap:6px;align-items:center;margin:5px 0}
+.bar .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dim)}
+.track{position:relative;height:12px;background:#171717}
+.track i{position:absolute;left:0;top:0;bottom:0;display:block}
+.track .b{background:var(--faint);height:5px}.track .w{top:6px;height:6px;background:var(--helps)}
+.v div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g div{margin-bottom:3px}.g small{color:var(--dim)}
+.legend{color:var(--dim);font-size:10px;padding:0 16px 14px}
+.legend i{display:inline-block;width:8px;height:8px;margin:0 4px 0 12px;vertical-align:middle}
+</style></head><body>
+<header>
+ <div><h1>SKILLLAB / LIFT LAB</h1><div class=sub id=model></div></div>
+ <div class=stat><b id=sSkills></b><span>skills</span></div>
+ <div class=stat><b id=sTasks></b><span>tasks</span></div>
+ <div class=stat><b id=sRuns></b><span>runs</span></div>
+ <div class=stat><b id=sPass></b><span>passed</span></div>
+ <div class=stat><b id=sCost></b><span>spend</span></div>
+ <div class=stat><b id=sHelps class=ok></b><span>helps</span></div>
+ <div class=stat><b id=sGaps class=warn></b><span>gaps</span></div>
+ <div class=ctl><button id=bPlay>pause</button><button id=bSpeed>1×</button><button id=bRestart>restart</button></div>
+</header>
+<div id=stage><canvas id=cv></canvas><div id=tip></div></div>
+<div class=legend>ring: one tick per skill, length = tokens on use ·
+ <i style="background:var(--helps)"></i>helps<i style="background:var(--hurts)"></i>hurts/mixed
+ <i style="background:var(--flag)"></i>flagged<i style="background:var(--none)"></i>no lift<i style="background:var(--untested)"></i>untested ·
+ centre = baseline (no skill) · lanes = agents</div>
+<div class=grid>
+ <div class=p><h2>RUN FEED</h2><div class=feed id=feed></div></div>
+ <div class=p><h2>LIFT BY TASK · BEST SKILL vs BASELINE</h2><div id=lift></div></div>
+ <div class=p><h2>VERDICTS</h2><div class=v id=verd></div></div>
+ <div class=p><h2>GAPS</h2><div class=g id=gaps></div></div>
+</div>
+<script>
+const D = {"model": "claude-haiku-5-5", "skills": [{"id": "obra/superpowers/brainstorming", "name": "brainstorming", "source": "obra/superpowers", "upfront": 56, "onuse": 2453, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/diagnosing-superpowers", "name": "diagnosing-superpowers", "source": "obra/superpowers", "upfront": 99, "onuse": 1614, "verdict": "no lift", "trigger": 0.0, "tasks": ["debug-ledger", "js-lru-cache"]}, {"id": "obra/superpowers/dispatching-parallel-agents", "name": "dispatching-parallel-agents", "source": "obra/superpowers", "upfront": 33, "onuse": 1472, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "obra/superpowers/executing-plans", "name": "executing-plans", "source": "obra/superpowers", "upfront": 46, "onuse": 5008, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/finishing-a-development-branch", "name": "finishing-a-development-branch", "source": "obra/superpowers", "upfront": 32, "onuse": 1892, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron", "git-regression", "tests-ratelimiter"]}, {"id": "obra/superpowers/receiving-code-review", "name": "receiving-code-review", "source": "obra/superpowers", "upfront": 63, "onuse": 1470, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/requesting-code-review", "name": "requesting-code-review", "source": "obra/superpowers", "upfront": 32, "onuse": 702, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/subagent-driven-development", "name": "subagent-driven-development", "source": "obra/superpowers", "upfront": 28, "onuse": 8054, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/systematic-debugging", "name": "systematic-debugging", "source": "obra/superpowers", "upfront": 27, "onuse": 2341, "verdict": "no lift", "trigger": 0.0, "tasks": ["debug-ledger", "js-lru-cache", "tests-ratelimiter"]}, {"id": "obra/superpowers/test-driven-development", "name": "test-driven-development", "source": "obra/superpowers", "upfront": 25, "onuse": 2356, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron", "tests-ratelimiter"]}, {"id": "obra/superpowers/using-git-worktrees", "name": "using-git-worktrees", "source": "obra/superpowers", "upfront": 53, "onuse": 1639, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron", "git-regression"]}, {"id": "obra/superpowers/using-superpowers", "name": "using-superpowers", "source": "obra/superpowers", "upfront": 42, "onuse": 744, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "obra/superpowers/verification-before-completion", "name": "verification-before-completion", "source": "obra/superpowers", "upfront": 63, "onuse": 828, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/writing-plans", "name": "writing-plans", "source": "obra/superpowers", "upfront": 24, "onuse": 2547, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "obra/superpowers/writing-skills", "name": "writing-skills", "source": "obra/superpowers", "upfront": 27, "onuse": 6595, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/ask-matt", "name": "ask-matt", "source": "mattpocock/skills", "upfront": 22, "onuse": 3107, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/code-review", "name": "code-review", "source": "mattpocock/skills", "upfront": 107, "onuse": 1544, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron", "git-regression"]}, {"id": "mattpocock/skills/codebase-design", "name": "codebase-design", "source": "mattpocock/skills", "upfront": 70, "onuse": 1439, "verdict": "no lift", "trigger": 0.0, "tasks": ["refactor-pricing"]}, {"id": "mattpocock/skills/diagnosing-bugs", "name": "diagnosing-bugs", "source": "mattpocock/skills", "upfront": 42, "onuse": 2115, "verdict": "no lift", "trigger": 0.0, "tasks": ["debug-ledger", "js-lru-cache"]}, {"id": "mattpocock/skills/domain-modeling", "name": "domain-modeling", "source": "mattpocock/skills", "upfront": 41, "onuse": 756, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/grill-with-docs", "name": "grill-with-docs", "source": "mattpocock/skills", "upfront": 30, "onuse": 16, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/implement-spec", "name": "implement-spec", "source": "mattpocock/skills", "upfront": 17, "onuse": 661, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/implement", "name": "implement", "source": "mattpocock/skills", "upfront": 17, "onuse": 122, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/improve-codebase-architecture", "name": "improve-codebase-architecture", "source": "mattpocock/skills", "upfront": 38, "onuse": 1445, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/pr", "name": "pr", "source": "mattpocock/skills", "upfront": 7, "onuse": 964, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/prototype", "name": "prototype", "source": "mattpocock/skills", "upfront": 47, "onuse": 676, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/research", "name": "research", "source": "mattpocock/skills", "upfront": 61, "onuse": 129, "verdict": "no lift", "trigger": 0.0, "tasks": ["debug-ledger"]}, {"id": "mattpocock/skills/retro", "name": "retro", "source": "mattpocock/skills", "upfront": 12, "onuse": 1064, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/setup-matt-pocock-skills", "name": "setup-matt-pocock-skills", "source": "mattpocock/skills", "upfront": 51, "onuse": 1677, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/tdd", "name": "tdd", "source": "mattpocock/skills", "upfront": 38, "onuse": 859, "verdict": "no lift", "trigger": 0.0, "tasks": ["debug-ledger", "feature-cron", "js-lru-cache", "refactor-pricing", "tests-ratelimiter"]}, {"id": "mattpocock/skills/to-spec", "name": "to-spec", "source": "mattpocock/skills", "upfront": 39, "onuse": 706, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/to-tickets", "name": "to-tickets", "source": "mattpocock/skills", "upfront": 64, "onuse": 1371, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/triage", "name": "triage", "source": "mattpocock/skills", "upfront": 35, "onuse": 1588, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/wayfinder", "name": "wayfinder", "source": "mattpocock/skills", "upfront": 51, "onuse": 3028, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/wizard", "name": "wizard", "source": "mattpocock/skills", "upfront": 79, "onuse": 941, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/chief-of-staff", "name": "chief-of-staff", "source": "mattpocock/skills", "upfront": 22, "onuse": 490, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/claude-handoff", "name": "claude-handoff", "source": "mattpocock/skills", "upfront": 27, "onuse": 298, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/loop-me", "name": "loop-me", "source": "mattpocock/skills", "upfront": 21, "onuse": 577, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/setup-ts-deep-modules", "name": "setup-ts-deep-modules", "source": "mattpocock/skills", "upfront": 51, "onuse": 1816, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron", "js-lru-cache", "refactor-pricing"]}, {"id": "mattpocock/skills/writing-beats", "name": "writing-beats", "source": "mattpocock/skills", "upfront": 31, "onuse": 1166, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/writing-fragments", "name": "writing-fragments", "source": "mattpocock/skills", "upfront": 18, "onuse": 855, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/writing-shape", "name": "writing-shape", "source": "mattpocock/skills", "upfront": 22, "onuse": 1440, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/git-guardrails-claude-code", "name": "git-guardrails-claude-code", "source": "mattpocock/skills", "upfront": 67, "onuse": 503, "verdict": "no lift", "trigger": 0.0, "tasks": ["git-regression"]}, {"id": "mattpocock/skills/migrate-to-shoehorn", "name": "migrate-to-shoehorn", "source": "mattpocock/skills", "upfront": 46, "onuse": 643, "verdict": "no lift", "trigger": 0.0, "tasks": ["js-lru-cache", "tests-ratelimiter"]}, {"id": "mattpocock/skills/scaffold-exercises", "name": "scaffold-exercises", "source": "mattpocock/skills", "upfront": 55, "onuse": 834, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/setup-pre-commit", "name": "setup-pre-commit", "source": "mattpocock/skills", "upfront": 63, "onuse": 493, "verdict": "no lift", "trigger": 0.0, "tasks": ["git-regression", "tests-ratelimiter"]}, {"id": "mattpocock/skills/grill-me", "name": "grill-me", "source": "mattpocock/skills", "upfront": 14, "onuse": 9, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron"]}, {"id": "mattpocock/skills/grilling", "name": "grilling", "source": "mattpocock/skills", "upfront": 40, "onuse": 461, "verdict": "no lift", "trigger": 0.0, "tasks": ["feature-cron", "tests-ratelimiter"]}, {"id": "mattpocock/skills/handoff", "name": "handoff", "source": "mattpocock/skills", "upfront": 23, "onuse": 182, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/teach", "name": "teach", "source": "mattpocock/skills", "upfront": 16, "onuse": 2388, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/to-questionnaire", "name": "to-questionnaire", "source": "mattpocock/skills", "upfront": 26, "onuse": 684, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/wait-what", "name": "wait-what", "source": "mattpocock/skills", "upfront": 14, "onuse": 68, "verdict": "untested", "trigger": null, "tasks": []}, {"id": "mattpocock/skills/writing-for-agents", "name": "writing-for-agents", "source": "mattpocock/skills", "upfront": 30, "onuse": 2682, "verdict": "untested", "trigger": null, "tasks": []}], "tasks": [{"id": "debug-ledger", "title": "Debug a small package with several root causes", "base": 1.0, "best": 1.0, "best_skill": "mattpocock/skills/tdd"}, {"id": "feature-cron", "title": "Implement a tricky spec (cron scheduling)", "base": 1.0, "best": 1.0, "best_skill": "mattpocock/skills/grilling"}, {"id": "git-regression", "title": "Find the commit that caused a regression and fix it on a branch", "base": 1.0, "best": 1.0, "best_skill": "mattpocock/skills/setup-pre-commit"}, {"id": "js-lru-cache", "title": "Debug a JavaScript cache against its documented contract", "base": 1.0, "best": 1.0, "best_skill": "mattpocock/skills/migrate-to-shoehorn"}, {"id": "refactor-pricing", "title": "Refactor legacy code with hidden state, without changing behavior", "base": 1.0, "best": 1.0, "best_skill": "mattpocock/skills/setup-ts-deep-modules"}, {"id": "tests-ratelimiter", "title": "Write tests that catch subtle boundary bugs", "base": 0.3333333333333333, "best": 1.0, "best_skill": "mattpocock/skills/grilling"}], "runs": [{"s": null, "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00857177, "rep": 2}, {"s": null, "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00995815, "rep": 0}, {"s": null, "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00983284, "rep": 1}, {"s": null, "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00718876, "rep": 1}, {"s": null, "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00816818, "rep": 2}, {"s": null, "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00914946, "rep": 0}, {"s": null, "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01894363, "rep": 1}, {"s": null, "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01964222, "rep": 2}, {"s": null, "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.02010536, "rep": 0}, {"s": null, "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.007477349999999999, "rep": 0}, {"s": null, "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00761855, "rep": 1}, {"s": null, "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.008069660000000001, "rep": 2}, {"s": null, "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.013334549999999999, "rep": 0}, {"s": null, "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.01300353, "rep": 2}, {"s": null, "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.01717858, "rep": 1}, {"s": null, "t": "tests-ratelimiter", "ok": false, "err": false, "trig": false, "c": 0.012548289999999998, "rep": 1}, {"s": "obra/superpowers/diagnosing-superpowers", "t": "debug-ledger", "ok": false, "err": false, "trig": false, "c": 0.0015824900000000002, "rep": 0}, {"s": "obra/superpowers/diagnosing-superpowers", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00999053, "rep": 1}, {"s": "obra/superpowers/diagnosing-superpowers", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.009310190000000001, "rep": 2}, {"s": null, "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.01696487, "rep": 0}, {"s": "obra/superpowers/diagnosing-superpowers", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.007562000000000001, "rep": 1}, {"s": "obra/superpowers/diagnosing-superpowers", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00732278, "rep": 2}, {"s": null, "t": "tests-ratelimiter", "ok": false, "err": false, "trig": false, "c": 0.015595790000000002, "rep": 2}, {"s": "obra/superpowers/executing-plans", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01781753, "rep": 0}, {"s": "obra/superpowers/executing-plans", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.014940360000000001, "rep": 1}, {"s": "obra/superpowers/executing-plans", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.02437495, "rep": 2}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01510136, "rep": 0}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.019605280000000003, "rep": 1}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01511511, "rep": 2}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.01054938, "rep": 0}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00831179, "rep": 2}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.01175949, "rep": 1}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.02167441, "rep": 1}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.02381537, "rep": 0}, {"s": "obra/superpowers/diagnosing-superpowers", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.006210510000000001, "rep": 0}, {"s": "obra/superpowers/receiving-code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.021264710000000003, "rep": 0}, {"s": "obra/superpowers/receiving-code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.018406459999999996, "rep": 1}, {"s": "obra/superpowers/receiving-code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01464936, "rep": 2}, {"s": "obra/superpowers/finishing-a-development-branch", "t": "tests-ratelimiter", "ok": false, "err": false, "trig": false, "c": 0.00242609, "rep": 2}, {"s": "obra/superpowers/requesting-code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.014535579999999998, "rep": 0}, {"s": "obra/superpowers/requesting-code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01785438, "rep": 1}, {"s": "obra/superpowers/requesting-code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.0195052, "rep": 2}, {"s": "obra/superpowers/subagent-driven-development", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01951739, "rep": 0}, {"s": "obra/superpowers/subagent-driven-development", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.012495029999999997, "rep": 1}, {"s": "obra/superpowers/subagent-driven-development", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01533118, "rep": 2}, {"s": "obra/superpowers/systematic-debugging", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00911446, "rep": 1}, {"s": "obra/superpowers/systematic-debugging", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.009373040000000001, "rep": 0}, {"s": "obra/superpowers/systematic-debugging", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00849346, "rep": 2}, {"s": "obra/superpowers/brainstorming", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01278261, "rep": 1}, {"s": "obra/superpowers/systematic-debugging", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00823345, "rep": 1}, {"s": "obra/superpowers/systematic-debugging", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00736708, "rep": 2}, {"s": "obra/superpowers/systematic-debugging", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.020828920000000004, "rep": 0}, {"s": "obra/superpowers/systematic-debugging", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.015021060000000001, "rep": 1}, {"s": "obra/superpowers/systematic-debugging", "t": "js-lru-cache", "ok": false, "err": false, "trig": false, "c": 0.0015680900000000003, "rep": 0}, {"s": "obra/superpowers/test-driven-development", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01726174, "rep": 0}, {"s": "obra/superpowers/test-driven-development", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.026907979999999998, "rep": 1}, {"s": "obra/superpowers/test-driven-development", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01536688, "rep": 2}, {"s": "obra/superpowers/test-driven-development", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.01574238, "rep": 0}, {"s": "obra/superpowers/test-driven-development", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.022772050000000002, "rep": 1}, {"s": "obra/superpowers/test-driven-development", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.01835777, "rep": 2}, {"s": "obra/superpowers/using-git-worktrees", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01597384, "rep": 0}, {"s": "obra/superpowers/using-git-worktrees", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01793775, "rep": 1}, {"s": "obra/superpowers/using-git-worktrees", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01764526, "rep": 2}, {"s": "obra/superpowers/using-git-worktrees", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.008760970000000002, "rep": 0}, {"s": "obra/superpowers/using-git-worktrees", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.008374060000000001, "rep": 1}, {"s": "obra/superpowers/using-git-worktrees", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.009476920000000002, "rep": 2}, {"s": "obra/superpowers/verification-before-completion", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.0206842, "rep": 0}, {"s": "obra/superpowers/verification-before-completion", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01954148, "rep": 1}, {"s": "obra/superpowers/brainstorming", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.00973169, "rep": 2}, {"s": "obra/superpowers/writing-plans", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.02055906, "rep": 0}, {"s": "obra/superpowers/writing-plans", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.016673880000000002, "rep": 1}, {"s": "obra/superpowers/verification-before-completion", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.018987869999999997, "rep": 2}, {"s": "obra/superpowers/writing-plans", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01135106, "rep": 2}, {"s": "mattpocock/skills/code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.02107896, "rep": 0}, {"s": "mattpocock/skills/code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.019537169999999996, "rep": 1}, {"s": "mattpocock/skills/code-review", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.018328949999999997, "rep": 2}, {"s": "mattpocock/skills/code-review", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00873536, "rep": 0}, {"s": "mattpocock/skills/code-review", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.0078895, "rep": 1}, {"s": "obra/superpowers/brainstorming", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01578858, "rep": 0}, {"s": "mattpocock/skills/codebase-design", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.011888949999999999, "rep": 1}, {"s": "mattpocock/skills/codebase-design", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.013531169999999999, "rep": 2}, {"s": "mattpocock/skills/codebase-design", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.018518930000000003, "rep": 0}, {"s": "mattpocock/skills/diagnosing-bugs", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00743524, "rep": 0}, {"s": "mattpocock/skills/diagnosing-bugs", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00999222, "rep": 2}, {"s": "mattpocock/skills/diagnosing-bugs", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00932012, "rep": 1}, {"s": "mattpocock/skills/diagnosing-bugs", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00816651, "rep": 2}, {"s": "mattpocock/skills/diagnosing-bugs", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00755329, "rep": 1}, {"s": "mattpocock/skills/code-review", "t": "git-regression", "ok": false, "err": false, "trig": false, "c": 0.00310764, "rep": 2}, {"s": "mattpocock/skills/grill-with-docs", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01589265, "rep": 0}, {"s": "mattpocock/skills/grill-with-docs", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01687173, "rep": 1}, {"s": "mattpocock/skills/grill-with-docs", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01826307, "rep": 2}, {"s": "mattpocock/skills/implement-spec", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01943898, "rep": 0}, {"s": "mattpocock/skills/implement-spec", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01417814, "rep": 1}, {"s": "mattpocock/skills/implement", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.020429089999999997, "rep": 1}, {"s": "mattpocock/skills/implement", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01748837, "rep": 0}, {"s": "mattpocock/skills/implement-spec", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01976623, "rep": 2}, {"s": "mattpocock/skills/diagnosing-bugs", "t": "debug-ledger", "ok": false, "err": false, "trig": false, "c": 0.0039191, "rep": 0}, {"s": "mattpocock/skills/research", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.0084209, "rep": 0}, {"s": "mattpocock/skills/implement", "t": "feature-cron", "ok": false, "err": false, "trig": false, "c": 0.0014865899999999999, "rep": 2}, {"s": "mattpocock/skills/research", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00922752, "rep": 1}, {"s": "mattpocock/skills/research", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00902779, "rep": 2}, {"s": "mattpocock/skills/tdd", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.009324510000000001, "rep": 0}, {"s": "mattpocock/skills/tdd", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.00854131, "rep": 1}, {"s": "mattpocock/skills/tdd", "t": "debug-ledger", "ok": true, "err": false, "trig": false, "c": 0.009205080000000001, "rep": 2}, {"s": "mattpocock/skills/tdd", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.018262269999999997, "rep": 1}, {"s": "mattpocock/skills/tdd", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.014936709999999999, "rep": 2}, {"s": "mattpocock/skills/tdd", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.006489999999999999, "rep": 0}, {"s": "mattpocock/skills/tdd", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00748774, "rep": 1}, {"s": "mattpocock/skills/tdd", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00794941, "rep": 2}, {"s": "mattpocock/skills/tdd", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.01239597, "rep": 1}, {"s": "mattpocock/skills/tdd", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.01325587, "rep": 2}, {"s": "mattpocock/skills/tdd", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.016490590000000003, "rep": 0}, {"s": "mattpocock/skills/tdd", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.02843215, "rep": 0}, {"s": "mattpocock/skills/tdd", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.014960090000000002, "rep": 1}, {"s": "mattpocock/skills/tdd", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.012775610000000001, "rep": 0}, {"s": "mattpocock/skills/to-spec", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.018168729999999998, "rep": 0}, {"s": "mattpocock/skills/to-spec", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.02133241, "rep": 1}, {"s": "mattpocock/skills/tdd", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.0212069, "rep": 2}, {"s": "mattpocock/skills/to-spec", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.017569210000000002, "rep": 2}, {"s": "mattpocock/skills/to-tickets", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.0161654, "rep": 1}, {"s": "mattpocock/skills/to-tickets", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.015361979999999999, "rep": 2}, {"s": "mattpocock/skills/triage", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.024509540000000003, "rep": 1}, {"s": "mattpocock/skills/wayfinder", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.011782260000000001, "rep": 0}, {"s": "mattpocock/skills/triage", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.020403590000000006, "rep": 2}, {"s": "mattpocock/skills/wayfinder", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.017123460000000004, "rep": 1}, {"s": "mattpocock/skills/to-tickets", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01683647, "rep": 0}, {"s": "mattpocock/skills/triage", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.017718059999999997, "rep": 0}, {"s": "mattpocock/skills/wayfinder", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01391202, "rep": 2}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01724432, "rep": 0}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.021934050000000004, "rep": 1}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.021125869999999998, "rep": 2}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.007437400000000001, "rep": 0}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.006935040000000001, "rep": 2}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.01305046, "rep": 0}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.01352224, "rep": 1}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.007692230000000001, "rep": 1}, {"s": "mattpocock/skills/git-guardrails-claude-code", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.007864389999999999, "rep": 0}, {"s": "mattpocock/skills/git-guardrails-claude-code", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00734009, "rep": 2}, {"s": "mattpocock/skills/git-guardrails-claude-code", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.008092720000000001, "rep": 1}, {"s": "mattpocock/skills/setup-ts-deep-modules", "t": "refactor-pricing", "ok": true, "err": false, "trig": false, "c": 0.012137970000000001, "rep": 2}, {"s": "mattpocock/skills/migrate-to-shoehorn", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00712954, "rep": 0}, {"s": "mattpocock/skills/migrate-to-shoehorn", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.00818863, "rep": 1}, {"s": "mattpocock/skills/migrate-to-shoehorn", "t": "js-lru-cache", "ok": true, "err": false, "trig": false, "c": 0.007400530000000001, "rep": 2}, {"s": "mattpocock/skills/migrate-to-shoehorn", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.017464, "rep": 0}, {"s": "mattpocock/skills/migrate-to-shoehorn", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.023820400000000002, "rep": 1}, {"s": "mattpocock/skills/migrate-to-shoehorn", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.014615250000000002, "rep": 2}, {"s": "mattpocock/skills/setup-pre-commit", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.008739380000000001, "rep": 2}, {"s": "mattpocock/skills/setup-pre-commit", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.00752732, "rep": 0}, {"s": "mattpocock/skills/setup-pre-commit", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.022203430000000003, "rep": 0}, {"s": "mattpocock/skills/setup-pre-commit", "t": "tests-ratelimiter", "ok": false, "err": false, "trig": false, "c": 0.01806373, "rep": 1}, {"s": "mattpocock/skills/setup-pre-commit", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.016922009999999998, "rep": 2}, {"s": "mattpocock/skills/grill-me", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.015412879999999999, "rep": 1}, {"s": "mattpocock/skills/setup-pre-commit", "t": "git-regression", "ok": true, "err": false, "trig": false, "c": 0.01046062, "rep": 1}, {"s": "mattpocock/skills/grill-me", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01625615, "rep": 2}, {"s": "mattpocock/skills/grilling", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.016659900000000002, "rep": 0}, {"s": "mattpocock/skills/grilling", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01703958, "rep": 1}, {"s": "mattpocock/skills/grilling", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.01954735, "rep": 2}, {"s": "mattpocock/skills/grilling", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.026186350000000004, "rep": 0}, {"s": "mattpocock/skills/grill-me", "t": "feature-cron", "ok": true, "err": false, "trig": false, "c": 0.021444250000000005, "rep": 0}, {"s": "mattpocock/skills/grilling", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.019715169999999997, "rep": 2}, {"s": "mattpocock/skills/grilling", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.029434949999999994, "rep": 1}, {"s": "obra/superpowers/systematic-debugging", "t": "tests-ratelimiter", "ok": true, "err": false, "trig": false, "c": 0.01584126, "rep": 2}], "gaps": {"costly_no_lift": 9, "never_triggered": 30, "hurts": 0, "ceiling_tasks": 5, "unsolved_tasks": 0, "needs_person": 11, "untested_claims": 7, "lookalikes": 0}, "lanes": 12, "lines": 295, "threshold": 0.3, "gapItems": {"costly_no_lift": ["obra/superpowers/subagent-driven-development", "obra/superpowers/executing-plans", "mattpocock/skills/wayfinder", "mattpocock/skills/code-review", "obra/superpowers/brainstorming", "obra/superpowers/writing-plans"], "never_triggered": ["obra/superpowers/brainstorming", "obra/superpowers/diagnosing-superpowers", "obra/superpowers/executing-plans", "obra/superpowers/finishing-a-development-branch", "obra/superpowers/receiving-code-review", "obra/superpowers/requesting-code-review"], "hurts": [], "ceiling_tasks": ["debug-ledger", "feature-cron", "git-regression", "js-lru-cache", "refactor-pricing"], "unsolved_tasks": [], "needs_person": ["obra/superpowers/using-superpowers", "mattpocock/skills/domain-modeling", "mattpocock/skills/improve-codebase-architecture", "mattpocock/skills/retro", "mattpocock/skills/wizard", "mattpocock/skills/claude-handoff"], "untested_claims": ["mattpocock/skills/ask-matt", "mattpocock/skills/prototype", "mattpocock/skills/setup-matt-pocock-skills", "mattpocock/skills/writing-beats", "mattpocock/skills/writing-fragments", "mattpocock/skills/writing-shape"], "lookalikes": []}};
+const css = getComputedStyle(document.documentElement);
+const C = k => css.getPropertyValue(k).trim();
+const VC = {helps:C('--helps'), hurts:C('--hurts'), mixed:C('--hurts'), flagged:C('--flag'), 'no lift':C('--none'), untested:C('--untested')};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = x => x == null ? '–' : Math.round(x * 100) + '%';
+
+const skills = D.skills, N = skills.length, NL = D.lanes;
+const idx = {}; skills.forEach((s, i) => idx[s.id] = i);
+// Chords: skills that share a task, the "cross-references" web inside the ring.
+const chords = [];
+const byTask = {};
+skills.forEach((s, i) => s.tasks.forEach(t => (byTask[t] = byTask[t] || []).push(i)));
+Object.values(byTask).forEach(list => {
+  for (let a = 0; a < list.length; a++) for (let b = a + 1; b < list.length; b++) if (chords.length < 900) chords.push([list[a], list[b]]);
+});
+// Texture chords so even a small batch has a web.
+for (let i = 0; i < Math.min(160, N * 3); i++) chords.push([(i * 7) % Math.max(N, 1), (i * 13 + 5) % Math.max(N, 1)]);
+
+$('model').textContent = 'model ' + D.model + ' · replay of ' + D.runs.length + ' runs';
+$('sSkills').textContent = N; $('sTasks').textContent = D.tasks.length;
+$('sHelps').textContent = skills.filter(s => s.verdict === 'helps').length;
+$('sGaps').textContent = Object.values(D.gaps).reduce((a, b) => a + b, 0);
+
+// Static panels
+$('lift').innerHTML = D.tasks.map(t => `<div class=bar title="${esc(t.title)}${t.best_skill ? ' · best: ' + esc(t.best_skill) : ''}">
+  <span class=n>${esc(t.id)}</span><span class=track><i class=b style="width:${(t.base || 0) * 100}%"></i><i class=w style="width:${(t.best || 0) * 100}%"></i></span>
+  <span>${pct(t.base)}→${pct(t.best)}</span></div>`).join('') || '<span class=n>no tasks run</span>';
+const order = ['helps', 'mixed', 'hurts', 'flagged', 'no lift', 'untested'];
+$('verd').innerHTML = order.map(v => {
+  const list = skills.filter(s => s.verdict === v);
+  if (!list.length) return '';
+  return `<div style="color:${VC[v]}">${v.toUpperCase()} · ${list.length}</div>` +
+    list.slice(0, v === 'untested' ? 2 : 4).map(s => `<div>&nbsp; ${esc(s.id)}</div>`).join('');
+}).join('');
+const GT = {costly_no_lift:'costs context, no lift', never_triggered:'never triggered', hurts:'made agent worse',
+  ceiling_tasks:'tasks too easy', unsolved_tasks:'nobody solves', untested_claims:'claims with no task', needs_person:'needs a person', lookalikes:'look-alike skills'};
+$('gaps').innerHTML = Object.keys(GT).filter(k => D.gaps[k]).map(k =>
+  `<div><span class=warn>${D.gaps[k]}</span> ${GT[k]}<br><small>${esc((D.gapItems[k] || []).slice(0, 2).join(', '))}</small></div>`).join('') || '<small>none found</small>';
+
+// Canvas
+const cv = $('cv'), g = cv.getContext('2d');
+let W, H, cx, cy, R, wide, lanes = [];
+function layout() {
+  const dpr = window.devicePixelRatio || 1;
+  W = cv.clientWidth; H = cv.clientHeight;
+  cv.width = W * dpr; cv.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  wide = W >= 720;
+  if (wide) { cx = W * 0.36; cy = H * 0.5; R = Math.min(W * 0.27, H * 0.38); }
+  else { cx = W * 0.5; cy = H * 0.4; R = Math.min(W * 0.36, H * 0.3); }
+  lanes = [];
+  for (let i = 0; i < NL; i++) {
+    if (wide) { const y = H * 0.08 + i * (H * 0.84 / (NL - 1)); lanes.push({x: W * 0.74, y, w: W - 16 - W * 0.74}); }
+    else { const x = 16 + i * ((W - 32) / (NL - 1)); lanes.push({x, y: H * 0.88, w: 0}); }
+  }
+}
+window.addEventListener('resize', layout); layout();
+
+const laneState = Array.from({length: NL}, () => ({label: '', col: C('--faint'), hist: [], busy: 0, prog: 0}));
+let rot = 0, speed = 1, playing = true, last = performance.now(), clock = 0;
+let next = 0, nextAt = 0.6, active = [], parts = [], done = 0, passed = 0, spent = 0, endAt = null;
+const glow = new Float32Array(N);
+
+function pos(i, r) { const a = (i / Math.max(N, 1)) * Math.PI * 2 + rot; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r, a]; }
+function laneTarget(l) { const L = lanes[l]; return wide ? [L.x, L.y] : [L.x, L.y - 8]; }
+
+function startRun(k) {
+  const r = D.runs[k], lane = k % NL;
+  const si = r.s != null ? idx[r.s] : undefined;
+  const [x0, y0] = si === undefined ? [cx, cy] : pos(si, R + 4);
+  const [x1, y1] = laneTarget(lane);
+  if (si !== undefined) glow[si] = 1;
+  const col = r.s ? (VC[(skills[si] || {}).verdict] || C('--none')) : '#d4d4d4';
+  const n = 80;
+  for (let j = 0; j < n; j++) parts.push({k, x0, y0, x1, y1, t: -j * 0.022 - Math.random() * 0.02, w: (Math.random() - 0.5) * 70, col, si});
+  laneState[lane].busy = 1; laneState[lane].prog = 0;
+  laneState[lane].label = (r.t || '') + ' · ' + (r.s ? r.s.split('/').pop() : 'baseline');
+  active.push({k, lane, t: 0});
+}
+
+function finishRun(a) {
+  const r = D.runs[a.k], L = laneState[a.lane];
+  L.busy = 0;
+  const col = r.err ? C('--flag') : r.ok ? C('--helps') : C('--hurts');
+  L.col = col; L.hist.push(col); if (L.hist.length > 24) L.hist.shift();
+  done++; if (r.ok && !r.err) passed++; spent += r.c;
+  const status = r.err ? '<span class=warn>ERROR</span>' : r.ok ? '<span class=ok>PASS</span>' : '<span class=bad>FAIL</span>';
+  const who = r.s ? esc(r.s) + (r.trig ? '' : ' <span class=warn>(not triggered)</span>') : 'baseline';
+  const feed = $('feed');
+  feed.insertAdjacentHTML('afterbegin', `<div>#${String(done).padStart(3, '0')} ${esc(r.t)} · ${who} → ${status}</div>`);
+  while (feed.children.length > 11) feed.lastChild.remove();
+}
+
+function reset() {
+  next = 0; nextAt = clock + 0.6; active = []; parts = []; done = passed = 0; spent = 0; endAt = null;
+  laneState.forEach(L => { L.label = ''; L.hist = []; L.busy = 0; L.col = C('--faint'); });
+  $('feed').innerHTML = '';
+}
+
+function bez(p, t) {
+  // Quadratic curve that bows away from the ring; w makes the stream a wave.
+  const mx = (p.x0 + p.x1) / 2, my = (p.y0 + p.y1) / 2 - 60;
+  const u = 1 - t;
+  let x = u * u * p.x0 + 2 * u * t * mx + t * t * p.x1;
+  let y = u * u * p.y0 + 2 * u * t * my + t * t * p.y1;
+  const s = Math.sin(t * Math.PI) * p.w * Math.sin(clock * 2 + p.w);
+  return [x + s * 0.3, y + s];
+}
+
+function draw(dt) {
+  g.globalCompositeOperation = 'source-over';
+  g.fillStyle = 'rgba(5,5,5,0.32)'; g.fillRect(0, 0, W, H);   // trails
+  rot += dt * 0.05;
+
+  // Web of chords
+  g.lineWidth = 0.6;
+  for (const [a, b] of chords) {
+    const [x1, y1] = pos(a, R - 16), [x2, y2] = pos(b, R - 16);
+    g.strokeStyle = 'rgba(220,220,220,0.05)';
+    g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(cx + (x1 + x2 - 2 * cx) * 0.15, cy + (y1 + y2 - 2 * cy) * 0.15, x2, y2); g.stroke();
+  }
+  // Rings
+  g.strokeStyle = 'rgba(255,255,255,0.35)'; g.lineWidth = 1.2;
+  g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.stroke();
+  g.setLineDash([2, 5]); g.strokeStyle = 'rgba(255,255,255,0.15)';
+  g.beginPath(); g.arc(cx, cy, R - 12, rot * 2, rot * 2 + Math.PI * 2); g.stroke();
+  g.beginPath(); g.arc(cx, cy, R + 70, -rot, -rot + Math.PI * 2); g.stroke(); g.setLineDash([]);
+
+  // Skill ticks + labels
+  g.font = '9px ui-monospace,Menlo,monospace';
+  for (let i = 0; i < N; i++) {
+    const s = skills[i], len = 8 + Math.min(46, s.onuse / 180);
+    const [x0, y0, a] = pos(i, R + 2), [x1, y1] = pos(i, R + 2 + len);
+    glow[i] = Math.max(0, glow[i] - dt * 0.6);
+    g.strokeStyle = VC[s.verdict] || C('--none'); g.globalAlpha = 0.55 + glow[i] * 0.45; g.lineWidth = 1.5 + glow[i] * 2.5;
+    g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke();
+    if (N <= 90 && R > 150) {
+      g.save(); g.translate(...pos(i, R + 2 + len + 5).slice(0, 2));
+      const flip = Math.cos(a) < 0; g.rotate(flip ? a + Math.PI : a);
+      g.textAlign = flip ? 'right' : 'left'; g.textBaseline = 'middle';
+      g.fillStyle = glow[i] > 0.05 ? '#fff' : 'rgba(200,200,200,0.45)';
+      g.fillText(s.name.slice(0, 26), 0, 0); g.restore();
+    }
+  }
+  g.globalAlpha = 1;
+  // Baseline core
+  g.fillStyle = '#111'; g.strokeStyle = 'rgba(255,255,255,0.4)';
+  g.beginPath(); g.arc(cx, cy, 22, 0, Math.PI * 2); g.fill(); g.stroke();
+  g.fillStyle = '#bbb'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('BASELINE', cx, cy);
+
+  // Particles
+  g.globalCompositeOperation = 'lighter';
+  const keep = [];
+  for (const p of parts) {
+    p.t += dt * 0.7;
+    if (p.t < 0) { keep.push(p); continue; }
+    if (p.t > 1) continue;
+    const [x, y] = bez(p, p.t);
+    g.fillStyle = p.col; g.globalAlpha = 0.25 + 0.6 * Math.sin(p.t * Math.PI);
+    g.fillRect(x, y, 2, 2);
+    keep.push(p);
+  }
+  parts = keep; g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
+
+  // Lanes
+  g.textAlign = 'left'; g.textBaseline = 'middle';
+  lanes.forEach((L, i) => {
+    const S = laneState[i];
+    if (wide) {
+      g.fillStyle = '#737373'; g.fillText(String(i + 1).padStart(2, '0'), L.x, L.y);
+      g.fillStyle = '#141414'; g.fillRect(L.x + 22, L.y - 5, L.w - 22, 10);
+      if (S.busy) { g.fillStyle = 'rgba(255,255,255,0.5)'; g.fillRect(L.x + 22, L.y - 5, (L.w - 22) * S.prog, 10); }
+      S.hist.forEach((c, j) => { g.fillStyle = c; g.fillRect(L.x + 22 + j * 7, L.y + 8, 5, 5); });
+      g.fillStyle = S.busy ? '#fff' : '#a3a3a3'; g.fillText(S.label.slice(0, Math.floor((L.w - 30) / 5.6)), L.x + 26, L.y - 13);
+    } else {
+      g.fillStyle = S.busy ? '#fff' : S.col; g.beginPath(); g.arc(L.x, L.y, 5, 0, Math.PI * 2); g.fill();
+      S.hist.slice(-6).forEach((c, j) => { g.fillStyle = c; g.fillRect(L.x - 2, L.y + 10 + j * 6, 4, 4); });
+    }
+  });
+}
+
+function step(dt) {
+  clock += dt * speed;
+  if (nextAt < clock - 1) nextAt = clock;  // new live runs start now, not in a burst
+  while (next < D.runs.length && clock >= nextAt) { startRun(next++); nextAt += 0.42; }
+  for (const a of active) { a.t += dt * speed; laneState[a.lane].prog = Math.min(1, Math.max(0, (a.t - 1.4) / 0.9)); }
+  const fin = active.filter(a => a.t >= 2.4); fin.forEach(finishRun);
+  active = active.filter(a => a.t < 2.4);
+  if (!LIVE && next >= D.runs.length && !active.length) { if (endAt === null) endAt = clock; else if (clock - endAt > 5) reset(); }
+  draw(dt * speed);
+}
+
+function stats() {
+  $('sRuns').textContent = done + '/' + D.runs.length;
+  $('sPass').textContent = passed;
+  $('sCost').textContent = '$' + spent.toFixed(2);
+}
+
+function tick(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (playing) step(dt);
+  stats();
+  requestAnimationFrame(tick);
+}
+g.fillStyle = '#050505'; g.fillRect(0, 0, W, H);
+if (!D.runs.length) $('feed').innerHTML = '<div>no runs in this batch yet</div>';
+// Live mode (lab.html?live, served by `skilllab watch`): pull new runs as they finish.
+const LIVE = new URLSearchParams(location.search).has('live');
+function toRun(r) {
+  return {s: r.skill, t: r.task, ok: !!r.passed, err: !!r.infra_error, trig: !!r.skill_triggered,
+          c: r.cost_usd || 0, rep: r.repeat || 0};
+}
+async function poll() {
+  try {
+    const text = await (await fetch('results.jsonl?' + Date.now(), {cache: 'no-store'})).text();
+    const lines = text.split('\n').filter(l => l.trim());
+    for (; D.lines < lines.length; D.lines++) {
+      try { D.runs.push(toRun(JSON.parse(lines[D.lines]))); } catch (e) {}
+    }
+    $('model').textContent = 'model ' + D.model + ' · LIVE · ' + D.runs.length + ' runs so far';
+  } catch (e) {}
+}
+if (LIVE) { poll(); setInterval(poll, 3000); }
+// lab.html#t=12 starts the replay 12 seconds in.
+const ff = parseFloat((location.hash.match(/t=([\d.]+)/) || [])[1]);
+if (ff > 0) { for (let i = 0; i < ff * 30; i++) step(1 / 30); stats(); }
+requestAnimationFrame(tick);
+
+$('bPlay').onclick = e => { playing = !playing; e.target.textContent = playing ? 'pause' : 'play'; last = performance.now(); };
+$('bSpeed').onclick = e => { speed = speed >= 4 ? 1 : speed * 2; e.target.textContent = speed + '×'; };
+$('bRestart').onclick = () => { g.fillStyle = '#050505'; g.fillRect(0, 0, W, H); reset(); };
+
+// Hover a tick for details
+const tip = $('tip');
+cv.addEventListener('mousemove', e => {
+  const b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+  const d = Math.hypot(x - cx, y - cy);
+  if (!N || d < R - 10 || d > R + 60) { tip.style.display = 'none'; return; }
+  let a = Math.atan2(y - cy, x - cx) - rot; a = ((a % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+  const s = skills[Math.round(a / (2 * Math.PI) * N) % N];
+  tip.innerHTML = `<b>${esc(s.id)}</b><br><span style="color:${VC[s.verdict]}">${s.verdict}</span>` +
+    (s.tasks.length ? ` on ${esc(s.tasks.join(', '))}<br>triggered ${pct(s.trigger)}` : '') +
+    `<br>≈${s.upfront} tokens up front · ≈${s.onuse} on use`;
+  tip.style.display = 'block';
+  tip.style.left = Math.min(x + 14, W - 300) + 'px'; tip.style.top = (y + 14) + 'px';
+});
+cv.addEventListener('mouseleave', () => tip.style.display = 'none');
+</script></body></html>
