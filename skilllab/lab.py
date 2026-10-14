@@ -115,7 +115,8 @@ html,body{overflow-x:hidden}
 <div class=legend>ring: one tick per skill, length = tokens on use ·
  <i style="background:var(--helps)"></i>helps<i style="background:var(--hurts)"></i>hurts/mixed
  <i style="background:var(--flag)"></i>flagged<i style="background:var(--none)"></i>no lift<i style="background:var(--untested)"></i>untested ·
- centre = baseline (no skill) · lanes = agents</div>
+ centre = baseline (no skill) · lanes = agents ·
+ <b>one model, short sample tasks: an early signal, not a rating</b></div>
 <div class=grid>
  <div class=p><h2>RUN FEED</h2><div class=feed id=feed></div></div>
  <div class=p><h2>LIFT BY TASK · BEST SKILL vs BASELINE</h2><div id=lift></div></div>

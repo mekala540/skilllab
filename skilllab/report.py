@@ -99,7 +99,10 @@ def to_markdown(summary: dict, model: str) -> str:
             "Use `--repeats 5` or more before telling a maintainer their skill doesn't help.",
             "- **Many comparisons.** Testing many skills means a few will look significant by chance. "
             "Rerun surprising results before acting on them.",
-            "- A verdict is about *these tasks on this model*, not the skill in general.", ""]
+            "- A verdict is about *these tasks on this model*, not the skill in general. Other models "
+            "(larger or smaller) may use skills differently.",
+            "- Built-in tasks are short samples (a few files, a clear prompt, a fixed check), not real "
+            "project work. Long, vague, multi-step work on a real codebase may give different results.", ""]
     return "\n".join(out)
 
 
@@ -144,7 +147,8 @@ th{{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 </style></head><body><main>
 <h1>Skill Lab report</h1>
 <p class=meta>Model {e(model)} · {summary['runs']} runs · {summary['errors']} infrastructure errors excluded ·
-${summary['cost_usd']:.2f} spent · verdicts need ≥{round(summary['threshold'] * 100)} pts and Fisher p ≤ {summary.get('alpha', 0.1)}. Small samples show direction, not proof.</p>
+${summary['cost_usd']:.2f} spent · verdicts need ≥{round(summary['threshold'] * 100)} pts and Fisher p ≤ {summary.get('alpha', 0.1)}. Small samples show direction, not proof.
+Verdicts hold for this model on these tasks only: other models may differ, and built-in tasks are short samples, not real project work.</p>
 <h2>Verdicts</h2><div class=wrap><table><tr><th>Skill</th><th>Verdict</th><th>Tasks</th><th>Triggered</th><th class=n>Up front</th><th class=n>On use</th></tr>{rows}</table></div>
 <h2>Per task</h2><div class=wrap><table><tr><th>Skill</th><th>Task</th><th class=n>With</th><th class=n>Without</th><th class=n>Lift</th><th class=n>p</th><th>Why this pair</th><th>Notes</th></tr>{pair_rows}</table></div>
 <h2>Gaps</h2>{gaps or '<p class=meta>None found.</p>'}

@@ -4,7 +4,7 @@
 
 [![The lab view replaying a real batch](https://mekala540.github.io/skilllab/lab.gif)](https://mekala540.github.io/skilllab/)
 
-**[Watch the replay](https://mekala540.github.io/skilllab/)** of a real batch (Claude Haiku 5.5, public tasks only) · [full report](https://mekala540.github.io/skilllab/report.html)
+**[Watch the replay](https://mekala540.github.io/skilllab/)** of a real batch (Claude Haiku 5.5 only, short sample tasks, not real project work) · [full report](https://mekala540.github.io/skilllab/report.html)
 
 Skill packs for Claude Code collect hundreds of thousands of stars. Stars measure popularity, and a static scan ([skillprint](https://github.com/mekala540/skillprint)) measures cost. Neither tells you whether the agent does better work with the skill installed.
 
@@ -65,6 +65,8 @@ FAKE_AGENT_MODE=demo skilllab run https://github.com/obra/superpowers --yes --ou
 ```
 
 ## First results
+
+> **Limits of these results.** Skills were tested only on **Claude Haiku 5.5**, the smallest current model. Sonnet 5.5 was used only to measure how hard the tasks are, and Opus wasn't tested. Larger models may use skills differently. The tasks are **short sample tasks** from this repo's suite, not real project work: a few files, a clear prompt and a fixed check. Real use (your codebase, vague requirements, long multi-step work) may give different results. Treat these numbers as an early signal, not a rating of any skill.
 
 Claude Haiku 5.5, obra/superpowers and mattpocock/skills, public tasks, 3 runs per pair ($0.72):
 
@@ -157,6 +159,9 @@ Interested? Open an issue titled "Teams" (it can be a one-liner) and we'll follo
 - [x] With/without runs, hidden checks, parallel dispatch, budget, resume, verdicts, gap report
 - [x] Standard tier: 12 harder tasks, calibration, Fisher's exact test, confidence intervals
 - [x] Live lab view, task scaffolding, held-out suites
+- [x] Relevance check for skill/task pairs, whole-pack testing with plugin hooks, user-only skills
+- [ ] Test on larger models (Sonnet 5.5, Opus 5.5): so far skills were tested on Haiku 5.5 only
+- [ ] Your own project instead of sample tasks: your codebase, your task list, past fixed bugs and PRs replayed as tasks, plus a report of tokens spent on skills your work doesn't need
 - [ ] Longer, messier tasks where today's models fail without help (the main open problem)
 - [ ] More languages (TypeScript, Go, frontend)
 - [ ] Several models in one batch, side by side

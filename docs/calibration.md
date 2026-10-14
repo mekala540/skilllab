@@ -38,6 +38,8 @@ requirements, multi-hour work. That's the main open direction; see CONTRIBUTING.
 
 ## First real batch (corrected)
 
+> **Limits of these results.** Skills were tested only on **Claude Haiku 5.5**, the smallest current model. Sonnet 5.5 was used only to measure how hard the tasks are, and Opus wasn't tested. Larger models may use skills differently. The tasks are **short sample tasks** from this repo's suite, not real project work: a few files, a clear prompt and a fixed check. Real use (your codebase, vague requirements, long multi-step work) may give different results. Treat these numbers as an early signal, not a rating of any skill.
+
 [obra/superpowers](https://github.com/obra/superpowers) and
 [mattpocock/skills](https://github.com/mattpocock/skills) on Claude Haiku 5.5, public tasks,
 3 runs per pair. Results: `skill` mode 42 runs ($0.56), `--pack` mode for superpowers on 4 tasks
