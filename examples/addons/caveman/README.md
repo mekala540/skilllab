@@ -64,3 +64,13 @@ Only `.caveman-sessions/` has been seen in a real batch so far; the rest come fr
 ```bash
 rm -rf "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/.caveman-*
 ```
+
+## Results so far
+
+Pilot 3 (17 October 2026): `skilllab compare` with rtk, Headroom, caveman and the no-op control arm, `--task fix-pagination --repeats 5 --model claude-haiku-5-5`. 30 runs, all passed, 0 infrastructure errors, $0.18. The control arm came out *same cost* (+2% [-14 to 22]), so the batch shows no bias. One easy task (`fix-pagination`), Haiku 5.5 only, 5 repeats per arm, so read these as a first look, not a verdict on the tool.
+
+| Verdict | Cost | Input tokens | Output tokens | Pass rate |
+| --- | --- | --- | --- | --- |
+| same cost | +7% [-6 to 29] | +19% | -36% | 0 pts |
+
+With `CAVEMAN_DEFAULT_MODE=caveman`, every session's mode file read `caveman`. The voice cut output tokens by about a third, but the rules and skills it adds to the input cancelled that out on a task this small. Files seen during the run: `.caveman-sessions/`, `.caveman-active`, `.caveman-mode-log.jsonl`, `.caveman-nudge-shown`; the session-end files didn't appear.

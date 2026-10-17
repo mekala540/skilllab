@@ -39,6 +39,18 @@ Partly. Headroom sits in front of every request, so skilllab's Bash allowlist do
 - **It skips the agent's main tools.** The proxy's default `exclude_tools` (shown by `GET /health` on 0.41.0) includes `Read`, `Grep`, `Glob`, `Edit`, `Write` and `Skill`. skilllab's agent works mostly through those tools. What's left to compress here is mainly Bash output (`python3`, `ls`, `cat`) and user messages.
 - **Small tasks.** By its own docs it pays off on long sessions with heavy tool output. skilllab's tasks are short with small files.
 
-Expect a small saving at most. Read "same cost" as "no difference at this task size and tool mix", not "Headroom doesn't work".
+In pilot 3, most of the input saving came from deferring Claude Code's tool definitions (Headroom's tool search: about 3.3M tool-schema tokens held back, against 132k tokens removed by compressing content), not from compressing content.
+
+Expect a small saving from compression at most. Read "same cost" as "no difference at this task size and tool mix", not "Headroom doesn't work".
 
 Run one proxy per batch. Every run shares it, so its compression cache and stats cover the whole batch, and the baseline arm doesn't go through it.
+
+## Results so far
+
+Pilot 3 (17 October 2026): `skilllab compare` with rtk, Headroom, caveman and the no-op control arm, `--task fix-pagination --repeats 5 --model claude-haiku-5-5`. 30 runs, all passed, 0 infrastructure errors, $0.18. The control arm came out *same cost* (+2% [-14 to 22]), so the batch shows no bias. One easy task (`fix-pagination`), Haiku 5.5 only, 5 repeats per arm, so read these as a first look, not a verdict on the tool.
+
+| Verdict | Cost | Input tokens | Output tokens | Pass rate |
+| --- | --- | --- | --- | --- |
+| **cheaper** | -33% [-36 to -13] | -46% | -7% | 0 pts |
+
+Run with `--no-cache`; the proxy's `/stats` showed the response cache off and no replayed replies. Its 38 "cached" requests were Anthropic's own prompt-cache hits, which the baseline gets too.

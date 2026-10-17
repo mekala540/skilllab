@@ -47,3 +47,13 @@ Checked against rtk 1.0.1's real hook (`rtk hook claude`, fed a PreToolUse paylo
 | Without | rewritten, no decision: Claude Code then checks `rtk ls .` against its own allowlist | same | not rewritten |
 
 Without the rules it would probably still work, since `tools` allows `Bash(rtk:*)`. With them, the result doesn't depend on how Claude Code treats a hook's rewritten command.
+
+## Results so far
+
+Pilot 3 (17 October 2026): `skilllab compare` with rtk, Headroom, caveman and the no-op control arm, `--task fix-pagination --repeats 5 --model claude-haiku-5-5`. 30 runs, all passed, 0 infrastructure errors, $0.18. The control arm came out *same cost* (+2% [-14 to 22]), so the batch shows no bias. One easy task (`fix-pagination`), Haiku 5.5 only, 5 repeats per arm, so read these as a first look, not a verdict on the tool.
+
+| Verdict | Cost | Input tokens | Output tokens | Shell commands (median, with vs without) |
+| --- | --- | --- | --- | --- |
+| same cost | -16% [-20 to 0] | -31% | -21% | 2 vs 3, `python3` only |
+
+The rtk arm ran only `python3`, which rtk doesn't rewrite, so rtk had nothing to act on. The -16% is noise (its range reaches 0).
