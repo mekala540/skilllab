@@ -80,7 +80,10 @@ class JsonReportTest(unittest.TestCase):
         self.assertEqual(cli("report", "countries", "--format", "text")[1], render_countries(revenue_by_country(ORD, CAT, CUST)))
         lines = cli("report", "customers")[1].splitlines()
         first = customer_summary(ORD, CAT, CUST)[0]
-        self.assertTrue(lines[0].startswith(f"{first['customer_id']}  {CUST.get(first['customer_id']).name}  {first['orders']}  {first['units']}  €"))
+        # Amounts may be padded like the other reports ("formatted like the other reports").
+        prefix = f"{first['customer_id']}  {CUST.get(first['customer_id']).name}  {first['orders']}  {first['units']}  "
+        self.assertTrue(lines[0].startswith(prefix), lines[0])
+        self.assertRegex(lines[0][len(prefix):], r"^\s*€[\d,]+\.\d\d$")
         self.assertEqual(len(lines), len(customer_summary(ORD, CAT, CUST)))
 
 

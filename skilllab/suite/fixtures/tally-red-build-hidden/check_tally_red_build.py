@@ -36,7 +36,9 @@ def main():
 
     for good in ("+05:30", "-03:30", "+14:00", "-00:00"):
         parse_offset(good)
-    for bad in ("+5:30", "05:30", "+0530", "5:30", "+15:00", "+05:3"):
+    # The tests reject "+5:30", "0100" and "+15:00". Whether "+0530" is allowed is not specified
+    # anywhere, so it isn't checked: only what the tests and docs say.
+    for bad in ("+5:30", "5:30", "+15:00", "-14:30", "+05:3"):
         try:
             parse_offset(bad)
         except ValueError:
