@@ -8,7 +8,7 @@
 
 ```bash
 uv tool install --python 3.13 "headroom-ai[all]==0.41.0"   # or: pip install "headroom-ai[all]"
-headroom proxy --host 127.0.0.1 --port 8787                                   # proxy mode, zero code changes
+headroom proxy --host 127.0.0.1 --port 8787                  # proxy mode, zero code changes
 ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude              # point Claude Code at it
 ```
 
@@ -16,13 +16,21 @@ ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude              # point Claude Code
 
 | Install step | Here |
 | --- | --- |
-| `headroom proxy --host 127.0.0.1 --port 8787` | **You start it** in another terminal before the batch, and leave it running |
+| `headroom proxy --host 127.0.0.1 --port 8787` | **You start it** in another terminal before the batch, and leave it running, with `--no-cache` (see below) |
 | `ANTHROPIC_BASE_URL=http://127.0.0.1:8787` | `env`, set for the agent only |
 | Proxy must be up | `setup` calls the documented `GET /health` endpoint, so a stopped proxy fails as an infrastructure error (retried on resume) instead of counting as failed runs |
 
 This tests **proxy mode** only. `headroom wrap claude` also installs the Serena MCP server (registered in `~/.claude.json`) and can turn on memory. That's a different, larger setup that skilllab can't reproduce per workspace. Output shaping (`HEADROOM_OUTPUT_SHAPER=1`) is off by default and stays off here.
 
-Telemetry: Headroom sends an anonymous beacon by default (compression ratios, model IDs, no prompts or code). To turn it off, start the proxy with `HEADROOM_BEACON=off headroom proxy --host 127.0.0.1 --port 8787`.
+Start it for a batch with:
+
+```bash
+HEADROOM_BEACON=off headroom proxy --host 127.0.0.1 --port 8787 --no-cache
+```
+
+- `--host 127.0.0.1` keeps the proxy off your network.
+- `HEADROOM_BEACON=off`: Headroom sends an anonymous beacon by default (compression ratios, model IDs, no prompts or code).
+- `--no-cache`: **this add-on is measured on compression alone.** Besides compression, the proxy has a "semantic cache" that is on by default (`docs/content/docs/proxy.mdx`). Despite the name it's a response cache: keyed on a hash of the messages, a hit replays the stored reply without asking the API (`headroom/proxy/semantic_cache.py`; only non-streaming requests, `handlers/anthropic.py`). skilllab repeats the same task several times per arm, so a response cache could replay answers across repeats and inflate the savings in a way real use, where requests rarely repeat exactly, wouldn't.
 
 ## Is it a fair test here?
 
@@ -33,4 +41,4 @@ Partly. Headroom sits in front of every request, so skilllab's Bash allowlist do
 
 Expect a small saving at most. Read "same cost" as "no difference at this task size and tool mix", not "Headroom doesn't work".
 
-Run one proxy per batch. Every run shares it, so its cache and stats cover the whole batch, and the baseline arm doesn't go through it.
+Run one proxy per batch. Every run shares it, so its compression cache and stats cover the whole batch, and the baseline arm doesn't go through it.
