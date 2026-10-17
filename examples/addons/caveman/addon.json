@@ -2,5 +2,10 @@
   "name": "caveman",
   "description": "caveman 4.0.1 as its Claude Code plugin: a SessionStart hook turns on a terse 'caveman' reply voice for the whole session; code, commands and errors stay verbatim. Claims 65% fewer tokens (repo description).",
   "plugin_dir": "plugin",
-  "requires": ["node"]
+  "env": {
+    "CAVEMAN_DEFAULT_MODE": "caveman"
+  },
+  "requires": [
+    "node"
+  ]
 }
