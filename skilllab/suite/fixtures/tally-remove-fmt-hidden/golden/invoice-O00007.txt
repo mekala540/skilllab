@@ -1,0 +1,11 @@
+Invoice for order O00007
+Mara Novak <mara.novak@example.com> (DE)
+
+SKU         Item                       Qty        Unit          Net    Discount         Tax        Total
+BK-1003     Cooking with Fire            5      €29.90      €149.50       €0.00      €10.47      €159.97
+GC-5001     Gift Card 25                 1      €25.00       €25.00       €0.00       €0.00       €25.00
+
+Net:       €174.50
+Discount: -€0.00
+Tax:       €10.47
+Total:     €184.97

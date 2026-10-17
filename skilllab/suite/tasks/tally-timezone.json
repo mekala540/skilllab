@@ -1,0 +1,16 @@
+{
+  "id": "tally-timezone",
+  "tier": "project",
+  "title": "Reports put sales on the wrong day, but only on some machines",
+  "tags": ["debugging", "debug", "root cause", "bug", "bugs", "timezone", "time zone", "flaky"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-timezone",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-timezone-hidden",
+  "prompt": "The Mumbai team runs `python3 -m tally report daily --tz +05:30` on their laptops and some late-evening sales land on the wrong day. When the London team runs the same command on the same data, the days are right. Nobody has changed the data. Find out why the result depends on who runs it, and fix it everywhere the same mistake was made. Read docs/architecture.md for how time is supposed to be handled. Keep the existing tests passing.",
+  "check": "{python} check_tally_timezone.py",
+  "protect": ["data/orders.json"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

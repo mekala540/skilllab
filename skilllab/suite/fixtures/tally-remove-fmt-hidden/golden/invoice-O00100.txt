@@ -1,0 +1,10 @@
+Invoice for order O00100
+Oona Koski <oona.koski@example.com> (FR)
+
+SKU         Item                       Qty        Unit          Net    Discount         Tax        Total
+TX-4002     Tea Towel Set              120      €16.67    €2,000.40     €160.03     €368.07    €2,208.44
+
+Net:       €2,000.40
+Discount: -€160.03
+Tax:       €368.07
+Total:     €2,208.44

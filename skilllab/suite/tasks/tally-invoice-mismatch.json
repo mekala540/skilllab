@@ -1,0 +1,16 @@
+{
+  "id": "tally-invoice-mismatch",
+  "tier": "project",
+  "title": "Find why invoices disagree with finance (two root causes)",
+  "tags": ["debugging", "debug", "root cause", "bug", "bugs", "investigate", "systematic"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-invoice-mismatch",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-invoice-mismatch-hidden",
+  "prompt": "Two complaints came in from finance about tally, the billing app in this repo.\n\n1. Their hand-checked totals sometimes differ from ours by a cent. Example: they make order O00269 €20.87, `python3 -m tally invoice O00269` says €20.86. About one invoice in ten is affected.\n2. Customer C0010 (gold tier) bought 120 units with coupon STAFF25 and was given 43% off a line. Company policy is that no line is ever discounted by more than 30%, whatever combination of rules applies.\n\nFind the root causes and fix them in the code. Read docs/architecture.md for how money is supposed to work. Keep the existing tests passing, and don't change the sample data in data/.",
+  "check": "{python} check_tally_invoice_mismatch.py",
+  "protect": ["data/orders.json", "data/catalog.json", "data/customers.json"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

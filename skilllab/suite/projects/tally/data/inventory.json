@@ -1,0 +1,65 @@
+{
+  "levels": {
+    "BK-1001": {
+      "on_hand": 311,
+      "reserved": 0
+    },
+    "BK-1002": {
+      "on_hand": 237,
+      "reserved": 0
+    },
+    "BK-1003": {
+      "on_hand": 315,
+      "reserved": 0
+    },
+    "CF-2001": {
+      "on_hand": 201,
+      "reserved": 0
+    },
+    "CF-2002": {
+      "on_hand": 6,
+      "reserved": 0
+    },
+    "GC-5001": {
+      "on_hand": 10,
+      "reserved": 0
+    },
+    "GC-5002": {
+      "on_hand": 139,
+      "reserved": 0
+    },
+    "HW-3001": {
+      "on_hand": 177,
+      "reserved": 0
+    },
+    "HW-3002": {
+      "on_hand": 143,
+      "reserved": 0
+    },
+    "HW-3003": {
+      "on_hand": 368,
+      "reserved": 0
+    },
+    "HW-3004": {
+      "on_hand": 8,
+      "reserved": 0
+    },
+    "ST-6001": {
+      "on_hand": 217,
+      "reserved": 0
+    },
+    "ST-6002": {
+      "on_hand": 8,
+      "reserved": 0
+    },
+    "TX-4001": {
+      "on_hand": 199,
+      "reserved": 0
+    },
+    "TX-4002": {
+      "on_hand": 104,
+      "reserved": 0
+    }
+  },
+  "version": 1
+}

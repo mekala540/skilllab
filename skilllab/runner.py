@@ -132,6 +132,8 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
     task = run.task
     ws = Path(tempfile.mkdtemp(prefix="skilllab-"))
     try:
+        if task.base:
+            shutil.copytree(task.base, ws, dirs_exist_ok=True)
         shutil.copytree(task.fixture, ws, dirs_exist_ok=True)
         if task.setup:
             _run_setup(task, ws)

@@ -1,0 +1,15 @@
+{
+  "id": "tally-remove-fmt",
+  "tier": "project",
+  "title": "Remove a deprecated function and migrate every caller, output unchanged",
+  "tags": ["refactor", "refactoring", "migration", "deprecation", "api", "cleanup", "codebase"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-remove-fmt",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-remove-fmt-hidden",
+  "prompt": "We're releasing 2.5, and docs/deprecations.md says `tally.money.fmt()` is removed in 2.5. Migrate every caller in the codebase to `Money.format()`, then delete `fmt()`. Everything the app prints must stay exactly the same, character for character. When you're done, nothing should raise a DeprecationWarning, and the tests must pass with `python3 -W error::DeprecationWarning -m unittest discover -s tests -t tests`.",
+  "check": "{python} check_tally_remove_fmt.py",
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

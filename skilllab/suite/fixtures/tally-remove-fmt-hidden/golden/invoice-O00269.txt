@@ -1,0 +1,10 @@
+Invoice for order O00269
+Yara Haddad <yara.haddad@example.com> (DE)
+
+SKU         Item                       Qty        Unit          Net    Discount         Tax        Total
+CF-2001     Single-origin Beans 250g     2       €9.75       €19.50       €0.00       €1.37       €20.87
+
+Net:       €19.50
+Discount: -€0.00
+Tax:       €1.37
+Total:     €20.87

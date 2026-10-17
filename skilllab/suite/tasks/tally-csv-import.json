@@ -1,0 +1,16 @@
+{
+  "id": "tally-csv-import",
+  "tier": "project",
+  "title": "Build a CSV order import from a written spec",
+  "tags": ["feature", "spec", "specs", "implement", "planning", "plan", "csv", "validation", "tdd", "test-driven"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-csv-import",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-csv-import-hidden",
+  "prompt": "Implement the CSV order import described in docs/specs/csv-import.md: the `tally/importers.py` API and the `python3 -m tally import orders FILE [--dry-run]` command. Follow the spec exactly, including the error messages and line numbers; follow the project's conventions in docs/architecture.md. There's a sample file in samples/. Add tests for it in tests/, and keep the existing tests passing.",
+  "check": "{python} check_tally_csv_import.py",
+  "protect": ["docs/specs/csv-import.md", "samples/marketplace-2026-03-14.csv"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1500
+}

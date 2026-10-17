@@ -1,0 +1,10 @@
+Invoice for order O00010
+Dev Sharma <dev.sharma@example.com> (FR)
+
+SKU         Item                       Qty        Unit          Net    Discount         Tax        Total
+CF-2002     Espresso Blend 1kg           1      €31.40       €31.40       €0.00       €1.73       €33.13
+
+Net:       €31.40
+Discount: -€0.00
+Tax:       €1.73
+Total:     €33.13

@@ -1,0 +1,15 @@
+{
+  "id": "tally-storage",
+  "tier": "project",
+  "title": "Refactor four copies of the file-saving code into one module, and fix its leak",
+  "tags": ["refactor", "refactoring", "duplication", "module", "modules", "design", "architecture", "clean code"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-storage",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-storage-hidden",
+  "prompt": "catalog.py, customers.py, orders.py and inventory.py each have their own copy of the JSON load/save code (version check, temp file, atomic move). Move that into one new module, tally/storage.py, and make the four classes use it. No other module in tally/ should import json or tempfile or do the temp-file dance itself afterwards.\n\nBehaviour must not change: the same bytes on disk, the same error messages, missing files still load as empty. While you're there, fix one known bug: when a save fails (disk full, permission denied, target is a folder), the temp file is left behind next to the data file. A failed save must leave the old file untouched and no temp file. Keep the existing tests passing.",
+  "check": "{python} check_tally_storage.py",
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1500
+}

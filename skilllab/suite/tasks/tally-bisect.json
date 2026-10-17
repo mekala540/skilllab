@@ -1,0 +1,15 @@
+{
+  "id": "tally-bisect",
+  "tier": "project",
+  "title": "Find which of 40 commits broke volume discounts, fix it on a branch",
+  "tags": ["git", "bisect", "regression", "commit", "commits", "branch", "branches", "history", "debugging"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-bisect",
+  "setup": "fixtures/tally-bisect-setup",
+  "hidden": "fixtures/tally-bisect-hidden",
+  "prompt": "A wholesale customer says that ordering exactly 50 units no longer gets the 5% volume discount (49 shouldn't, 50 should). It worked in release 2.4.1, the first commit on main. The tests on main pass.\n\n1. Find the commit on main that introduced this regression and write its full hash to CULPRIT.txt in the repo root (leave that file untracked).\n2. Fix it in a new commit on a new branch named fix/volume-threshold, created from the tip of main.\n\nDon't change main and don't rewrite any history.",
+  "check": "{python} check_tally_bisect.py",
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

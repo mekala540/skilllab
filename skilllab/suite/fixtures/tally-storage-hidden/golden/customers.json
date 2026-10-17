@@ -1,0 +1,197 @@
+{
+  "customers": [
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "ada.okafor@example.com",
+      "id": "C0001",
+      "name": "Ada Okafor",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "bram.visser@example.com",
+      "id": "C0002",
+      "name": "Bram Visser",
+      "tier": "standard"
+    },
+    {
+      "country": "FR",
+      "currency": "EUR",
+      "email": "chiara.rossi@example.com",
+      "id": "C0003",
+      "name": "Chiara Rossi",
+      "tier": "standard"
+    },
+    {
+      "country": "FR",
+      "currency": "EUR",
+      "email": "dev.sharma@example.com",
+      "id": "C0004",
+      "name": "Dev Sharma",
+      "tier": "standard"
+    },
+    {
+      "country": "NL",
+      "currency": "EUR",
+      "email": "elif.kaya@example.com",
+      "id": "C0005",
+      "name": "Elif Kaya",
+      "tier": "standard"
+    },
+    {
+      "country": "NL",
+      "currency": "EUR",
+      "email": "femi.adeyemi@example.com",
+      "id": "C0006",
+      "name": "Femi Adeyemi",
+      "tier": "silver"
+    },
+    {
+      "country": "GB",
+      "currency": "EUR",
+      "email": "greta.lund@example.com",
+      "id": "C0007",
+      "name": "Greta Lund",
+      "tier": "silver"
+    },
+    {
+      "country": "IN",
+      "currency": "EUR",
+      "email": "hiro.tanaka@example.com",
+      "id": "C0008",
+      "name": "Hiro Tanaka",
+      "tier": "silver"
+    },
+    {
+      "country": "JP",
+      "currency": "EUR",
+      "email": "ines.moreau@example.com",
+      "id": "C0009",
+      "name": "Ines Moreau",
+      "tier": "gold"
+    },
+    {
+      "country": "US",
+      "currency": "EUR",
+      "email": "jonas.becker@example.com",
+      "id": "C0010",
+      "name": "Jonas Becker",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "kavya.iyer@example.com",
+      "id": "C0011",
+      "name": "Kavya Iyer",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "lior.levi@example.com",
+      "id": "C0012",
+      "name": "Lior Levi",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "mara.novak@example.com",
+      "id": "C0013",
+      "name": "Mara Novak",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "niko.laine@example.com",
+      "id": "C0014",
+      "name": "Niko Laine",
+      "tier": "standard"
+    },
+    {
+      "country": "FR",
+      "currency": "EUR",
+      "email": "oona.koski@example.com",
+      "id": "C0015",
+      "name": "Oona Koski",
+      "tier": "standard"
+    },
+    {
+      "country": "FR",
+      "currency": "EUR",
+      "email": "pavel.petrov@example.com",
+      "id": "C0016",
+      "name": "Pavel Petrov",
+      "tier": "silver"
+    },
+    {
+      "country": "NL",
+      "currency": "EUR",
+      "email": "quinn.byrne@example.com",
+      "id": "C0017",
+      "name": "Quinn Byrne",
+      "tier": "silver"
+    },
+    {
+      "country": "NL",
+      "currency": "EUR",
+      "email": "rosa.silva@example.com",
+      "id": "C0018",
+      "name": "Rosa Silva",
+      "tier": "silver"
+    },
+    {
+      "country": "GB",
+      "currency": "EUR",
+      "email": "sven.berg@example.com",
+      "id": "C0019",
+      "name": "Sven Berg",
+      "tier": "gold"
+    },
+    {
+      "country": "IN",
+      "currency": "EUR",
+      "email": "tara.nair@example.com",
+      "id": "C0020",
+      "name": "Tara Nair",
+      "tier": "standard"
+    },
+    {
+      "country": "JP",
+      "currency": "EUR",
+      "email": "uma.rao@example.com",
+      "id": "C0021",
+      "name": "Uma Rao",
+      "tier": "standard"
+    },
+    {
+      "country": "US",
+      "currency": "EUR",
+      "email": "viggo.holm@example.com",
+      "id": "C0022",
+      "name": "Viggo Holm",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "wen.zhou@example.com",
+      "id": "C0023",
+      "name": "Wen Zhou",
+      "tier": "standard"
+    },
+    {
+      "country": "DE",
+      "currency": "EUR",
+      "email": "yara.haddad@example.com",
+      "id": "C0024",
+      "name": "Yara Haddad",
+      "tier": "standard"
+    }
+  ],
+  "version": 1
+}

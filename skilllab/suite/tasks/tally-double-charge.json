@@ -1,0 +1,16 @@
+{
+  "id": "tally-double-charge",
+  "tier": "project",
+  "title": "Find every double-charged order in the logs, then fix the cause",
+  "tags": ["debugging", "debug", "root cause", "logs", "log", "incident", "investigate", "payments"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-double-charge",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-double-charge-hidden",
+  "prompt": "Support says some customers were charged twice for a single order since Monday 9 March. The payment logs since then are in logs/ (the log rotates, so there is more than one file). Gateway webhooks in the log are the source of truth for what was actually charged.\n\n1. Write DOUBLE_CHARGED.txt in the repo root: the ID of every order that currently has more than one successful charge, one per line, sorted. A charge that was later voided doesn't count; a refund isn't a duplicate.\n2. Find the cause in tally/payments.py and fix it so a retry can never charge a card twice. Keep the existing tests passing.",
+  "check": "{python} check_tally_double_charge.py",
+  "protect": ["logs/payments.log", "logs/payments.log.1"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

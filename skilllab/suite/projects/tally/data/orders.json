@@ -1,0 +1,9029 @@
+{
+  "orders": [
+    {
+      "coupon": null,
+      "created_at": "2026-02-13T21:24:00Z",
+      "customer_id": "C0010",
+      "id": "O00001",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-10T22:22:00Z",
+      "customer_id": "C0016",
+      "id": "O00002",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-06T05:26:00Z",
+      "customer_id": "C0014",
+      "id": "O00003",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-25T07:58:00Z",
+      "customer_id": "C0008",
+      "id": "O00004",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-09T23:32:00Z",
+      "customer_id": "C0021",
+      "id": "O00005",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-06T00:36:00Z",
+      "customer_id": "C0008",
+      "id": "O00006",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-23T01:06:00Z",
+      "customer_id": "C0013",
+      "id": "O00007",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-26T04:20:00Z",
+      "customer_id": "C0020",
+      "id": "O00008",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-24T14:09:00Z",
+      "customer_id": "C0002",
+      "id": "O00009",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T10:58:00Z",
+      "customer_id": "C0004",
+      "id": "O00010",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T12:25:00Z",
+      "customer_id": "C0008",
+      "id": "O00011",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-28T14:57:00Z",
+      "customer_id": "C0022",
+      "id": "O00012",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-07T18:24:00Z",
+      "customer_id": "C0017",
+      "id": "O00013",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-08T07:13:00Z",
+      "customer_id": "C0018",
+      "id": "O00014",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T15:16:00Z",
+      "customer_id": "C0019",
+      "id": "O00015",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T23:59:00Z",
+      "customer_id": "C0008",
+      "id": "O00016",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T07:23:00Z",
+      "customer_id": "C0001",
+      "id": "O00017",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T23:36:00Z",
+      "customer_id": "C0014",
+      "id": "O00018",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-03T05:16:00Z",
+      "customer_id": "C0015",
+      "id": "O00019",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T19:07:00Z",
+      "customer_id": "C0017",
+      "id": "O00020",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-24T07:12:00Z",
+      "customer_id": "C0022",
+      "id": "O00021",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-26T15:38:00Z",
+      "customer_id": "C0021",
+      "id": "O00022",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-18T00:56:00Z",
+      "customer_id": "C0023",
+      "id": "O00023",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T00:51:00Z",
+      "customer_id": "C0023",
+      "id": "O00024",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T11:38:00Z",
+      "customer_id": "C0002",
+      "id": "O00025",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-14T15:58:00Z",
+      "customer_id": "C0022",
+      "id": "O00026",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-19T08:19:00Z",
+      "customer_id": "C0011",
+      "id": "O00027",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-06T21:56:00Z",
+      "customer_id": "C0006",
+      "id": "O00028",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T09:40:00Z",
+      "customer_id": "C0022",
+      "id": "O00029",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T07:09:00Z",
+      "customer_id": "C0024",
+      "id": "O00030",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-05T01:46:00Z",
+      "customer_id": "C0018",
+      "id": "O00031",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T00:19:00Z",
+      "customer_id": "C0013",
+      "id": "O00032",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T10:30:00Z",
+      "customer_id": "C0014",
+      "id": "O00033",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T01:45:00Z",
+      "customer_id": "C0016",
+      "id": "O00034",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-01T21:25:00Z",
+      "customer_id": "C0004",
+      "id": "O00035",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T18:36:00Z",
+      "customer_id": "C0020",
+      "id": "O00036",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T05:59:00Z",
+      "customer_id": "C0012",
+      "id": "O00037",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-24T07:56:00Z",
+      "customer_id": "C0019",
+      "id": "O00038",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T13:39:00Z",
+      "customer_id": "C0003",
+      "id": "O00039",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T05:14:00Z",
+      "customer_id": "C0002",
+      "id": "O00040",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T11:04:00Z",
+      "customer_id": "C0018",
+      "id": "O00041",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T11:46:00Z",
+      "customer_id": "C0022",
+      "id": "O00042",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-03T01:59:00Z",
+      "customer_id": "C0006",
+      "id": "O00043",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-15T14:01:00Z",
+      "customer_id": "C0023",
+      "id": "O00044",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-27T07:20:00Z",
+      "customer_id": "C0002",
+      "id": "O00045",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-18T04:25:00Z",
+      "customer_id": "C0018",
+      "id": "O00046",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T00:50:00Z",
+      "customer_id": "C0006",
+      "id": "O00047",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-14T11:28:00Z",
+      "customer_id": "C0003",
+      "id": "O00048",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T18:00:00Z",
+      "customer_id": "C0007",
+      "id": "O00049",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-12T04:25:00Z",
+      "customer_id": "C0004",
+      "id": "O00050",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-21T02:53:00Z",
+      "customer_id": "C0008",
+      "id": "O00051",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-03T16:19:00Z",
+      "customer_id": "C0014",
+      "id": "O00052",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T04:20:00Z",
+      "customer_id": "C0006",
+      "id": "O00053",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-23T14:50:00Z",
+      "customer_id": "C0001",
+      "id": "O00054",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-18T09:22:00Z",
+      "customer_id": "C0016",
+      "id": "O00055",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-10T15:14:00Z",
+      "customer_id": "C0011",
+      "id": "O00056",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T05:33:00Z",
+      "customer_id": "C0003",
+      "id": "O00057",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-07T10:36:00Z",
+      "customer_id": "C0004",
+      "id": "O00058",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T12:01:00Z",
+      "customer_id": "C0014",
+      "id": "O00059",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T01:07:00Z",
+      "customer_id": "C0024",
+      "id": "O00060",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T13:18:00Z",
+      "customer_id": "C0021",
+      "id": "O00061",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T15:01:00Z",
+      "customer_id": "C0024",
+      "id": "O00062",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T09:15:00Z",
+      "customer_id": "C0008",
+      "id": "O00063",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T16:33:00Z",
+      "customer_id": "C0002",
+      "id": "O00064",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-26T23:21:00Z",
+      "customer_id": "C0020",
+      "id": "O00065",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T10:05:00Z",
+      "customer_id": "C0007",
+      "id": "O00066",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T20:12:00Z",
+      "customer_id": "C0017",
+      "id": "O00067",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-12T12:59:00Z",
+      "customer_id": "C0022",
+      "id": "O00068",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-13T09:40:00Z",
+      "customer_id": "C0014",
+      "id": "O00069",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-24T13:45:00Z",
+      "customer_id": "C0018",
+      "id": "O00070",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T08:10:00Z",
+      "customer_id": "C0006",
+      "id": "O00071",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-16T12:56:00Z",
+      "customer_id": "C0012",
+      "id": "O00072",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-05T07:22:00Z",
+      "customer_id": "C0024",
+      "id": "O00073",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-07T08:37:00Z",
+      "customer_id": "C0014",
+      "id": "O00074",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-05T21:00:00Z",
+      "customer_id": "C0009",
+      "id": "O00075",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T20:25:00Z",
+      "customer_id": "C0001",
+      "id": "O00076",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-24T04:33:00Z",
+      "customer_id": "C0001",
+      "id": "O00077",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-03T10:16:00Z",
+      "customer_id": "C0011",
+      "id": "O00078",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-21T12:02:00Z",
+      "customer_id": "C0019",
+      "id": "O00079",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T02:30:00Z",
+      "customer_id": "C0015",
+      "id": "O00080",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-17T07:18:00Z",
+      "customer_id": "C0020",
+      "id": "O00081",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T16:40:00Z",
+      "customer_id": "C0014",
+      "id": "O00082",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-30T07:33:00Z",
+      "customer_id": "C0006",
+      "id": "O00083",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T05:03:00Z",
+      "customer_id": "C0021",
+      "id": "O00084",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-14T21:43:00Z",
+      "customer_id": "C0002",
+      "id": "O00085",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T20:20:00Z",
+      "customer_id": "C0017",
+      "id": "O00086",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-13T00:03:00Z",
+      "customer_id": "C0020",
+      "id": "O00087",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-27T10:56:00Z",
+      "customer_id": "C0021",
+      "id": "O00088",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-01T13:59:00Z",
+      "customer_id": "C0018",
+      "id": "O00089",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-13T02:18:00Z",
+      "customer_id": "C0012",
+      "id": "O00090",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T03:57:00Z",
+      "customer_id": "C0010",
+      "id": "O00091",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-28T12:10:00Z",
+      "customer_id": "C0019",
+      "id": "O00092",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T08:46:00Z",
+      "customer_id": "C0004",
+      "id": "O00093",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T11:26:00Z",
+      "customer_id": "C0018",
+      "id": "O00094",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T19:09:00Z",
+      "customer_id": "C0008",
+      "id": "O00095",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T07:23:00Z",
+      "customer_id": "C0024",
+      "id": "O00096",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-09T20:19:00Z",
+      "customer_id": "C0011",
+      "id": "O00097",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T09:45:00Z",
+      "customer_id": "C0018",
+      "id": "O00098",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T14:45:00Z",
+      "customer_id": "C0024",
+      "id": "O00099",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T03:01:00Z",
+      "customer_id": "C0015",
+      "id": "O00100",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-03T01:36:00Z",
+      "customer_id": "C0011",
+      "id": "O00101",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-21T10:02:00Z",
+      "customer_id": "C0022",
+      "id": "O00102",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-16T17:25:00Z",
+      "customer_id": "C0013",
+      "id": "O00103",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-19T00:16:00Z",
+      "customer_id": "C0012",
+      "id": "O00104",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T07:54:00Z",
+      "customer_id": "C0013",
+      "id": "O00105",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T21:58:00Z",
+      "customer_id": "C0009",
+      "id": "O00106",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T23:02:00Z",
+      "customer_id": "C0013",
+      "id": "O00107",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T00:45:00Z",
+      "customer_id": "C0017",
+      "id": "O00108",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-26T08:35:00Z",
+      "customer_id": "C0021",
+      "id": "O00109",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-27T20:19:00Z",
+      "customer_id": "C0002",
+      "id": "O00110",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-12T19:49:00Z",
+      "customer_id": "C0005",
+      "id": "O00111",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-18T07:06:00Z",
+      "customer_id": "C0021",
+      "id": "O00112",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T08:49:00Z",
+      "customer_id": "C0017",
+      "id": "O00113",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-02T12:27:00Z",
+      "customer_id": "C0018",
+      "id": "O00114",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-15T08:51:00Z",
+      "customer_id": "C0006",
+      "id": "O00115",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-03T18:06:00Z",
+      "customer_id": "C0016",
+      "id": "O00116",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T14:37:00Z",
+      "customer_id": "C0006",
+      "id": "O00117",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T05:10:00Z",
+      "customer_id": "C0004",
+      "id": "O00118",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T19:27:00Z",
+      "customer_id": "C0024",
+      "id": "O00119",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-28T05:43:00Z",
+      "customer_id": "C0004",
+      "id": "O00120",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-14T14:28:00Z",
+      "customer_id": "C0006",
+      "id": "O00121",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-25T01:03:00Z",
+      "customer_id": "C0007",
+      "id": "O00122",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T10:16:00Z",
+      "customer_id": "C0004",
+      "id": "O00123",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-12T17:53:00Z",
+      "customer_id": "C0022",
+      "id": "O00124",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-22T18:56:00Z",
+      "customer_id": "C0018",
+      "id": "O00125",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T03:02:00Z",
+      "customer_id": "C0017",
+      "id": "O00126",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T05:48:00Z",
+      "customer_id": "C0020",
+      "id": "O00127",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-14T09:03:00Z",
+      "customer_id": "C0005",
+      "id": "O00128",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-08T21:49:00Z",
+      "customer_id": "C0018",
+      "id": "O00129",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-09T06:25:00Z",
+      "customer_id": "C0006",
+      "id": "O00130",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T03:09:00Z",
+      "customer_id": "C0005",
+      "id": "O00131",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-13T10:51:00Z",
+      "customer_id": "C0023",
+      "id": "O00132",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T09:19:00Z",
+      "customer_id": "C0019",
+      "id": "O00133",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-03T07:32:00Z",
+      "customer_id": "C0008",
+      "id": "O00134",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-21T20:08:00Z",
+      "customer_id": "C0001",
+      "id": "O00135",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T03:29:00Z",
+      "customer_id": "C0011",
+      "id": "O00136",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T04:01:00Z",
+      "customer_id": "C0007",
+      "id": "O00137",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T19:29:00Z",
+      "customer_id": "C0024",
+      "id": "O00138",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T20:13:00Z",
+      "customer_id": "C0017",
+      "id": "O00139",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T01:49:00Z",
+      "customer_id": "C0021",
+      "id": "O00140",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T01:40:00Z",
+      "customer_id": "C0008",
+      "id": "O00141",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-29T10:07:00Z",
+      "customer_id": "C0018",
+      "id": "O00142",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-18T05:54:00Z",
+      "customer_id": "C0015",
+      "id": "O00143",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T01:32:00Z",
+      "customer_id": "C0022",
+      "id": "O00144",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-29T19:11:00Z",
+      "customer_id": "C0008",
+      "id": "O00145",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T20:07:00Z",
+      "customer_id": "C0004",
+      "id": "O00146",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-24T19:48:00Z",
+      "customer_id": "C0009",
+      "id": "O00147",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T12:13:00Z",
+      "customer_id": "C0011",
+      "id": "O00148",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-22T00:22:00Z",
+      "customer_id": "C0019",
+      "id": "O00149",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T08:07:00Z",
+      "customer_id": "C0020",
+      "id": "O00150",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-01T06:49:00Z",
+      "customer_id": "C0007",
+      "id": "O00151",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T01:51:00Z",
+      "customer_id": "C0006",
+      "id": "O00152",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T06:48:00Z",
+      "customer_id": "C0014",
+      "id": "O00153",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T23:00:00Z",
+      "customer_id": "C0007",
+      "id": "O00154",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T01:51:00Z",
+      "customer_id": "C0022",
+      "id": "O00155",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-26T06:38:00Z",
+      "customer_id": "C0024",
+      "id": "O00156",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T21:34:00Z",
+      "customer_id": "C0013",
+      "id": "O00157",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T08:11:00Z",
+      "customer_id": "C0009",
+      "id": "O00158",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-04T19:06:00Z",
+      "customer_id": "C0019",
+      "id": "O00159",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-14T08:28:00Z",
+      "customer_id": "C0008",
+      "id": "O00160",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-27T21:58:00Z",
+      "customer_id": "C0015",
+      "id": "O00161",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-24T01:51:00Z",
+      "customer_id": "C0008",
+      "id": "O00162",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T22:47:00Z",
+      "customer_id": "C0001",
+      "id": "O00163",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T11:39:00Z",
+      "customer_id": "C0002",
+      "id": "O00164",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-18T14:04:00Z",
+      "customer_id": "C0017",
+      "id": "O00165",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-29T05:37:00Z",
+      "customer_id": "C0003",
+      "id": "O00166",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-27T18:32:00Z",
+      "customer_id": "C0019",
+      "id": "O00167",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-04T08:35:00Z",
+      "customer_id": "C0014",
+      "id": "O00168",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T03:31:00Z",
+      "customer_id": "C0013",
+      "id": "O00169",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T08:06:00Z",
+      "customer_id": "C0006",
+      "id": "O00170",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T19:27:00Z",
+      "customer_id": "C0019",
+      "id": "O00171",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T17:58:00Z",
+      "customer_id": "C0010",
+      "id": "O00172",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T21:51:00Z",
+      "customer_id": "C0011",
+      "id": "O00173",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-05T16:30:00Z",
+      "customer_id": "C0002",
+      "id": "O00174",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-25T14:09:00Z",
+      "customer_id": "C0001",
+      "id": "O00175",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-06T08:11:00Z",
+      "customer_id": "C0014",
+      "id": "O00176",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-05T16:33:00Z",
+      "customer_id": "C0006",
+      "id": "O00177",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T04:18:00Z",
+      "customer_id": "C0001",
+      "id": "O00178",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T00:01:00Z",
+      "customer_id": "C0010",
+      "id": "O00179",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T23:26:00Z",
+      "customer_id": "C0004",
+      "id": "O00180",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-06T04:04:00Z",
+      "customer_id": "C0006",
+      "id": "O00181",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-01T20:43:00Z",
+      "customer_id": "C0016",
+      "id": "O00182",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T08:50:00Z",
+      "customer_id": "C0017",
+      "id": "O00183",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-18T15:36:00Z",
+      "customer_id": "C0011",
+      "id": "O00184",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T08:10:00Z",
+      "customer_id": "C0012",
+      "id": "O00185",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-23T14:22:00Z",
+      "customer_id": "C0023",
+      "id": "O00186",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-09T20:10:00Z",
+      "customer_id": "C0020",
+      "id": "O00187",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-10T11:29:00Z",
+      "customer_id": "C0007",
+      "id": "O00188",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T18:25:00Z",
+      "customer_id": "C0007",
+      "id": "O00189",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T17:34:00Z",
+      "customer_id": "C0020",
+      "id": "O00190",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-13T01:50:00Z",
+      "customer_id": "C0009",
+      "id": "O00191",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T06:24:00Z",
+      "customer_id": "C0024",
+      "id": "O00192",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T05:29:00Z",
+      "customer_id": "C0013",
+      "id": "O00193",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T13:43:00Z",
+      "customer_id": "C0024",
+      "id": "O00194",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T22:14:00Z",
+      "customer_id": "C0021",
+      "id": "O00195",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T20:26:00Z",
+      "customer_id": "C0012",
+      "id": "O00196",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T00:18:00Z",
+      "customer_id": "C0021",
+      "id": "O00197",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T14:31:00Z",
+      "customer_id": "C0020",
+      "id": "O00198",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-19T12:32:00Z",
+      "customer_id": "C0024",
+      "id": "O00199",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-12T17:14:00Z",
+      "customer_id": "C0018",
+      "id": "O00200",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-07T11:58:00Z",
+      "customer_id": "C0007",
+      "id": "O00201",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-10T04:23:00Z",
+      "customer_id": "C0012",
+      "id": "O00202",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T07:20:00Z",
+      "customer_id": "C0008",
+      "id": "O00203",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T19:15:00Z",
+      "customer_id": "C0022",
+      "id": "O00204",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T10:26:00Z",
+      "customer_id": "C0020",
+      "id": "O00205",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T12:33:00Z",
+      "customer_id": "C0016",
+      "id": "O00206",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-21T05:52:00Z",
+      "customer_id": "C0003",
+      "id": "O00207",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T07:12:00Z",
+      "customer_id": "C0017",
+      "id": "O00208",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T13:09:00Z",
+      "customer_id": "C0010",
+      "id": "O00209",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-17T01:44:00Z",
+      "customer_id": "C0024",
+      "id": "O00210",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-08T22:29:00Z",
+      "customer_id": "C0024",
+      "id": "O00211",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T17:41:00Z",
+      "customer_id": "C0009",
+      "id": "O00212",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T05:00:00Z",
+      "customer_id": "C0024",
+      "id": "O00213",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T17:40:00Z",
+      "customer_id": "C0004",
+      "id": "O00214",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T09:25:00Z",
+      "customer_id": "C0010",
+      "id": "O00215",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-05T05:11:00Z",
+      "customer_id": "C0019",
+      "id": "O00216",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-03T12:26:00Z",
+      "customer_id": "C0022",
+      "id": "O00217",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-04T09:49:00Z",
+      "customer_id": "C0017",
+      "id": "O00218",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-16T12:21:00Z",
+      "customer_id": "C0004",
+      "id": "O00219",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-16T23:16:00Z",
+      "customer_id": "C0024",
+      "id": "O00220",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-26T22:48:00Z",
+      "customer_id": "C0020",
+      "id": "O00221",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-04T13:07:00Z",
+      "customer_id": "C0002",
+      "id": "O00222",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-23T21:54:00Z",
+      "customer_id": "C0008",
+      "id": "O00223",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-28T06:20:00Z",
+      "customer_id": "C0023",
+      "id": "O00224",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T10:52:00Z",
+      "customer_id": "C0009",
+      "id": "O00225",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-06T23:48:00Z",
+      "customer_id": "C0003",
+      "id": "O00226",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T05:51:00Z",
+      "customer_id": "C0008",
+      "id": "O00227",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T09:16:00Z",
+      "customer_id": "C0017",
+      "id": "O00228",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-23T06:37:00Z",
+      "customer_id": "C0016",
+      "id": "O00229",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-21T02:57:00Z",
+      "customer_id": "C0007",
+      "id": "O00230",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-25T17:37:00Z",
+      "customer_id": "C0012",
+      "id": "O00231",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-07T19:34:00Z",
+      "customer_id": "C0023",
+      "id": "O00232",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-03T22:10:00Z",
+      "customer_id": "C0023",
+      "id": "O00233",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T12:53:00Z",
+      "customer_id": "C0019",
+      "id": "O00234",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-24T05:08:00Z",
+      "customer_id": "C0020",
+      "id": "O00235",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T01:37:00Z",
+      "customer_id": "C0001",
+      "id": "O00236",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-27T15:04:00Z",
+      "customer_id": "C0012",
+      "id": "O00237",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-28T11:15:00Z",
+      "customer_id": "C0001",
+      "id": "O00238",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-25T17:14:00Z",
+      "customer_id": "C0015",
+      "id": "O00239",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-08T08:00:00Z",
+      "customer_id": "C0002",
+      "id": "O00240",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-02T01:24:00Z",
+      "customer_id": "C0019",
+      "id": "O00241",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T11:40:00Z",
+      "customer_id": "C0004",
+      "id": "O00242",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T11:38:00Z",
+      "customer_id": "C0008",
+      "id": "O00243",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T22:46:00Z",
+      "customer_id": "C0005",
+      "id": "O00244",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T12:48:00Z",
+      "customer_id": "C0022",
+      "id": "O00245",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-26T06:26:00Z",
+      "customer_id": "C0021",
+      "id": "O00246",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-18T11:42:00Z",
+      "customer_id": "C0020",
+      "id": "O00247",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-04T07:26:00Z",
+      "customer_id": "C0017",
+      "id": "O00248",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T18:43:00Z",
+      "customer_id": "C0009",
+      "id": "O00249",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-18T01:47:00Z",
+      "customer_id": "C0017",
+      "id": "O00250",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-30T09:41:00Z",
+      "customer_id": "C0016",
+      "id": "O00251",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-27T15:50:00Z",
+      "customer_id": "C0017",
+      "id": "O00252",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-21T14:34:00Z",
+      "customer_id": "C0019",
+      "id": "O00253",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-02T17:51:00Z",
+      "customer_id": "C0002",
+      "id": "O00254",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-07T14:37:00Z",
+      "customer_id": "C0013",
+      "id": "O00255",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-17T17:45:00Z",
+      "customer_id": "C0009",
+      "id": "O00256",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T08:22:00Z",
+      "customer_id": "C0003",
+      "id": "O00257",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-07T18:53:00Z",
+      "customer_id": "C0014",
+      "id": "O00258",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T21:13:00Z",
+      "customer_id": "C0004",
+      "id": "O00259",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-18T15:31:00Z",
+      "customer_id": "C0004",
+      "id": "O00260",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-31T09:54:00Z",
+      "customer_id": "C0018",
+      "id": "O00261",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T14:50:00Z",
+      "customer_id": "C0013",
+      "id": "O00262",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-03T17:29:00Z",
+      "customer_id": "C0008",
+      "id": "O00263",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-10T20:18:00Z",
+      "customer_id": "C0017",
+      "id": "O00264",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-03T00:05:00Z",
+      "customer_id": "C0003",
+      "id": "O00265",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-14T10:15:00Z",
+      "customer_id": "C0024",
+      "id": "O00266",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T19:40:00Z",
+      "customer_id": "C0019",
+      "id": "O00267",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-10T12:32:00Z",
+      "customer_id": "C0009",
+      "id": "O00268",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T19:22:00Z",
+      "customer_id": "C0024",
+      "id": "O00269",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T21:16:00Z",
+      "customer_id": "C0014",
+      "id": "O00270",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T13:12:00Z",
+      "customer_id": "C0006",
+      "id": "O00271",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-25T23:00:00Z",
+      "customer_id": "C0012",
+      "id": "O00272",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-18T06:34:00Z",
+      "customer_id": "C0021",
+      "id": "O00273",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-21T23:16:00Z",
+      "customer_id": "C0009",
+      "id": "O00274",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T14:57:00Z",
+      "customer_id": "C0001",
+      "id": "O00275",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T10:24:00Z",
+      "customer_id": "C0005",
+      "id": "O00276",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-13T16:46:00Z",
+      "customer_id": "C0021",
+      "id": "O00277",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T03:21:00Z",
+      "customer_id": "C0006",
+      "id": "O00278",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-16T12:53:00Z",
+      "customer_id": "C0002",
+      "id": "O00279",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T13:51:00Z",
+      "customer_id": "C0020",
+      "id": "O00280",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-12T05:59:00Z",
+      "customer_id": "C0005",
+      "id": "O00281",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-14T17:56:00Z",
+      "customer_id": "C0022",
+      "id": "O00282",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-21T04:40:00Z",
+      "customer_id": "C0007",
+      "id": "O00283",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T01:09:00Z",
+      "customer_id": "C0022",
+      "id": "O00284",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-10T01:04:00Z",
+      "customer_id": "C0011",
+      "id": "O00285",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-19T08:55:00Z",
+      "customer_id": "C0005",
+      "id": "O00286",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T08:56:00Z",
+      "customer_id": "C0023",
+      "id": "O00287",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T09:02:00Z",
+      "customer_id": "C0018",
+      "id": "O00288",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T03:52:00Z",
+      "customer_id": "C0013",
+      "id": "O00289",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T04:10:00Z",
+      "customer_id": "C0019",
+      "id": "O00290",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T07:26:00Z",
+      "customer_id": "C0010",
+      "id": "O00291",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T23:12:00Z",
+      "customer_id": "C0010",
+      "id": "O00292",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-22T23:52:00Z",
+      "customer_id": "C0024",
+      "id": "O00293",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T23:19:00Z",
+      "customer_id": "C0023",
+      "id": "O00294",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-10T15:57:00Z",
+      "customer_id": "C0005",
+      "id": "O00295",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-21T13:46:00Z",
+      "customer_id": "C0011",
+      "id": "O00296",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T05:45:00Z",
+      "customer_id": "C0007",
+      "id": "O00297",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T09:07:00Z",
+      "customer_id": "C0018",
+      "id": "O00298",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-10T13:08:00Z",
+      "customer_id": "C0013",
+      "id": "O00299",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-07T14:01:00Z",
+      "customer_id": "C0011",
+      "id": "O00300",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T09:42:00Z",
+      "customer_id": "C0011",
+      "id": "O00301",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-18T12:29:00Z",
+      "customer_id": "C0003",
+      "id": "O00302",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-02T05:06:00Z",
+      "customer_id": "C0023",
+      "id": "O00303",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T23:51:00Z",
+      "customer_id": "C0011",
+      "id": "O00304",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-26T09:42:00Z",
+      "customer_id": "C0011",
+      "id": "O00305",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-14T16:08:00Z",
+      "customer_id": "C0013",
+      "id": "O00306",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-06T00:09:00Z",
+      "customer_id": "C0010",
+      "id": "O00307",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-03T09:54:00Z",
+      "customer_id": "C0023",
+      "id": "O00308",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T20:19:00Z",
+      "customer_id": "C0022",
+      "id": "O00309",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-08T15:07:00Z",
+      "customer_id": "C0007",
+      "id": "O00310",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-07T20:19:00Z",
+      "customer_id": "C0005",
+      "id": "O00311",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T03:50:00Z",
+      "customer_id": "C0001",
+      "id": "O00312",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-22T12:26:00Z",
+      "customer_id": "C0016",
+      "id": "O00313",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T01:30:00Z",
+      "customer_id": "C0007",
+      "id": "O00314",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T06:05:00Z",
+      "customer_id": "C0020",
+      "id": "O00315",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T11:30:00Z",
+      "customer_id": "C0024",
+      "id": "O00316",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-30T07:56:00Z",
+      "customer_id": "C0024",
+      "id": "O00317",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-13T20:12:00Z",
+      "customer_id": "C0021",
+      "id": "O00318",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T05:08:00Z",
+      "customer_id": "C0013",
+      "id": "O00319",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-12T01:04:00Z",
+      "customer_id": "C0005",
+      "id": "O00320",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-28T19:32:00Z",
+      "customer_id": "C0011",
+      "id": "O00321",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T00:35:00Z",
+      "customer_id": "C0001",
+      "id": "O00322",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-14T13:35:00Z",
+      "customer_id": "C0002",
+      "id": "O00323",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-07T19:09:00Z",
+      "customer_id": "C0008",
+      "id": "O00324",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-19T15:06:00Z",
+      "customer_id": "C0013",
+      "id": "O00325",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-15T16:38:00Z",
+      "customer_id": "C0022",
+      "id": "O00326",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T05:52:00Z",
+      "customer_id": "C0009",
+      "id": "O00327",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-05T02:20:00Z",
+      "customer_id": "C0014",
+      "id": "O00328",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T01:15:00Z",
+      "customer_id": "C0017",
+      "id": "O00329",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T23:24:00Z",
+      "customer_id": "C0015",
+      "id": "O00330",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-03T17:27:00Z",
+      "customer_id": "C0013",
+      "id": "O00331",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-22T21:57:00Z",
+      "customer_id": "C0021",
+      "id": "O00332",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T21:47:00Z",
+      "customer_id": "C0006",
+      "id": "O00333",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-24T23:19:00Z",
+      "customer_id": "C0006",
+      "id": "O00334",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-26T14:20:00Z",
+      "customer_id": "C0021",
+      "id": "O00335",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-12T10:23:00Z",
+      "customer_id": "C0015",
+      "id": "O00336",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-18T23:36:00Z",
+      "customer_id": "C0018",
+      "id": "O00337",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-25T03:02:00Z",
+      "customer_id": "C0008",
+      "id": "O00338",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T01:17:00Z",
+      "customer_id": "C0013",
+      "id": "O00339",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-09T06:33:00Z",
+      "customer_id": "C0023",
+      "id": "O00340",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-05T01:22:00Z",
+      "customer_id": "C0010",
+      "id": "O00341",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T21:04:00Z",
+      "customer_id": "C0004",
+      "id": "O00342",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-31T05:15:00Z",
+      "customer_id": "C0004",
+      "id": "O00343",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-08T15:53:00Z",
+      "customer_id": "C0011",
+      "id": "O00344",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-28T09:40:00Z",
+      "customer_id": "C0006",
+      "id": "O00345",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-04T04:25:00Z",
+      "customer_id": "C0007",
+      "id": "O00346",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-09T10:09:00Z",
+      "customer_id": "C0009",
+      "id": "O00347",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-11T23:28:00Z",
+      "customer_id": "C0014",
+      "id": "O00348",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T02:19:00Z",
+      "customer_id": "C0002",
+      "id": "O00349",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T12:58:00Z",
+      "customer_id": "C0003",
+      "id": "O00350",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-03T07:29:00Z",
+      "customer_id": "C0015",
+      "id": "O00351",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-05T17:53:00Z",
+      "customer_id": "C0010",
+      "id": "O00352",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-10T21:39:00Z",
+      "customer_id": "C0002",
+      "id": "O00353",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-01T02:20:00Z",
+      "customer_id": "C0008",
+      "id": "O00354",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-25T11:48:00Z",
+      "customer_id": "C0004",
+      "id": "O00355",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T03:59:00Z",
+      "customer_id": "C0005",
+      "id": "O00356",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T07:59:00Z",
+      "customer_id": "C0021",
+      "id": "O00357",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-02T17:44:00Z",
+      "customer_id": "C0016",
+      "id": "O00358",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T13:09:00Z",
+      "customer_id": "C0018",
+      "id": "O00359",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-28T21:35:00Z",
+      "customer_id": "C0004",
+      "id": "O00360",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-09T01:44:00Z",
+      "customer_id": "C0019",
+      "id": "O00361",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-22T04:36:00Z",
+      "customer_id": "C0003",
+      "id": "O00362",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-06T07:26:00Z",
+      "customer_id": "C0013",
+      "id": "O00363",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-21T19:16:00Z",
+      "customer_id": "C0023",
+      "id": "O00364",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-12T04:44:00Z",
+      "customer_id": "C0021",
+      "id": "O00365",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-07T14:30:00Z",
+      "customer_id": "C0007",
+      "id": "O00366",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T09:42:00Z",
+      "customer_id": "C0023",
+      "id": "O00367",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-02T17:52:00Z",
+      "customer_id": "C0020",
+      "id": "O00368",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-17T10:47:00Z",
+      "customer_id": "C0019",
+      "id": "O00369",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T01:54:00Z",
+      "customer_id": "C0020",
+      "id": "O00370",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-20T13:41:00Z",
+      "customer_id": "C0008",
+      "id": "O00371",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T22:24:00Z",
+      "customer_id": "C0009",
+      "id": "O00372",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-23T09:40:00Z",
+      "customer_id": "C0003",
+      "id": "O00373",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-14T08:15:00Z",
+      "customer_id": "C0023",
+      "id": "O00374",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-13T04:34:00Z",
+      "customer_id": "C0007",
+      "id": "O00375",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-10T02:59:00Z",
+      "customer_id": "C0019",
+      "id": "O00376",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-06T00:52:00Z",
+      "customer_id": "C0014",
+      "id": "O00377",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-13T04:19:00Z",
+      "customer_id": "C0024",
+      "id": "O00378",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-10T10:54:00Z",
+      "customer_id": "C0014",
+      "id": "O00379",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-03T22:13:00Z",
+      "customer_id": "C0021",
+      "id": "O00380",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-01T11:07:00Z",
+      "customer_id": "C0024",
+      "id": "O00381",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-09T22:55:00Z",
+      "customer_id": "C0018",
+      "id": "O00382",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-16T18:06:00Z",
+      "customer_id": "C0009",
+      "id": "O00383",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-25T00:38:00Z",
+      "customer_id": "C0001",
+      "id": "O00384",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-20T16:10:00Z",
+      "customer_id": "C0021",
+      "id": "O00385",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-21T06:13:00Z",
+      "customer_id": "C0023",
+      "id": "O00386",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-10T18:20:00Z",
+      "customer_id": "C0013",
+      "id": "O00387",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-11T00:29:00Z",
+      "customer_id": "C0001",
+      "id": "O00388",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-06T11:21:00Z",
+      "customer_id": "C0011",
+      "id": "O00389",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-05T22:10:00Z",
+      "customer_id": "C0006",
+      "id": "O00390",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-27T09:10:00Z",
+      "customer_id": "C0008",
+      "id": "O00391",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-15T22:05:00Z",
+      "customer_id": "C0021",
+      "id": "O00392",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-14T22:07:00Z",
+      "customer_id": "C0008",
+      "id": "O00393",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-16T23:46:00Z",
+      "customer_id": "C0002",
+      "id": "O00394",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-02-21T05:33:00Z",
+      "customer_id": "C0009",
+      "id": "O00395",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-18T02:28:00Z",
+      "customer_id": "C0022",
+      "id": "O00396",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-04T01:47:00Z",
+      "customer_id": "C0022",
+      "id": "O00397",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-22T19:44:00Z",
+      "customer_id": "C0015",
+      "id": "O00398",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-31T16:52:00Z",
+      "customer_id": "C0006",
+      "id": "O00399",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-02T06:12:00Z",
+      "customer_id": "C0014",
+      "id": "O00400",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-17T08:59:00Z",
+      "customer_id": "C0005",
+      "id": "O00401",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-31T19:37:00Z",
+      "customer_id": "C0011",
+      "id": "O00402",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-29T07:38:00Z",
+      "customer_id": "C0018",
+      "id": "O00403",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-13T07:41:00Z",
+      "customer_id": "C0006",
+      "id": "O00404",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-11T10:02:00Z",
+      "customer_id": "C0004",
+      "id": "O00405",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-15T08:09:00Z",
+      "customer_id": "C0024",
+      "id": "O00406",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-11T19:40:00Z",
+      "customer_id": "C0024",
+      "id": "O00407",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-03-19T12:59:00Z",
+      "customer_id": "C0024",
+      "id": "O00408",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-09T14:17:00Z",
+      "customer_id": "C0013",
+      "id": "O00409",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3002",
+          "unit_price": "54.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        }
+      ],
+      "status": "cancelled"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-25T04:35:00Z",
+      "customer_id": "C0020",
+      "id": "O00410",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "TX-4001",
+          "unit_price": "38.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "CF-2001",
+          "unit_price": "9.75"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-24T04:05:00Z",
+      "customer_id": "C0016",
+      "id": "O00411",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 120,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "ST-6001",
+          "unit_price": "7.45"
+        },
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-03T08:30:00Z",
+      "customer_id": "C0005",
+      "id": "O00412",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "GC-5001",
+          "unit_price": "25.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-05T12:07:00Z",
+      "customer_id": "C0017",
+      "id": "O00413",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 25,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-03-26T17:14:00Z",
+      "customer_id": "C0018",
+      "id": "O00414",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        }
+      ],
+      "status": "open"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-01T05:20:00Z",
+      "customer_id": "C0021",
+      "id": "O00415",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-05T13:48:00Z",
+      "customer_id": "C0016",
+      "id": "O00416",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "GC-5002",
+          "unit_price": "50.00"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "WELCOME10",
+      "created_at": "2026-03-15T15:45:00Z",
+      "customer_id": "C0008",
+      "id": "O00417",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "BK-1003",
+          "unit_price": "29.90"
+        },
+        {
+          "currency": "EUR",
+          "qty": 12,
+          "sku": "BK-1002",
+          "unit_price": "12.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": "SPRING15",
+      "created_at": "2026-02-05T09:51:00Z",
+      "customer_id": "C0015",
+      "id": "O00418",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "BK-1001",
+          "unit_price": "18.50"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-08T01:55:00Z",
+      "customer_id": "C0010",
+      "id": "O00419",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 5,
+          "sku": "ST-6002",
+          "unit_price": "45.10"
+        },
+        {
+          "currency": "EUR",
+          "qty": 3,
+          "sku": "TX-4002",
+          "unit_price": "16.67"
+        },
+        {
+          "currency": "EUR",
+          "qty": 60,
+          "sku": "HW-3004",
+          "unit_price": "129.00"
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "coupon": null,
+      "created_at": "2026-02-09T16:17:00Z",
+      "customer_id": "C0008",
+      "id": "O00420",
+      "lines": [
+        {
+          "currency": "EUR",
+          "qty": 1,
+          "sku": "HW-3001",
+          "unit_price": "14.99"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "HW-3003",
+          "unit_price": "23.33"
+        },
+        {
+          "currency": "EUR",
+          "qty": 2,
+          "sku": "CF-2002",
+          "unit_price": "31.40"
+        }
+      ],
+      "status": "paid"
+    }
+  ],
+  "version": 1
+}

@@ -1,0 +1,125 @@
+{
+  "products": [
+    {
+      "currency": "EUR",
+      "name": "Field Guide to Ferns",
+      "price": "18.50",
+      "sku": "BK-1001",
+      "tax_class": "reduced",
+      "weight_g": 420
+    },
+    {
+      "currency": "EUR",
+      "name": "Pocket Atlas",
+      "price": "12.00",
+      "sku": "BK-1002",
+      "tax_class": "reduced",
+      "weight_g": 260
+    },
+    {
+      "currency": "EUR",
+      "name": "Cooking with Fire",
+      "price": "29.90",
+      "sku": "BK-1003",
+      "tax_class": "reduced",
+      "weight_g": 980
+    },
+    {
+      "currency": "EUR",
+      "name": "Single-origin Beans 250g",
+      "price": "9.75",
+      "sku": "CF-2001",
+      "tax_class": "reduced",
+      "weight_g": 250
+    },
+    {
+      "currency": "EUR",
+      "name": "Espresso Blend 1kg",
+      "price": "31.40",
+      "sku": "CF-2002",
+      "tax_class": "reduced",
+      "weight_g": 1000
+    },
+    {
+      "currency": "EUR",
+      "name": "Enamel Mug",
+      "price": "14.99",
+      "sku": "HW-3001",
+      "tax_class": "standard",
+      "weight_g": 380
+    },
+    {
+      "currency": "EUR",
+      "name": "Pour-over Kettle",
+      "price": "54.00",
+      "sku": "HW-3002",
+      "tax_class": "standard",
+      "weight_g": 1150
+    },
+    {
+      "currency": "EUR",
+      "name": "Ceramic Dripper",
+      "price": "23.33",
+      "sku": "HW-3003",
+      "tax_class": "standard",
+      "weight_g": 450
+    },
+    {
+      "currency": "EUR",
+      "name": "Burr Grinder",
+      "price": "129.00",
+      "sku": "HW-3004",
+      "tax_class": "standard",
+      "weight_g": 2300
+    },
+    {
+      "currency": "EUR",
+      "name": "Linen Apron",
+      "price": "38.00",
+      "sku": "TX-4001",
+      "tax_class": "standard",
+      "weight_g": 300
+    },
+    {
+      "currency": "EUR",
+      "name": "Tea Towel Set",
+      "price": "16.67",
+      "sku": "TX-4002",
+      "tax_class": "standard",
+      "weight_g": 210
+    },
+    {
+      "currency": "EUR",
+      "name": "Gift Card 25",
+      "price": "25.00",
+      "sku": "GC-5001",
+      "tax_class": "zero",
+      "weight_g": 10
+    },
+    {
+      "currency": "EUR",
+      "name": "Gift Card 50",
+      "price": "50.00",
+      "sku": "GC-5002",
+      "tax_class": "zero",
+      "weight_g": 10
+    },
+    {
+      "currency": "EUR",
+      "name": "Notebook A5",
+      "price": "7.45",
+      "sku": "ST-6001",
+      "tax_class": "standard",
+      "weight_g": 180
+    },
+    {
+      "currency": "EUR",
+      "name": "Fountain Pen",
+      "price": "45.10",
+      "sku": "ST-6002",
+      "tax_class": "standard",
+      "weight_g": 60
+    }
+  ],
+  "version": 1
+}

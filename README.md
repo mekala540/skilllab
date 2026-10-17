@@ -143,6 +143,25 @@ Every task has a hidden checker, a reference solution that passes it, and (for s
 
 Six more standard tasks (code review and security, hooks, PR writing, skill writing, docs, parallel fixes) are **held out**: not published, so results on them can't be gamed. See "Public and held-out tasks" below.
 
+**Project tier** (`--tier project`): twelve tasks inside one realistic project, *tally*, a ~1,400-line billing and stock app with 14 modules, 420 sample orders, docs, a test suite and a git history. Each workspace is a git repo, and the agent may also run `git`, `grep`, `find`, `head`, `tail` and `wc`. These are the tasks for token savers and memory tools: there is real output to read (test runs, 6,500 log lines, `git log` over 40 commits), so tools that shrink output or context have something to act on.
+
+| Task | Kind | What makes it hard |
+| --- | --- | --- |
+| `tally-invoice-mismatch` | debugging | two root causes (rounding mode, discount cap); fixing one isn't enough |
+| `tally-timezone` | debugging | the bug only shows on machines in some time zones; same mistake in two places |
+| `tally-double-charge` | logs + fix | find every double charge across two rotated logs (voided charges excluded), then fix the retry |
+| `tally-red-build` | failing tests | a cleanup commit broke four things; the tests only show three |
+| `tally-bisect` | git | find which of 40 commits broke a threshold; fix on a branch, main untouched |
+| `tally-why-cap` | git history | when and why a constant was added; a move, a reformat and a decoy commit point elsewhere |
+| `tally-csv-import` | feature from spec | exact error messages and line numbers, BOM, blank lines, grouped rows |
+| `tally-report-json` | feature from spec | money as exact strings, not floats, across three reports |
+| `tally-storage` | refactor | four copies into one module, byte-identical files, plus a temp-file leak |
+| `tally-remove-fmt` | migration | remove a deprecated function; every caller migrated, output identical |
+| `tally-slow-export` | performance | 40,000 orders, timed against a one-pass reference on the same machine; output identical |
+| `tally-export-security` | security | path traversal (incl. symlinks and absolute paths) and CSV formula injection |
+
+Every project task has a hidden checker, a reference solution and a plausible-but-incomplete attempt that must fail. They are new: run `skilllab calibrate --tier project` before relying on them.
+
 **Easy tier** (`--tier easy`): five small tasks for smoke tests. Current models usually pass them without help, so they can't show lift.
 
 Tasks needing a program that isn't installed (`node`, `git`) are skipped with a message.
@@ -172,6 +191,7 @@ Tasks the baseline passes more than 60% of the time are marked "too easy for thi
 - **Errors.** Runs where the agent never really started (missing CLI, bad auth) are excluded and retried on resume. Timeouts and max-turn stops count as failed attempts, because a skill that makes the agent loop is a real result.
 - **Matching, in two steps.** First, keywords propose candidates: a task tag appearing as a whole word in the skill's name or description (`contest` does not match `test`). A shared word is not enough, though: "git" pairs a skill that installs git hooks with a task about finding a regression. So, second, a cheap model (Claude Haiku, about a cent per batch, no tools) judges each candidate: is the skill's own "use when" condition met by this task as given? Its yes/no and a one-line reason go to `matches.json` in the results folder and into the report. Edit the file to overrule it; saved decisions are never re-judged. `--pair SKILL:TASK` forces a pair, and `--no-judge` skips the check.
 - **Untested is not "not needed".** A skill with no fair task is listed as untested: nothing is known about it. Those built around a conversation with a person (grilling, teaching, hand-offs) are listed separately, because an unattended run can't judge them.
+- **Project tasks** share one base project (`suite/projects/tally`). Each task's fixture holds only the files it changes, laid over a fresh copy of the base; then a setup script makes the workspace a git repo (one commit, or a longer history for the git tasks) with fixed dates, so commit hashes are the same in every run.
 - **Setup and tools.** Some tasks run a setup script first (e.g. to build a git history) and allow extra tools (`git`, `node`) for that task only.
 - **Token costs** of a skill (before running it) are characters ÷ 4: name + description up front, the body on use.
 - **Measured cost and tokens** come from Claude Code's final `result` event for each run: `total_cost_usd`, input tokens (fresh + cache reads + cache writes), output tokens, turns, plus wall-clock time. Each is compared as the median per run with vs without, over all valid runs (passed or failed), with a 90% percentile-bootstrap interval (2,000 resamples, fixed seed, so a rebuilt report doesn't change). The verdict uses cost; if a run reports no cost (another agent via `--agent-cmd`), input tokens. Across several tasks, each run is first divided by its task's median baseline, so a big task doesn't drown out small ones. `cheaper` also needs the pass rate to hold (drop ≤ 15 pts). A skill that is `cheaper` is not listed under "Costs context, no measurable lift".

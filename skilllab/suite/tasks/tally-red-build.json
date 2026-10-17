@@ -1,0 +1,16 @@
+{
+  "id": "tally-red-build",
+  "tier": "project",
+  "title": "The build went red after a cleanup commit: fix the code, not the tests",
+  "tags": ["debugging", "debug", "tests", "testing", "regression", "failing tests", "ci", "code review", "review"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-red-build",
+  "setup": "fixtures/tally-red-build-setup",
+  "hidden": "fixtures/tally-red-build-hidden",
+  "prompt": "The test suite has been failing on main since the latest commit (\"Prepare 2.5: ...\"). Run the tests with `python3 -m unittest discover -s tests -t tests`. The tests are right; the commit introduced regressions. Fix the code so everything the commit broke works again, including anything the tests don't happen to cover, and keep whatever the commit got right. Don't edit anything in tests/. Commit your fix on main with a message that explains what was broken.",
+  "check": "{python} check_tally_red_build.py",
+  "protect": ["tests/test_money.py", "tests/test_store.py", "tests/test_reports.py", "tests/test_cli.py", "tests/test_invoices.py", "tests/test_tax_and_discounts.py", "tests/helpers.py"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

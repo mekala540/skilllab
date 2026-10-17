@@ -1,0 +1,13 @@
+Invoice for order O00334
+Femi Adeyemi <femi.adeyemi@example.com> (NL)
+
+SKU         Item                       Qty        Unit          Net    Discount         Tax        Total
+BK-1001     Field Guide to Ferns         2      €18.50       €37.00       €1.85       €3.16       €38.31
+TX-4001     Linen Apron                 25      €38.00      €950.00      €66.50     €185.54    €1,069.04
+GC-5001     Gift Card 25                60      €25.00    €1,500.00     €150.00       €0.00    €1,350.00
+HW-3001     Enamel Mug                 120      €14.99    €1,798.80     €233.84     €328.64    €1,893.60
+
+Net:       €4,285.80
+Discount: -€452.19
+Tax:       €517.34
+Total:     €4,350.95

@@ -29,6 +29,7 @@ class Task:
     setup: Optional[Path] = None  # folder with _setup.py, run in the workspace then removed
     tools: List[str] = field(default_factory=list)  # extra tools this task allows (e.g. git)
     requires: List[str] = field(default_factory=list)  # programs that must be on PATH
+    base: Optional[Path] = None  # shared project copied first; the fixture is laid over it
 
     def meta(self) -> dict:
         return {"id": self.id, "title": self.title, "tags": self.tags, "tier": self.tier}
@@ -37,7 +38,9 @@ class Task:
         return [r for r in self.requires if not shutil.which(r)]
 
 
-TIERS = ("easy", "standard", "all")
+# easy: smoke tests. standard: short focused tasks. project: work inside one shared, realistic
+# project (many files, git, test runs, logs), where token savers and memory tools have room to act.
+TIERS = ("easy", "standard", "project", "all")
 
 
 def load_suite(suite_dir: Path = DEFAULT_SUITE, tier: str = "all") -> List[Task]:
@@ -66,6 +69,7 @@ def load_suite(suite_dir: Path = DEFAULT_SUITE, tier: str = "all") -> List[Task]
                 setup=suite_dir / data["setup"] if data.get("setup") else None,
                 tools=data.get("tools", []),
                 requires=data.get("requires", []),
+                base=suite_dir / data["base"] if data.get("base") else None,
             )
         )
     return tasks

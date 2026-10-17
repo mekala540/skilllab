@@ -106,3 +106,10 @@ def test_review_check_rejects_spraying():
             return AgentResult(cost_usd=0.0)
 
     assert execute(Run(task, None, 0), Spray(), "test")["passed"] is False
+
+
+def test_project_tier_shares_one_base():
+    project = [t for t in TASKS if t.tier == "project"]
+    assert len(project) >= 12
+    assert {t.base.name for t in project} == {"tally"}
+    assert all("git" in t.requires and t.setup for t in project)

@@ -1,0 +1,15 @@
+{
+  "id": "tally-slow-export",
+  "tier": "project",
+  "title": "Make the customer export fast on production-sized data, output unchanged",
+  "tags": ["performance", "optimization", "optimize", "profiling", "profile", "slow", "algorithm"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-slow-export",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-slow-export-hidden",
+  "prompt": "`python3 -m tally export customers FILE` is fine on the sample data, but on production data (about 40,000 orders from 2,000 customers) it runs for minutes. Make it fast. The CSV it writes must stay exactly the same, byte for byte, and the existing tests must keep passing. There's no production data in the repo; generate your own if you want to measure.",
+  "check": "{python} check_tally_slow_export.py",
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1500
+}

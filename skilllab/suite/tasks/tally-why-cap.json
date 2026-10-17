@@ -1,0 +1,15 @@
+{
+  "id": "tally-why-cap",
+  "tier": "project",
+  "title": "Answer from git history: when and why was the discount cap added",
+  "tags": ["git", "history", "commits", "blame", "archaeology", "investigate", "research"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-why-cap",
+  "setup": "fixtures/tally-why-cap-setup",
+  "hidden": "fixtures/tally-why-cap-hidden",
+  "prompt": "Product wants to raise the maximum discount (MAX_DISCOUNT in tally/discounts.py) to 40%. Before anyone changes it, I need its history from this repo's git log. Write ANSWER.md in the repo root with exactly these four lines:\n\nintroduced: <full hash of the commit that first added the cap>\nissue: <the issue number that commit cites>\nlast_value_change: <full hash of the most recent commit that changed the cap's value>\nprevious_value: <the value before that change, as a decimal like 0.15>\n\nYou can add a short explanation below those lines. Don't change any code or history.",
+  "check": "{python} check_tally_why_cap.py",
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 900
+}

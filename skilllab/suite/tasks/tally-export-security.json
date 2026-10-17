@@ -1,0 +1,16 @@
+{
+  "id": "tally-export-security",
+  "tier": "project",
+  "title": "Fix two findings from a security review of the customer export",
+  "tags": ["security", "vulnerability", "path traversal", "injection", "csv", "code review", "review", "hardening"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-export-security",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-export-security-hidden",
+  "prompt": "Our security review came back with two findings about the customer export; they're in docs/security-review-2026-03.md. Fix both in the code, the way the review requires. Keep normal exports working exactly as before, and keep the existing tests passing. Add tests that show each finding is fixed.",
+  "check": "{python} check_tally_export_security.py",
+  "protect": ["docs/security-review-2026-03.md"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1200
+}

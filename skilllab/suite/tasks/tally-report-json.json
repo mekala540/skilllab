@@ -1,0 +1,16 @@
+{
+  "id": "tally-report-json",
+  "tier": "project",
+  "title": "Add JSON output to reports, following the project's money rules",
+  "tags": ["feature", "spec", "specs", "implement", "cli", "json", "conventions", "api"],
+  "base": "projects/tally",
+  "fixture": "fixtures/tally-report-json",
+  "setup": "projects/tally-setup",
+  "hidden": "fixtures/tally-report-json-hidden",
+  "prompt": "Implement docs/specs/report-json.md: a `--format json` option for `python3 -m tally report` and the new `report customers` report. Follow the spec exactly and the conventions in docs/architecture.md. Keep the existing tests passing and add tests for the new output.",
+  "check": "{python} check_tally_report_json.py",
+  "protect": ["docs/specs/report-json.md"],
+  "tools": ["Bash(git:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"],
+  "requires": ["git"],
+  "timeout": 1500
+}
