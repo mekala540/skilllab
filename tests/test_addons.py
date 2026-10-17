@@ -362,3 +362,25 @@ def test_warmup_runs_are_not_counted(tmp_path):
     s = summarize(recs, sk, tk, [])
     assert s["baseline"]["t1"]["n"] == 5 and s["pairs"][0]["n"] == 5
     assert s["skills"][0]["savings"]["verdict"] == "same cost"
+
+
+def test_tool_calls_and_shell_commands_are_recorded():
+    from skilllab.agent import parse_stream
+    stream = "\n".join(json.dumps(e) for e in [
+        {"type": "assistant", "message": {"content": [
+            {"type": "tool_use", "name": "Read", "input": {"file_path": "a.py"}},
+            {"type": "tool_use", "name": "Bash", "input": {"command": "ls -la"}},
+            {"type": "tool_use", "name": "Bash", "input": {"command": "python3 test.py"}}]}},
+        {"type": "result", "is_error": False, "total_cost_usd": 0.1, "num_turns": 2, "usage": {}}])
+    res = parse_stream(stream)
+    assert res.tool_calls == {"Read": 1, "Bash": 2} and res.bash_commands == ["ls", "python3"]
+
+    sk = [{"id": "addon:x", "name": "x", "description": "", "source": "addon",
+           "upfront_tokens": 0, "onuse_tokens": 0, "addon": True}]
+    tk = [{"id": "t1", "title": "", "tags": []}]
+    recs = ([dict(_r("baseline", 0.3), bash_commands=[]) for _ in range(5)]
+            + [dict(_r("addon", 0.3, subject="addon:x"), bash_commands=["python3"]) for _ in range(5)])
+    pair = summarize(recs, sk, tk, [])["pairs"][0]
+    assert pair["bash_calls"] == 1 and pair["base_bash_calls"] == 0 and pair["bash_used"] == ["python3"]
+    from skilllab.report import to_markdown
+    assert "1 vs 0 (python3)" in to_markdown(summarize(recs, sk, tk, []), "m")

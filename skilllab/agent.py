@@ -15,7 +15,7 @@ import tempfile
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 # What the agent may do without asking. Anything else is denied (dontAsk mode),
 # so a skill's own scripts do not run unless the task allows them.
@@ -46,6 +46,10 @@ class AgentResult:
     output_tokens: int = 0
     turns: Optional[int] = None
     skills_invoked: List[str] = field(default_factory=list)
+    # What the agent actually did, so a report can say whether an add-on had anything to act
+    # on (a command rewriter does nothing if the agent never runs a shell command).
+    tool_calls: Dict[str, int] = field(default_factory=dict)
+    bash_commands: List[str] = field(default_factory=list)  # first word of each Bash command
 
 
 def parse_stream(text: str) -> AgentResult:
@@ -63,6 +67,12 @@ def parse_stream(text: str) -> AgentResult:
         kind = ev.get("type")
         if kind == "assistant":
             for block in (ev.get("message") or {}).get("content") or []:
+                if isinstance(block, dict) and block.get("type") == "tool_use":
+                    tool = str(block.get("name") or "?")
+                    res.tool_calls[tool] = res.tool_calls.get(tool, 0) + 1
+                    if tool == "Bash":
+                        words = str((block.get("input") or {}).get("command") or "").split()
+                        res.bash_commands.append(words[0] if words else "")
                 if isinstance(block, dict) and block.get("type") == "tool_use" and block.get("name") == "Skill":
                     args = block.get("input") or {}
                     res.skills_invoked.append(str(args.get("skill") or args.get("command") or args.get("name") or ""))

@@ -192,6 +192,8 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
             "protected_changed": changed,
             "skill_triggered": triggered,
             "skills_invoked": res.skills_invoked,
+            "tool_calls": res.tool_calls,
+            "bash_commands": res.bash_commands,
             "cost_usd": res.cost_usd,
             "input_tokens": res.input_tokens,
             "output_tokens": res.output_tokens,

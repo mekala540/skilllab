@@ -75,6 +75,14 @@ METRIC_LABELS = {"cost_usd": "Cost", "input_tokens": "Input tokens", "output_tok
                  "duration_s": "Time", "turns": "Turns"}
 
 
+def _bash(p: dict) -> str:
+    """Median shell commands per run, with vs without, and which programs the with-arm ran."""
+    if p.get("bash_calls") is None:
+        return "–"
+    used = ", ".join(p.get("bash_used") or [])
+    return f"{p['bash_calls']:g} vs {p.get('base_bash_calls') or 0:g}" + (f" ({used})" if used else "")
+
+
 def _has_savings(summary: dict) -> bool:
     return any((p.get("savings") or {}).get("metrics") for p in summary["pairs"])
 
@@ -96,15 +104,18 @@ def _savings_md(summary: dict) -> list:
         what = {"cost_usd": "cost", "input_tokens": "input tokens"}.get(sv.get("by"), "")
         out.append(f"| `{s['id']}` | **{sv.get('verdict') or sv.get('note') or '–'}** | {what} {_change(sv.get('change'), sv.get('ci'))} | "
                    f"{_delta(s.get('pass_delta'))} | {len(s['tasks'])} |")
-    out += ["", "| Subject | Task | " + " | ".join(METRIC_LABELS.values()) + " | Verdict |",
-            "| --- | --- | " + " | ".join("---" for _ in METRIC_LABELS) + " | --- |"]
+    out += ["", "*Shell commands*: median Bash calls per run, with vs without, and the programs run. "
+            "An add-on that acts on shell output (a command rewriter) can only save anything where this is above zero.", "",
+            "| Subject | Task | " + " | ".join(METRIC_LABELS.values()) + " | Shell commands | Verdict |",
+            "| --- | --- | " + " | ".join("---" for _ in METRIC_LABELS) + " | --- | --- |"]
     for p in summary["pairs"]:
         sv = p.get("savings") or {}
         cells = []
         for m in METRIC_LABELS:
             d = (sv.get("metrics") or {}).get(m)
             cells.append(f"{_num(d['with'], m)} vs {_num(d['base'], m)} ({_change(d['change'])})" if d else "–")
-        out.append(f"| `{p['skill']}` | {p['task']} | " + " | ".join(cells) + f" | {sv.get('verdict') or '–'} |")
+        out.append(f"| `{p['skill']}` | {p['task']} | " + " | ".join(cells)
+                   + f" | {_bash(p)} | {sv.get('verdict') or sv.get('note') or '–'} |")
     out.append("")
     return out
 
@@ -205,8 +216,8 @@ def to_html(summary: dict, model: str) -> str:
                 cells += (f"<td class=n>{e(_num(d['with'], m))}<div class=d>vs {e(_num(d['base'], m))} · "
                           f"{e(_change(d['change']))}</div></td>") if d else "<td class=n>–</td>"
             prow += (f"<tr><td><code>{e(p['skill'])}</code></td><td>{e(p['task'])}</td>{cells}"
-                     f"<td>{e(sv.get('verdict') or '–')}</td></tr>")
-        heads = "".join(f"<th class=n>{e(l)}</th>" for l in METRIC_LABELS.values())
+                     f"<td class=n>{e(_bash(p))}</td><td>{e(sv.get('verdict') or sv.get('note') or '–')}</td></tr>")
+        heads = "".join(f"<th class=n>{e(l)}</th>" for l in METRIC_LABELS.values()) + "<th class=n>Shell commands</th>"
         warn = (f"<p class=gap><b>Warning.</b> {e(summary['control_warning'])}</p>"
                 if summary.get("control_warning") else "")
         cost_html = (f"<h2>Cost and tokens</h2>{warn}<p class=meta>Median per run with vs without, all valid runs. "
