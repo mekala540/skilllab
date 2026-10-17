@@ -17,6 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple
 
+from .addons import Addon
 from .skills import Pack, Skill
 from .tasks import Task, matches
 
@@ -31,14 +32,17 @@ class Run:
     skill: Optional[Skill]  # None = baseline (or a pack run)
     repeat: int
     pack: Optional[Pack] = None
+    addon: Optional[Addon] = None
 
     @property
     def arm(self) -> str:
-        return "pack" if self.pack else "skill" if self.skill else "baseline"
+        return ("addon" if self.addon else "pack" if self.pack else
+                "skill" if self.skill else "baseline")
 
     @property
     def subject(self) -> Optional[str]:
-        return self.pack.id if self.pack else self.skill.id if self.skill else None
+        who = self.addon or self.pack or self.skill
+        return who.id if who else None
 
     def key(self, model: str) -> str:
         return f"{model}|{self.arm}|{self.subject or '-'}|{self.task.id}|{self.repeat}"
@@ -69,6 +73,12 @@ def plan(skills: List[Skill], tasks: List[Task], repeats: int, all_tasks: bool =
     runs += [Run(t, s, r) for s, t in pairs for r in range(repeats)]
     tested = {s.id for s, _ in pairs}
     return runs, [s for s in skills if s.id not in tested]
+
+
+def plan_addons(addons: List[Addon], tasks: List[Task], repeats: int) -> List[Run]:
+    """Every add-on on every task, against one shared baseline per task."""
+    runs = [Run(t, None, r) for t in tasks for r in range(repeats)]
+    return runs + [Run(t, None, r, addon=a) for a in addons for t in tasks for r in range(repeats)]
 
 
 def _install(skill: Skill, ws: Path) -> None:
@@ -116,9 +126,12 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
             else:
                 for s in run.pack.skills:
                     _install(s, ws)
+        elif run.addon:
+            extra = run.addon.install(ws)
+        tools = list(task.tools) + (list(run.addon.tools) if run.addon else [])
         before = {p: _hash(ws / p) for p in task.protect}
 
-        res = agent.run(prompt, ws, task.timeout, tools=task.tools, **extra)
+        res = agent.run(prompt, ws, task.timeout, tools=tools, **extra)
 
         changed = [p for p, h in before.items() if _hash(ws / p) != h]
         passed, check_tail = False, ""
@@ -134,7 +147,9 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
                 check_tail = (proc.stdout + proc.stderr).strip()[-600:]
             except subprocess.TimeoutExpired:
                 check_tail = f"check timed out after {CHECK_TIMEOUT}s"
-        if run.pack:
+        if run.addon:
+            triggered = True  # always on: there is nothing to trigger
+        elif run.pack:
             triggered = any(run.pack.owns(s) for s in res.skills_invoked)
         elif run.skill and run.skill.user_invoked:
             triggered = True  # started by the "person" in the prompt
@@ -235,7 +250,7 @@ def run_all(runs: List[Run], agent, model: str, results_path: Path, workers: int
                 except Exception as exc:  # a bug in one run should not kill the batch
                     run = fut.run_ref
                     rec = {"key": run.key(model), "model": model, "arm": run.arm,
-                           "skill": run.skill.id if run.skill else None, "task": run.task.id,
+                           "skill": run.subject, "task": run.task.id,
                            "repeat": run.repeat, "passed": False,
                            "infra_error": f"runner error: {exc}", "cost_usd": None}
                 with lock:

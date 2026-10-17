@@ -2,12 +2,21 @@
 
 from __future__ import annotations
 
+import random
 import re
 from math import comb, sqrt
 from statistics import median
 from typing import Dict, List, Optional
 
 HELPS, HURTS, NO_LIFT, FLAGGED, MIXED = "helps", "hurts", "no lift", "flagged", "mixed"
+CHEAPER, COSTLIER, SAME_COST, CHEAPER_FEWER = "cheaper", "costlier", "same cost", "cheaper, fewer passes"
+
+# Savings: the change in median cost (or tokens) with a 90% bootstrap interval. "cheaper"
+# needs the whole interval below zero AND a pass rate that held (dropped by no more than
+# SAVINGS_GUARD). A saver that makes the agent fail more is not a saving.
+SAVINGS_GUARD = 0.15
+BOOTSTRAP = 2000
+METRICS = ("cost_usd", "input_tokens", "output_tokens", "duration_s", "turns")
 
 # A verdict needs both: a difference unlikely to be luck (Fisher's exact test, p <= ALPHA)
 # and big enough to matter (at least DEFAULT_THRESHOLD of pass rate).
@@ -69,6 +78,72 @@ def _med(values) -> Optional[float]:
     return median(vals) if vals else None
 
 
+def _ratio_ci(with_vals: List[float], base_vals: List[float], seed: int = 0) -> Optional[tuple]:
+    """Change in median (with / base - 1) and a 90% percentile-bootstrap interval.
+    Deterministic (fixed seed) so reports don't change on rebuild."""
+    if len(with_vals) < MIN_VALID or len(base_vals) < MIN_VALID:
+        return None
+    base_med = median(base_vals)
+    if base_med <= 0:
+        return None
+    point = median(with_vals) / base_med - 1
+    rng = random.Random(seed)
+    sims = []
+    for _ in range(BOOTSTRAP):
+        b = median(rng.choices(base_vals, k=len(base_vals)))
+        if b > 0:
+            sims.append(median(rng.choices(with_vals, k=len(with_vals))) / b - 1)
+    sims.sort()
+    lo, hi = sims[int(0.05 * len(sims))], sims[min(len(sims) - 1, int(0.95 * len(sims)))]
+    return round(point, 4), (round(lo, 4), round(hi, 4))
+
+
+def savings(recs: List[dict], base_recs: List[dict], delta: Optional[float]) -> dict:
+    """Cost, tokens, time and turns with vs without, over all valid runs (passed or not)."""
+    out: Dict[str, dict] = {}
+    for m in METRICS:
+        w = [float(r[m]) for r in recs if r.get(m) is not None]
+        b = [float(r[m]) for r in base_recs if r.get(m) is not None]
+        if m != "cost_usd":  # zero tokens means the agent didn't report them
+            w, b = [x for x in w if x > 0], [x for x in b if x > 0]
+        res = _ratio_ci(w, b)
+        if res:
+            out[m] = {"with": median(w), "base": median(b), "change": res[0], "ci": res[1]}
+    key = "cost_usd" if "cost_usd" in out else "input_tokens" if "input_tokens" in out else None
+    verdict = None
+    if key:
+        lo, hi = out[key]["ci"]
+        if hi < 0:
+            verdict = CHEAPER if delta is None or delta >= -SAVINGS_GUARD else CHEAPER_FEWER
+        elif lo > 0:
+            verdict = COSTLIER
+        else:
+            verdict = SAME_COST
+    return {"metrics": out, "by": key, "verdict": verdict}
+
+
+def _pooled_savings(recs: List[dict], baseline_recs: Dict[str, List[dict]], delta: Optional[float]) -> dict:
+    """Across tasks: each run's cost as a share of its task's median baseline, then the same
+    bootstrap. Tasks of very different sizes then count equally."""
+    for m in ("cost_usd", "input_tokens"):
+        w, b = [], []
+        for task, base in baseline_recs.items():
+            bv = [float(r[m]) for r in base if r.get(m)]
+            if len(bv) < MIN_VALID or median(bv) <= 0:
+                continue
+            bm = median(bv)
+            b += [x / bm for x in bv]
+            w += [float(r[m]) / bm for r in recs if r["task"] == task and r.get(m)]
+        if len(w) >= MIN_VALID:
+            res = _ratio_ci(w, b)
+            if res:
+                lo, hi = res[1]
+                verdict = ((CHEAPER if delta is None or delta >= -SAVINGS_GUARD else CHEAPER_FEWER)
+                           if hi < 0 else COSTLIER if lo > 0 else SAME_COST)
+                return {"by": m, "change": res[0], "ci": res[1], "verdict": verdict}
+    return {"by": None, "change": None, "ci": None, "verdict": None}
+
+
 def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
               untested: List[str], threshold: float = DEFAULT_THRESHOLD,
               alpha: float = DEFAULT_ALPHA, matches: Optional[Dict[str, dict]] = None) -> dict:
@@ -90,14 +165,14 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
     pairs = []
     for s in skills:
         for t in tasks:
-            recs = [r for r in valid if r["arm"] in ("skill", "pack")
+            recs = [r for r in valid if r["arm"] in ("skill", "pack", "addon")
                     and r["skill"] == s["id"] and r["task"] == t["id"]]
             if not recs:
                 continue
             base = baseline.get(t["id"])
             with_rate = _rate(recs)
             # A skill only a person can start has no trigger rate: the run starts it.
-            trig = None if s.get("user_invoked") else sum(r.get("skill_triggered", False) for r in recs) / len(recs)
+            trig = None if s.get("user_invoked") or s.get("addon") else sum(r.get("skill_triggered", False) for r in recs) / len(recs)
             passes = sum(r["passed"] for r in recs)
             notes = []
             p_value = None
@@ -120,7 +195,7 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
                         notes.append("small sample: only large effects detectable")
                 if base["rate"] == 1.0 and with_rate == 1.0:
                     notes.append("ceiling: passes without the skill too")
-                if trig is None:
+                if trig is None and s.get("user_invoked"):
                     notes.append(f"started by the user (/{s['name']}): lift only")
                 if trig == 0:
                     notes.append("pack's skills never used" if s.get("pack") else "skill never triggered")
@@ -128,6 +203,8 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
                         # A change without the skill ever loading is noise, not lift.
                         notes.append("difference is noise")
                         verdict = FLAGGED
+            base_recs = [r for r in valid if r["arm"] == "baseline" and r["task"] == t["id"]]
+            saved = savings(recs, base_recs, delta)
             pairs.append({
                 "skill": s["id"], "task": t["id"], "n": len(recs),
                 "with_rate": with_rate, "base_rate": base["rate"] if base else None,
@@ -138,7 +215,7 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
                 "cost_per_pass": _cost_per_pass(recs),
                 "base_cost_per_pass": base["cost_per_pass"] if base else None,
                 "turns": _med(r.get("turns") for r in recs),
-                "verdict": verdict, "notes": notes,
+                "verdict": verdict, "notes": notes, "savings": saved,
                 "match": (matches.get(f"{s['id']}|{t['id']}") or {}).get("reason"),
             })
 
@@ -159,8 +236,16 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
         else:
             verdict = NO_LIFT
         trigs = [p["trigger_rate"] for p in sp if p["trigger_rate"] is not None]
+        mine = [r for r in valid if r["arm"] in ("skill", "pack", "addon") and r["skill"] == s["id"]]
+        tasks_done = {p["task"] for p in sp}
+        base_by_task = {t: [r for r in valid if r["arm"] == "baseline" and r["task"] == t] for t in tasks_done}
+        n_base = sum(len(v) for v in base_by_task.values())
+        overall_delta = (_rate(mine) - sum(r["passed"] for v in base_by_task.values() for r in v) / n_base
+                         if mine and n_base else None)
         per_skill.append({**s, "verdict": verdict, "tasks": [p["task"] for p in sp],
-                          "trigger_rate": sum(trigs) / len(trigs) if trigs else None})
+                          "trigger_rate": sum(trigs) / len(trigs) if trigs else None,
+                          "pass_delta": overall_delta,
+                          "savings": _pooled_savings(mine, base_by_task, overall_delta)})
 
     return {
         "runs": len(records), "errors": errors,
@@ -180,6 +265,7 @@ def find_gaps(per_skill, pairs, baseline, skills, tasks, untested) -> Dict[str, 
 
     gaps["costly_no_lift"] = sorted(
         [s for s in per_skill if s["verdict"] == NO_LIFT
+         and (s.get("savings") or {}).get("verdict") != CHEAPER
          and (s["upfront_tokens"] >= COSTLY_UPFRONT or s["onuse_tokens"] >= COSTLY_ONUSE)],
         key=lambda s: -(s["upfront_tokens"] * 20 + s["onuse_tokens"]))
     gaps["never_triggered"] = [s for s in per_skill if s["trigger_rate"] == 0]

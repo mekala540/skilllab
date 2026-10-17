@@ -1,8 +1,9 @@
 # skilllab
 
-CLI that measures whether an agent skill helps: runs a fixed task suite with and without
-each skill (Claude Code headless), checks results with hidden tests, and reports verdicts
-and gaps. Sibling of skillprint, which measures what a skill costs; this one measures lift.
+CLI that measures whether an agent skill or add-on helps: runs a fixed task suite with and
+without it (Claude Code headless), checks results with hidden tests, and reports pass-rate
+verdicts, measured cost/token savings and gaps. Sibling of skillprint, which estimates what a
+skill costs before it runs; this one measures what it does.
 
 ## Setup and tests
 
@@ -20,9 +21,10 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
 - `skilllab/skills.py`: find `SKILL.md`, parse frontmatter, dedupe, clone git sources.
 - `skilllab/tasks.py`: load the suite, propose skill/task candidates by tag words.
 - `skilllab/relevance.py`: judge each candidate (fair test or not), cached in `matches.json`.
+- `skilllab/addons.py`: `addon.json` add-ons (settings/hooks, plugin, skills, CLAUDE.md, system prompt, env, setup commands) for `skilllab compare`.
 - `skilllab/agent.py`: `ClaudeAgent` (headless, tool allowlist) and `CommandAgent`; both parsed from stream-json by `parse_stream`.
 - `skilllab/runner.py`: `plan` (shared baselines), `execute` (one run in a temp workspace), `run_all` (parallel, budget, resume).
-- `skilllab/verdict.py`: verdicts and gaps. `skilllab/report.py`: markdown and HTML. `skilllab/lab.py`: the animated `lab.html` replay (canvas, no dependencies). `skilllab/cli.py`: commands only.
+- `skilllab/verdict.py`: pass-rate verdicts, cost/token savings (`savings`, bootstrap ranges), gaps. `skilllab/report.py`: markdown and HTML. `skilllab/lab.py`: the animated `lab.html` replay (canvas, no dependencies). `skilllab/cli.py`: commands only.
 - `skilllab/suite/`: tasks, fixtures, hidden checks. `tests/solutions/`: a reference solution per task.
 
 ## Rules
@@ -41,4 +43,6 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
   `matches.json`). Untested means unknown, never "not needed". Skills with
   `disable-model-invocation: true` have no trigger rate and cost no up-front tokens.
 - Packs that ship as plugins are tested as plugins (`--plugin-dir`, hooks included), the way users install them.
+- **A saving needs the pass rate to hold.** `cheaper` requires the whole cost range below zero and a pass-rate drop of at most `SAVINGS_GUARD`; otherwise it's `cheaper, fewer passes`. Don't report a token saving without the pass rate next to it.
+- Add-ons run code (hooks, setup, proxies). Tests use local stand-ins only; never ship an `addon.json` for a real tool without checking its install steps against its own docs.
 - Keep README's "How it decides" section in sync with any behavior change.

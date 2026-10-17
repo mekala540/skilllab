@@ -5,6 +5,8 @@ from __future__ import annotations
 import html
 from typing import Optional
 
+from .verdict import SAVINGS_GUARD
+
 GAP_TITLES = {
     "costly_no_lift": ("Costs context, no measurable lift",
                        "Loaded tokens without moving the pass rate. Candidates to trim or drop."),
@@ -49,6 +51,59 @@ def _money(x: Optional[float]) -> str:
     return "–" if x is None else f"${x:.3f}"
 
 
+def _change(x: Optional[float], ci=None) -> str:
+    """A relative change: -0.42 -> "-42% [-55 to -30]"."""
+    if x is None:
+        return "–"
+    txt = f"{'+' if x > 0 else ''}{round(x * 100)}%"
+    if ci:
+        txt += f" [{round(ci[0] * 100)} to {round(ci[1] * 100)}]"
+    return txt
+
+
+def _num(x: Optional[float], metric: str) -> str:
+    if x is None:
+        return "–"
+    if metric == "cost_usd":
+        return f"${x:.3f}"
+    if metric == "duration_s":
+        return f"{x:.0f}s"
+    return f"{x:,.0f}"
+
+
+METRIC_LABELS = {"cost_usd": "Cost", "input_tokens": "Input tokens", "output_tokens": "Output tokens",
+                 "duration_s": "Time", "turns": "Turns"}
+
+
+def _has_savings(summary: dict) -> bool:
+    return any((p.get("savings") or {}).get("verdict") for p in summary["pairs"])
+
+
+def _savings_md(summary: dict) -> list:
+    out = ["## Cost and tokens", "",
+           "Median per run, with vs without, over all valid runs (passed or not). The range is a 90% "
+           "bootstrap interval for the change. **cheaper** needs the whole range below zero and a pass "
+           f"rate that didn't drop by more than {round(SAVINGS_GUARD * 100)} pts.", "",
+           "| Subject | Cost/tokens verdict | Change | Pass rate change | Tasks |",
+           "| --- | --- | --- | --- | --- |"]
+    for s in summary["skills"]:
+        sv = s.get("savings") or {}
+        what = {"cost_usd": "cost", "input_tokens": "input tokens"}.get(sv.get("by"), "")
+        out.append(f"| `{s['id']}` | **{sv.get('verdict') or '–'}** | {what} {_change(sv.get('change'), sv.get('ci'))} | "
+                   f"{_delta(s.get('pass_delta'))} | {len(s['tasks'])} |")
+    out += ["", "| Subject | Task | " + " | ".join(METRIC_LABELS.values()) + " | Verdict |",
+            "| --- | --- | " + " | ".join("---" for _ in METRIC_LABELS) + " | --- |"]
+    for p in summary["pairs"]:
+        sv = p.get("savings") or {}
+        cells = []
+        for m in METRIC_LABELS:
+            d = (sv.get("metrics") or {}).get(m)
+            cells.append(f"{_num(d['with'], m)} vs {_num(d['base'], m)} ({_change(d['change'])})" if d else "–")
+        out.append(f"| `{p['skill']}` | {p['task']} | " + " | ".join(cells) + f" | {sv.get('verdict') or '–'} |")
+    out.append("")
+    return out
+
+
 def _gap_item(key: str, item) -> str:
     if key in ("ceiling_tasks", "unsolved_tasks"):
         return f"`{item}`"
@@ -78,6 +133,8 @@ def to_markdown(summary: dict, model: str) -> str:
                    f"{_ci(p['base_rate'], p.get('base_ci'))} | {_delta(p['delta'])} | {_p(p.get('p_value'))} | "
                    f"{_money(p.get('cost_per_pass'))} | {_money(p.get('base_cost_per_pass'))} | "
                    f"{p.get('match') or '–'} | {'; '.join(p['notes'])} |")
+    if _has_savings(summary):
+        out += [""] + _savings_md(summary)
     out += ["", "## Gaps", ""]
     for key, (title, why) in GAP_TITLES.items():
         items = summary["gaps"].get(key) or []
@@ -99,6 +156,9 @@ def to_markdown(summary: dict, model: str) -> str:
             "Use `--repeats 5` or more before telling a maintainer their skill doesn't help.",
             "- **Many comparisons.** Testing many skills means a few will look significant by chance. "
             "Rerun surprising results before acting on them.",
+            "- **Cost and tokens** are what Claude Code reports for each run (input counts cached reads). "
+            "They are measured on every run, so a saving shows even when both arms always pass. Prices "
+            "and caching change, so compare within one report, not across months.",
             "- A verdict is about *these tasks on this model*, not the skill in general. Other models "
             "(larger or smaller) may use skills differently.",
             "- Built-in tasks are short samples (a few files, a clear prompt, a fixed check), not real "
@@ -120,6 +180,34 @@ def to_html(summary: dict, model: str) -> str:
         f"<td class=n>{_delta(p['delta'])}</td><td class=n>{_p(p.get('p_value'))}</td>"
         f"<td class=d>{e(p.get('match') or '–')}</td><td>{e('; '.join(p['notes']))}</td></tr>"
         for p in summary["pairs"])
+    cost_html = ""
+    if _has_savings(summary):
+        srows = ""
+        for s in summary["skills"]:
+            sv = s.get("savings") or {}
+            what = {"cost_usd": "cost", "input_tokens": "input tokens"}.get(sv.get("by"), "")
+            v = sv.get("verdict") or "–"
+            cls = {"cheaper": "helps", "costlier": "hurts", "cheaper, fewer passes": "flagged"}.get(v, "no-lift")
+            srows += (f"<tr><td><code>{e(s['id'])}</code></td><td><span class='v v-{cls}'>{e(v)}</span></td>"
+                      f"<td class=n>{e(what)} {e(_change(sv.get('change'), sv.get('ci')))}</td>"
+                      f"<td class=n>{e(_delta(s.get('pass_delta')))}</td></tr>")
+        prow = ""
+        for p in summary["pairs"]:
+            sv = p.get("savings") or {}
+            cells = ""
+            for m in METRIC_LABELS:
+                d = (sv.get("metrics") or {}).get(m)
+                cells += (f"<td class=n>{e(_num(d['with'], m))}<div class=d>vs {e(_num(d['base'], m))} · "
+                          f"{e(_change(d['change']))}</div></td>") if d else "<td class=n>–</td>"
+            prow += (f"<tr><td><code>{e(p['skill'])}</code></td><td>{e(p['task'])}</td>{cells}"
+                     f"<td>{e(sv.get('verdict') or '–')}</td></tr>")
+        heads = "".join(f"<th class=n>{e(l)}</th>" for l in METRIC_LABELS.values())
+        cost_html = (f"<h2>Cost and tokens</h2><p class=meta>Median per run with vs without, all valid runs. "
+                     f"Range: 90% bootstrap interval. <b>cheaper</b> needs the whole range below zero and a pass "
+                     f"rate that held (drop ≤ {round(SAVINGS_GUARD * 100)} pts).</p>"
+                     f"<div class=wrap><table><tr><th>Subject</th><th>Verdict</th><th class=n>Change</th>"
+                     f"<th class=n>Pass rate</th></tr>{srows}</table></div>"
+                     f"<div class=wrap><table><tr><th>Subject</th><th>Task</th>{heads}<th>Verdict</th></tr>{prow}</table></div>")
     gaps = ""
     for key, (title, why) in GAP_TITLES.items():
         items = summary["gaps"].get(key) or []
@@ -151,6 +239,7 @@ ${summary['cost_usd']:.2f} spent · verdicts need ≥{round(summary['threshold']
 Verdicts hold for this model on these tasks only: other models may differ, and built-in tasks are short samples, not real project work.</p>
 <h2>Verdicts</h2><div class=wrap><table><tr><th>Skill</th><th>Verdict</th><th>Tasks</th><th>Triggered</th><th class=n>Up front</th><th class=n>On use</th></tr>{rows}</table></div>
 <h2>Per task</h2><div class=wrap><table><tr><th>Skill</th><th>Task</th><th class=n>With</th><th class=n>Without</th><th class=n>Lift</th><th class=n>p</th><th>Why this pair</th><th>Notes</th></tr>{pair_rows}</table></div>
+{cost_html}
 <h2>Gaps</h2>{gaps or '<p class=meta>None found.</p>'}
 </main></body></html>
 """

@@ -1,4 +1,4 @@
-"""Command line: skills, plan, run, report, suggest."""
+"""Command line: skills, plan, run, compare, report, suggest."""
 
 from __future__ import annotations
 
@@ -13,7 +13,8 @@ from .agent import ClaudeAgent, CommandAgent, find_claude
 from . import relevance
 from .lab import to_lab_html
 from .report import to_html, to_markdown
-from .runner import final_results, load_results, plan, run_all
+from .addons import load_addon
+from .runner import final_results, load_results, plan, plan_addons, run_all
 from .skills import Skill, load_sources, packs
 from .tasks import DEFAULT_SUITE, TIERS, Task, load_suites, matches
 from .verdict import DEFAULT_ALPHA, DEFAULT_THRESHOLD, summarize
@@ -164,6 +165,75 @@ def cmd_run(args) -> int:
     print("\n" + ", ".join(f"{v}: {n}" for v, n in sorted(counts.items())) if counts else "")
     print(f"Report: {out / 'report.md'}  ·  {out / 'report.html'}  ·  replay: {out / 'lab.html'}")
     return 0
+
+
+def cmd_compare(args) -> int:
+    """Each add-on on every task against a shared baseline: cost, tokens, time, pass rate."""
+    try:
+        addons = [load_addon(Path(p)) for p in args.addons]
+    except ValueError as exc:
+        print(exc, file=sys.stderr)
+        return 2
+    names = [a.name for a in addons]
+    if len(set(names)) != len(names):
+        print("two add-ons share a name; names must be unique", file=sys.stderr)
+        return 2
+    missing = {a.name: a.missing() for a in addons if a.missing()}
+    if missing:
+        for name, progs in missing.items():
+            print(f"add-on {name} needs {', '.join(progs)} on PATH", file=sys.stderr)
+        return 2
+    tasks = _tasks(args)
+    if not tasks:
+        print("no tasks selected", file=sys.stderr)
+        return 1
+    runs = plan_addons(addons, tasks, args.repeats)
+    print(f"{len(addons)} add-on{'s' if len(addons) != 1 else ''} × {len(tasks)} tasks × {args.repeats} repeats, "
+          f"plus {len(tasks) * args.repeats} shared baseline runs = {len(runs)} runs")
+    if args.agent_cmd:
+        agent = CommandAgent(args.agent_cmd)
+    else:
+        if not find_claude():
+            print("claude CLI not found. Install Claude Code or pass --agent-cmd.", file=sys.stderr)
+            return 2
+        agent = ClaudeAgent(args.model, max_budget_usd=args.run_budget)
+        print(f"Agent: Claude Code, model {args.model}, budget ${args.budget:.2f} for this batch")
+    if not args.yes and sys.stdin.isatty():
+        if input("Start? [y/N] ").strip().lower() != "y":
+            return 1
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    meta = {
+        "model": args.model if not args.agent_cmd else f"cmd:{args.agent_cmd}",
+        "mode": "addon",
+        "skills": [a.meta() for a in addons],
+        "tasks": [t.meta() for t in tasks],
+        "untested": [],
+        "matches": {},
+    }
+    (out / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    (out / "results.jsonl").touch()
+    _write_reports(out, meta["model"], args.threshold, args.alpha)
+    if args.watch:
+        serve(out)
+    run_all(runs, agent, meta["model"], out / "results.jsonl", workers=args.workers,
+            budget_usd=None if args.agent_cmd else args.budget, keep=args.keep)
+    summary = _write_reports(out, meta["model"], args.threshold, args.alpha)
+    print()
+    for s in summary["skills"]:
+        print(_savings_line(s))
+    print(f"Report: {out / 'report.md'}  ·  {out / 'report.html'}  ·  replay: {out / 'lab.html'}")
+    return 0
+
+
+def _savings_line(s: dict) -> str:
+    from .report import _change, _delta
+    sv = s.get("savings") or {}
+    if not sv.get("verdict"):
+        return f"{s['name']}: not enough data for a cost comparison"
+    what = "cost" if sv["by"] == "cost_usd" else "input tokens"
+    return (f"{s['name']}: {sv['verdict']} · {what} {_change(sv['change'], sv['ci'])} · "
+            f"pass rate {_delta(s.get('pass_delta'))} vs baseline")
 
 
 # A task can only show lift if the agent sometimes fails it without help.
@@ -407,6 +477,26 @@ def main(argv=None) -> int:
     rep.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
     rep.add_argument("--alpha", type=float, default=DEFAULT_ALPHA)
     rep.set_defaults(fn=cmd_report)
+
+    cmp_ = sub.add_parser("compare", help="measure add-ons (token savers, memory, prompts): cost, tokens, pass rate")
+    cmp_.add_argument("addons", nargs="+", help="add-on folders, each with an addon.json")
+    cmp_.add_argument("--suite", action="append", help="extra task suite folder (repeatable)")
+    cmp_.add_argument("--no-builtin", action="store_true", help="don't load the built-in suite")
+    cmp_.add_argument("--task", action="append", help="only this task id (repeatable)")
+    cmp_.add_argument("--tier", choices=TIERS, default="standard")
+    cmp_.add_argument("--repeats", type=int, default=5)
+    cmp_.add_argument("--out", default="results/compare")
+    cmp_.add_argument("--model", default=DEFAULT_MODEL)
+    cmp_.add_argument("--workers", type=int, default=4)
+    cmp_.add_argument("--budget", type=float, default=5.0)
+    cmp_.add_argument("--run-budget", type=float, default=1.0)
+    cmp_.add_argument("--agent-cmd", help="use this command instead of Claude Code ({prompt_file})")
+    cmp_.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
+    cmp_.add_argument("--alpha", type=float, default=DEFAULT_ALPHA)
+    cmp_.add_argument("--keep", action="store_true")
+    cmp_.add_argument("--yes", action="store_true")
+    cmp_.add_argument("--watch", action="store_true")
+    cmp_.set_defaults(fn=cmd_compare)
 
     sg = sub.add_parser("suggest", parents=[common], help="draft tasks for untested skills")
     sg.add_argument("--out", default="drafts")

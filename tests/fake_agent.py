@@ -4,7 +4,8 @@ Behavior: if a skill is installed in .claude/skills, it "uses" it and copies the
 solution for the task into the workspace; otherwise it does nothing. So every skill
 should come out as "helps" on tasks whose baseline fails.
 
-FAKE_AGENT_MODE=demo makes outcomes random but skill-dependent, to preview reports
+FAKE_AGENT_COST and FAKE_AGENT_INPUT set the reported cost and input tokens, so an add-on
+(through its "env") can look cheaper or costlier. FAKE_AGENT_MODE=demo makes outcomes random but skill-dependent, to preview reports
 and lab.html with varied verdicts. Demo results are fake: never publish them.
 """
 
@@ -40,8 +41,9 @@ def main():
             if (cwd / fixture).exists():
                 shutil.copytree(SOLUTIONS / task, cwd, dirs_exist_ok=True)
     print(json.dumps({"type": "result", "subtype": "success", "is_error": False,
-                      "total_cost_usd": 0.25, "num_turns": 3,
-                      "usage": {"input_tokens": 100, "output_tokens": 20}}))
+                      "total_cost_usd": float(os.environ.get("FAKE_AGENT_COST", 0.25)), "num_turns": 3,
+                      "usage": {"input_tokens": int(os.environ.get("FAKE_AGENT_INPUT", 100)),
+                                "output_tokens": 20}}))
     return 0
 
 

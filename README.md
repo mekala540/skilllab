@@ -15,7 +15,10 @@ skilllab answers that the way a lab would:
 3. **Run** every task without skills (baseline) and with each matching skill, several times, in parallel, each in a fresh throwaway workspace.
 4. **Check** results with hidden tests that are copied in only after the agent finishes. No AI grading.
 5. **Judge** each skill: `helps`, `no lift`, `hurts`, `mixed` or `flagged`.
-6. **Report gaps**: skills that cost context without helping, skills the agent never triggers, tasks nobody solves, claims no task tests, and look-alike skills across repos.
+6. **Measure cost**: median cost, input and output tokens, time and turns per run, with and without, with a 90% range. A skill or add-on that makes the agent cheaper at the same pass rate shows up even when both arms always pass.
+7. **Report gaps**: skills that cost context without helping, skills the agent never triggers, tasks nobody solves, claims no task tests, and look-alike skills across repos.
+
+It measures more than skills. **Add-ons** (token savers, memory tools, prompt styles, proxies) are anything described by an `addon.json`; `skilllab compare` runs them side by side on the same tasks.
 
 ## Install
 
@@ -46,6 +49,48 @@ skilllab suggest https://github.com/obra/superpowers --out drafts   # draft task
 Start small. One task, a few skills, `--repeats 3`, then grow. Every run is a full agent session and costs real money; `--budget` (default $5) stops new runs once spend reaches it, and rerunning the same command resumes where it left off.
 
 Useful options for `run`: `--skill NAME` (repeatable), `--limit-skills N`, `--model`, `--workers` (agents running at once, default 4), `--run-budget` (USD cap per session), `--keep` (keep workspaces to inspect), `--pair SKILL:TASK` (run this pair whatever the relevance check says), `--no-judge` (count every keyword match), `--all-tasks` (test every skill on every task).
+
+## Measure add-ons (token savers, memory, prompt styles)
+
+Token savers claim 60–95% fewer tokens. Each one measures itself, on its own examples. `compare` runs each add-on and a plain baseline on the same tasks and reports cost, tokens and pass rate side by side:
+
+```bash
+skilllab compare examples/addons/terse path/to/other-addon --repeats 5 --budget 10 --out results/savers
+```
+
+An add-on is a folder with an `addon.json`. Every field except `name` is optional:
+
+```json
+{
+  "name": "my-saver",
+  "description": "What it claims to do",
+  "settings": "settings.json",
+  "plugin_dir": "plugin",
+  "skills_dir": "skills",
+  "claude_md": "CLAUDE.md",
+  "append_system_prompt": "Be brief.",
+  "env": {"ANTHROPIC_BASE_URL": "http://127.0.0.1:8787"},
+  "tools": ["Bash(my-saver:*)"],
+  "setup": ["my-saver init --local"],
+  "requires": ["my-saver"]
+}
+```
+
+- `settings` is passed with `claude --settings` (hooks and other settings; a file, or an inline object). `plugin_dir` loads with `--plugin-dir`. `skills_dir` subfolders go to `.claude/skills/`, `claude_md` to the workspace's `CLAUDE.md`.
+- `env` is set for the agent only: point `ANTHROPIC_BASE_URL` at a local proxy, for example. Start the proxy yourself before the batch.
+- `tools` adds to the allowlist (a command rewriter needs its own command allowed). `setup` runs in each fresh workspace before the agent starts; if it fails, the run is an infrastructure error and is retried on resume. `requires` stops the batch early if a program is missing.
+- Settings, hooks, setup commands and proxies run code on your machine. Read an add-on's install steps before you write its `addon.json`.
+
+The result, per add-on and per task:
+
+| Verdict | Means |
+| --- | --- |
+| `cheaper` | The whole 90% range of the cost change is below zero, and the pass rate dropped by no more than 15 pts |
+| `cheaper, fewer passes` | Cheaper, but the pass rate dropped by more than 15 pts. A saving that breaks work isn't a saving |
+| `costlier` | The whole range is above zero |
+| `same cost` | The range includes zero: no difference this sample can show |
+
+Pass-rate verdicts (`helps`, `no lift`, …) are reported too, the same way as for skills.
 
 ## The lab view
 
@@ -124,7 +169,9 @@ Tasks the baseline passes more than 60% of the time are marked "too easy for thi
 - **Matching, in two steps.** First, keywords propose candidates: a task tag appearing as a whole word in the skill's name or description (`contest` does not match `test`). A shared word is not enough, though: "git" pairs a skill that installs git hooks with a task about finding a regression. So, second, a cheap model (Claude Haiku, about a cent per batch, no tools) judges each candidate: is the skill's own "use when" condition met by this task as given? Its yes/no and a one-line reason go to `matches.json` in the results folder and into the report. Edit the file to overrule it; saved decisions are never re-judged. `--pair SKILL:TASK` forces a pair, and `--no-judge` skips the check.
 - **Untested is not "not needed".** A skill with no fair task is listed as untested: nothing is known about it. Those built around a conversation with a person (grilling, teaching, hand-offs) are listed separately, because an unattended run can't judge them.
 - **Setup and tools.** Some tasks run a setup script first (e.g. to build a git history) and allow extra tools (`git`, `node`) for that task only.
-- **Token costs** are characters ÷ 4: name + description up front, the body on use.
+- **Token costs** of a skill (before running it) are characters ÷ 4: name + description up front, the body on use.
+- **Measured cost and tokens** come from Claude Code's final `result` event for each run: `total_cost_usd`, input tokens (fresh + cache reads + cache writes), output tokens, turns, plus wall-clock time. Each is compared as the median per run with vs without, over all valid runs (passed or failed), with a 90% percentile-bootstrap interval (2,000 resamples, fixed seed, so a rebuilt report doesn't change). The verdict uses cost; if a run reports no cost (another agent via `--agent-cmd`), input tokens. Across several tasks, each run is first divided by its task's median baseline, so a big task doesn't drown out small ones. `cheaper` also needs the pass rate to hold (drop ≤ 15 pts). A skill that is `cheaper` is not listed under "Costs context, no measurable lift".
+- **Add-ons** (`skilllab compare`) are always on, so they have no trigger rate. Each one runs on every selected task against the same shared baseline. Default `--repeats` is 5 for `compare`, because cost varies from run to run.
 
 ## Read results carefully
 

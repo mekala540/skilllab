@@ -88,19 +88,21 @@ def parse_stream(text: str) -> AgentResult:
     return res
 
 
-def _child_env() -> dict:
+def _child_env(extra: Optional[dict] = None) -> dict:
     env = dict(os.environ)
     for key in _PARENT_ENV:
         env.pop(key, None)
+    env.update(extra or {})
     return env
 
 
-def _run(cmd: List[str], cwd: Path, timeout: int, stdin: Optional[str]) -> AgentResult:
+def _run(cmd: List[str], cwd: Path, timeout: int, stdin: Optional[str],
+         env: Optional[dict] = None) -> AgentResult:
     start = time.monotonic()
     try:
         proc = subprocess.run(
             cmd, cwd=str(cwd), input=stdin, capture_output=True, text=True,
-            timeout=timeout, env=_child_env(),
+            timeout=timeout, env=_child_env(env),
         )
     except subprocess.TimeoutExpired as exc:
         out = exc.stdout.decode() if isinstance(exc.stdout, bytes) else (exc.stdout or "")
@@ -145,7 +147,9 @@ class ClaudeAgent:
         self.binary = binary or find_claude()
 
     def run(self, prompt: str, cwd: Path, timeout: int, tools: Optional[List[str]] = None,
-            plugin_dirs: Optional[List[Path]] = None) -> AgentResult:
+            plugin_dirs: Optional[List[Path]] = None, settings: Optional[str] = None,
+            env: Optional[dict] = None, append_prompt: str = "") -> AgentResult:
+        """settings, env, append_prompt: how an add-on is switched on (see addons.py)."""
         if not self.binary:
             return AgentResult(infra_error="claude CLI not found on PATH or in ~/.local/bin")
         cmd = [
@@ -161,9 +165,12 @@ class ClaudeAgent:
             cmd += ["--max-budget-usd", str(self.max_budget_usd)]
         for d in plugin_dirs or []:
             cmd += ["--plugin-dir", str(d)]
-        cmd += ["--append-system-prompt", env_note(self.tools + list(tools or []))]
+        if settings:
+            cmd += ["--settings", settings]
+        note = env_note(self.tools + list(tools or []))
+        cmd += ["--append-system-prompt", note + ("\n\n" + append_prompt if append_prompt else "")]
         # Prompt goes on stdin so it can't be mistaken for another --allowedTools value.
-        return _run(cmd, cwd, timeout, stdin=prompt)
+        return _run(cmd, cwd, timeout, stdin=prompt, env=env)
 
 
 class CommandAgent:
@@ -176,12 +183,19 @@ class CommandAgent:
         self.template = template
 
     def run(self, prompt: str, cwd: Path, timeout: int, tools: Optional[List[str]] = None,
-            plugin_dirs: Optional[List[Path]] = None) -> AgentResult:
+            plugin_dirs: Optional[List[Path]] = None, settings: Optional[str] = None,
+            env: Optional[dict] = None, append_prompt: str = "") -> AgentResult:
+        """The command sees an add-on through SKILLLAB_SETTINGS and SKILLLAB_APPEND_PROMPT."""
+        extra = dict(env or {})
+        if settings:
+            extra["SKILLLAB_SETTINGS"] = settings
+        if append_prompt:
+            extra["SKILLLAB_APPEND_PROMPT"] = append_prompt
         fd, prompt_file = tempfile.mkstemp(prefix="skilllab-prompt-", suffix=".txt")
         try:
             with os.fdopen(fd, "w", encoding="utf-8") as fh:
                 fh.write(prompt)
             cmd = [part.replace("{prompt_file}", prompt_file) for part in shlex.split(self.template)]
-            return _run(cmd, cwd, timeout, stdin=None)
+            return _run(cmd, cwd, timeout, stdin=None, env=extra)
         finally:
             os.unlink(prompt_file)
