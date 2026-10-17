@@ -1,0 +1,7 @@
+{
+  "name": "headroom",
+  "description": "Headroom 0.41.0 in proxy mode: compresses tool outputs, logs and files in each request before it reaches the model. Claims 20% fewer tokens for coding agents, 60-95% for JSON.",
+  "env": {"ANTHROPIC_BASE_URL": "http://127.0.0.1:8787"},
+  "setup": ["curl -fsS http://127.0.0.1:8787/health"],
+  "requires": ["headroom", "curl"]
+}

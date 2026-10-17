@@ -109,6 +109,8 @@ FAKE_AGENT_MODE=demo skilllab run https://github.com/obra/superpowers --yes --ou
     --agent-cmd "python3 tests/fake_agent.py {prompt_file}"
 ```
 
+Each run happens in a throwaway workspace, so skilllab turns relative file paths in `--agent-cmd` into absolute ones first. Run it from the repo root and `tests/fake_agent.py` resolves.
+
 ## First results
 
 > **Limits of these results.** Skills were tested only on **Claude Haiku 5.5**, the smallest current model. Sonnet 5.5 was used only to measure how hard the tasks are, and Opus wasn't tested. Larger models may use skills differently. The tasks are **short sample tasks** from this repo's suite, not real project work: a few files, a clear prompt and a fixed check. Real use (your codebase, vague requirements, long multi-step work) may give different results. Treat these numbers as an early signal, not a rating of any skill.

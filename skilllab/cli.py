@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shlex
 import sys
 from pathlib import Path
 from typing import List, Optional
@@ -21,6 +23,17 @@ from .verdict import DEFAULT_ALPHA, DEFAULT_THRESHOLD, summarize
 
 DEFAULT_MODEL = "claude-sonnet-5-5"
 CACHE = Path.home() / ".cache" / "skilllab" / "sources"
+
+
+def _command_agent(template: str) -> CommandAgent:
+    """Runs happen inside a throwaway workspace, so a relative path in --agent-cmd
+    (`python3 tests/fake_agent.py`) would point nowhere. Make existing files absolute.
+    A bare first word (`python3`) is a program name, even if a file by that name is here."""
+    parts = shlex.split(template)
+    for i, part in enumerate(parts):
+        if (i or os.sep in part) and not os.path.isabs(part) and os.path.isfile(part):
+            parts[i] = os.path.abspath(part)
+    return CommandAgent(shlex.join(parts))
 
 
 def _select(args) -> tuple:
@@ -131,7 +144,7 @@ def cmd_run(args) -> int:
               "skill:task, or `skilllab suggest`.")
         return 1
     if args.agent_cmd:
-        agent = CommandAgent(args.agent_cmd)
+        agent = _command_agent(args.agent_cmd)
     else:
         if not find_claude():
             print("claude CLI not found. Install Claude Code or pass --agent-cmd.", file=sys.stderr)
@@ -191,7 +204,7 @@ def cmd_compare(args) -> int:
     print(f"{len(addons)} add-on{'s' if len(addons) != 1 else ''} × {len(tasks)} tasks × {args.repeats} repeats, "
           f"plus {len(tasks) * args.repeats} shared baseline runs = {len(runs)} runs")
     if args.agent_cmd:
-        agent = CommandAgent(args.agent_cmd)
+        agent = _command_agent(args.agent_cmd)
     else:
         if not find_claude():
             print("claude CLI not found. Install Claude Code or pass --agent-cmd.", file=sys.stderr)
@@ -246,7 +259,7 @@ def cmd_calibrate(args) -> int:
     tasks = _tasks(args)
     runs = [Run(t, None, r) for t in tasks for r in range(args.repeats)]
     print(f"{len(tasks)} tasks x {args.repeats} baseline runs = {len(runs)} runs, budget ${args.budget:.2f}")
-    agent = CommandAgent(args.agent_cmd) if args.agent_cmd else ClaudeAgent(args.model, max_budget_usd=args.run_budget)
+    agent = _command_agent(args.agent_cmd) if args.agent_cmd else ClaudeAgent(args.model, max_budget_usd=args.run_budget)
     if not args.agent_cmd and not find_claude():
         print("claude CLI not found. Install Claude Code or pass --agent-cmd.", file=sys.stderr)
         return 2

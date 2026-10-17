@@ -2,6 +2,8 @@
 
 import json
 import os
+import shlex
+import shutil
 import stat
 import sys
 from pathlib import Path
@@ -241,3 +243,48 @@ def test_cli_compare_refuses_missing_program(tmp_path, capsys):
     a = addon(tmp_path / "a", {"name": "a", "requires": ["no-such-program-xyz"]})
     assert main(["compare", str(a), "--yes", "--agent-cmd", "true"]) == 2
     assert "needs no-such-program-xyz" in capsys.readouterr().err
+
+
+# --- example add-ons ------------------------------------------------------------
+
+EXAMPLES = Path(__file__).parent.parent / "examples" / "addons"
+
+
+@pytest.mark.parametrize("name", sorted(d.name for d in EXAMPLES.iterdir() if (d / "addon.json").is_file()))
+def test_example_addon_loads(name, tmp_path):
+    src = EXAMPLES / name
+    spec = json.loads((src / "addon.json").read_text(encoding="utf-8"))
+    root = src
+    if spec.get("plugin_dir") and not (src / spec["plugin_dir"]).exists():
+        # A plugin fetched by hand (gitignored); check everything else loads without it.
+        root = tmp_path / name
+        shutil.copytree(src, root)
+        (root / spec["plugin_dir"]).mkdir()
+    a = load_addon(root)
+    assert a.name == name and a.description
+    if a.requires:  # a real tool: its README records where the install steps came from
+        assert (src / "README.md").is_file()
+    if a.settings is not None:
+        assert "hooks" in json.loads(Path(a.settings_arg()).read_text(encoding="utf-8"))
+
+
+def test_cli_agent_cmd_with_relative_path_works_as_written(tmp_path, monkeypatch, capsys):
+    # The README's command, run from the repo root. Each run happens in a throwaway
+    # workspace, so the relative path must be made absolute before it gets there.
+    monkeypatch.chdir(FAKE.parent.parent)
+    cheap = addon(tmp_path / "cheap", {"name": "cheap", "env": {"FAKE_AGENT_COST": "0.1"}})
+    argv = ["compare", str(cheap), "--out", str(tmp_path / "out"), "--task", "fix-pagination",
+            "--repeats", "2", "--yes", "--agent-cmd", "python3 tests/fake_agent.py {prompt_file}"]
+    assert main(argv) == 0
+    assert "cheap: cheaper" in capsys.readouterr().out
+    rows = [json.loads(l) for l in (tmp_path / "out" / "results.jsonl").read_text().splitlines()]
+    assert rows and not any(r.get("infra_error") for r in rows)
+
+
+def test_command_agent_keeps_program_names(tmp_path, monkeypatch):
+    from skilllab.cli import _command_agent
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "python3").write_text("")  # a stray file named like the program
+    (tmp_path / "agent.py").write_text("")
+    a = _command_agent("python3 agent.py --flag {prompt_file}")
+    assert shlex.split(a.template) == ["python3", str(tmp_path / "agent.py"), "--flag", "{prompt_file}"]

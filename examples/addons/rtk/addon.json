@@ -1,0 +1,15 @@
+{
+  "name": "rtk",
+  "description": "rtk (Rust Token Killer) 1.0.1, default pipeline: a PreToolUse hook rewrites Bash commands such as ls and cat to rtk equivalents that compress their output. Claims 60-90% fewer tokens on common dev commands.",
+  "settings": "settings.json",
+  "tools": [
+    "Bash(rtk:*)"
+  ],
+  "setup": [
+    "mkdir -p .claude",
+    "printf '%s' '{\"permissions\":{\"allow\":[\"Bash(ls:*)\",\"Bash(cat:*)\",\"Bash(rtk:*)\"]}}' > .claude/settings.json"
+  ],
+  "requires": [
+    "rtk"
+  ]
+}
