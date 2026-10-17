@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import random
 import shlex
 import shutil
 import subprocess
@@ -33,9 +34,12 @@ class Run:
     repeat: int
     pack: Optional[Pack] = None
     addon: Optional[Addon] = None
+    warmup: bool = False  # run first and discarded: fills the prompt cache for this arm
 
     @property
     def arm(self) -> str:
+        if self.warmup:
+            return "warmup"
         return ("addon" if self.addon else "pack" if self.pack else
                 "skill" if self.skill else "baseline")
 
@@ -46,6 +50,10 @@ class Run:
 
     def key(self, model: str) -> str:
         return f"{model}|{self.arm}|{self.subject or '-'}|{self.task.id}|{self.repeat}"
+
+    @property
+    def is_baseline(self) -> bool:
+        return not (self.skill or self.pack or self.addon)
 
 
 def plan(skills: List[Skill], tasks: List[Task], repeats: int, all_tasks: bool = False,
@@ -75,10 +83,23 @@ def plan(skills: List[Skill], tasks: List[Task], repeats: int, all_tasks: bool =
     return runs, [s for s in skills if s.id not in tested]
 
 
-def plan_addons(addons: List[Addon], tasks: List[Task], repeats: int) -> List[Run]:
-    """Every add-on on every task, against one shared baseline per task."""
-    runs = [Run(t, None, r) for t in tasks for r in range(repeats)]
-    return runs + [Run(t, None, r, addon=a) for a in addons for t in tasks for r in range(repeats)]
+def plan_addons(addons: List[Addon], tasks: List[Task], repeats: int, warmup: bool = True) -> List[Run]:
+    """Every add-on on every task, against one shared baseline per task.
+
+    Cost depends on the prompt cache: the first run of an arm pays to write it, later runs
+    read it at a fraction of the price. If every baseline ran first, later arms would look
+    cheaper for nothing. So each arm gets one discarded warm-up run per task, and the
+    measured runs are interleaved: repeat by repeat, every arm once, in a shuffled order
+    (fixed seed, so a resumed batch plans the same way).
+    """
+    arms: List[Optional[Addon]] = [None] + list(addons)
+    runs = [Run(t, None, 0, addon=a, warmup=True) for t in tasks for a in arms] if warmup else []
+    for r in range(repeats):
+        for t in tasks:
+            block = list(arms)
+            random.Random(f"{t.id}|{r}").shuffle(block)
+            runs += [Run(t, None, r, addon=a) for a in block]
+    return runs
 
 
 def _install(skill: Skill, ws: Path) -> None:

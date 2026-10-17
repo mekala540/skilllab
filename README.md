@@ -90,7 +90,9 @@ The result, per add-on and per task:
 | `costlier` | The whole range is above zero |
 | `same cost` | The range includes zero: no difference this sample can show |
 
-Pass-rate verdicts (`helps`, `no lift`, …) are reported too, the same way as for skills.
+Below 5 valid runs per arm there is no verdict, only the numbers: a range from 3 runs is far too narrow to trust. Pass-rate verdicts (`helps`, `no lift`, …) are reported too, the same way as for skills.
+
+**Checks on the method itself.** Every `compare` batch also runs a **control** add-on that changes nothing. It should come out `same cost`; if it doesn't, the report warns that cost differences in that batch are bias, not savings. Each arm also gets one discarded warm-up run per task, and the measured runs are interleaved (every arm once per repeat, shuffled), so no arm benefits from a prompt cache another arm filled. `--no-control` and `--no-warmup` turn these off. Both exist because a pilot without them rated an add-on that never loaded as 24% cheaper.
 
 ## The lab view
 
@@ -173,7 +175,8 @@ Tasks the baseline passes more than 60% of the time are marked "too easy for thi
 - **Setup and tools.** Some tasks run a setup script first (e.g. to build a git history) and allow extra tools (`git`, `node`) for that task only.
 - **Token costs** of a skill (before running it) are characters ÷ 4: name + description up front, the body on use.
 - **Measured cost and tokens** come from Claude Code's final `result` event for each run: `total_cost_usd`, input tokens (fresh + cache reads + cache writes), output tokens, turns, plus wall-clock time. Each is compared as the median per run with vs without, over all valid runs (passed or failed), with a 90% percentile-bootstrap interval (2,000 resamples, fixed seed, so a rebuilt report doesn't change). The verdict uses cost; if a run reports no cost (another agent via `--agent-cmd`), input tokens. Across several tasks, each run is first divided by its task's median baseline, so a big task doesn't drown out small ones. `cheaper` also needs the pass rate to hold (drop ≤ 15 pts). A skill that is `cheaper` is not listed under "Costs context, no measurable lift".
-- **Add-ons** (`skilllab compare`) are always on, so they have no trigger rate. Each one runs on every selected task against the same shared baseline. Default `--repeats` is 5 for `compare`, because cost varies from run to run.
+- **Add-ons** (`skilllab compare`) are always on, so they have no trigger rate. Each one runs on every selected task against the same shared baseline. Default `--repeats` is 5 for `compare`, because cost varies from run to run, and a cost verdict needs at least 5 valid runs per arm.
+- **Cache and order.** Claude Code caches the prompt: the first run of an arm pays to write the cache and later runs read it for a fraction of the price. So `compare` gives every arm (the baseline too) one warm-up run per task that is discarded, then interleaves the measured runs in a fixed-seed shuffled order, the same on resume. A built-in **control** arm that changes nothing runs alongside; if it comes out anything but `same cost`, the report says the batch is biased. Add-on paths are made absolute when loaded, since the agent runs inside the workspace.
 
 ## Read results carefully
 

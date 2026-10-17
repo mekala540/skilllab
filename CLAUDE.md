@@ -44,5 +44,6 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
   `disable-model-invocation: true` have no trigger rate and cost no up-front tokens.
 - Packs that ship as plugins are tested as plugins (`--plugin-dir`, hooks included), the way users install them.
 - **A saving needs the pass rate to hold.** `cheaper` requires the whole cost range below zero and a pass-rate drop of at most `SAVINGS_GUARD`; otherwise it's `cheaper, fewer passes`. Don't report a token saving without the pass rate next to it.
+- **Cost comparisons must stay unbiased.** `compare` keeps the discarded warm-up per arm, the interleaved fixed-seed order and the no-op control arm; a cost verdict needs `MIN_SAVINGS_RUNS` per arm. Don't remove these to save runs.
 - Add-ons run code (hooks, setup, proxies). Tests use local stand-ins only; never ship an `addon.json` for a real tool without checking its install steps against its own docs.
 - Keep README's "How it decides" section in sync with any behavior change.

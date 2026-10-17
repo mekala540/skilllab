@@ -73,6 +73,8 @@ class Addon:
             n += len((self.root / self.claude_md).read_text(encoding="utf-8", errors="replace"))
         return n
 
+    control: bool = False  # the built-in no-op arm that checks the method itself
+
     def meta(self) -> dict:
         how = [k for k in ("settings", "plugin_dir", "skills_dir", "claude_md", "env", "setup")
                if getattr(self, k)]
@@ -87,6 +89,7 @@ class Addon:
             "onuse_tokens": 0,
             "user_invoked": False,
             "addon": True,
+            "control": self.control,
         }
 
     def install(self, ws: Path) -> dict:
@@ -115,6 +118,13 @@ class Addon:
         return extra
 
 
+def control_addon() -> Addon:
+    """Changes nothing. It runs exactly like the baseline under its own name, so any
+    'cheaper' or 'costlier' it gets is bias in the method (run order, caching, noise)."""
+    return Addon(name="control", root=Path.cwd().resolve(), control=True,
+                 description="Changes nothing. Checks the method: it should come out 'same cost'.")
+
+
 FIELDS = ("description", "settings", "plugin_dir", "skills_dir", "claude_md",
           "append_system_prompt", "env", "tools", "setup", "requires")
 
@@ -130,7 +140,8 @@ def load_addon(path: Path) -> Addon:
     unknown = set(data) - set(FIELDS) - {"name"}
     if unknown:
         raise ValueError(f"{spec_file}: unknown fields {', '.join(sorted(unknown))}")
-    root = spec_file.parent
+    # Absolute: settings and plugin_dir go to an agent that runs inside the workspace.
+    root = spec_file.parent.resolve()
     for key in ("plugin_dir", "skills_dir", "claude_md"):
         if data.get(key) and not (root / data[key]).exists():
             raise ValueError(f"{spec_file}: {key} {data[key]!r} not found")

@@ -109,7 +109,7 @@ def test_execute_switches_the_addon_on(tmp_path):
 
 def test_failed_setup_is_an_infrastructure_error(tmp_path):
     a = load_addon(addon(tmp_path / "bad", {"name": "bad", "setup": [f"{sys.executable} -c \"raise SystemExit(3)\""]}))
-    runs = [r for r in plan_addons([a], [task()], 1) if r.addon]
+    runs = [r for r in plan_addons([a], [task()], 1, warmup=False) if r.addon]
     stats = run_all(runs, Recorder(), "m", tmp_path / "r.jsonl", workers=1, log=lambda m: None)
     rec = json.loads((tmp_path / "r.jsonl").read_text().splitlines()[0])
     assert stats["ran"] == 1 and "setup failed" in rec["infra_error"] and rec["skill"] == "addon:bad"
@@ -117,8 +117,25 @@ def test_failed_setup_is_an_infrastructure_error(tmp_path):
 
 def test_plan_addons_shares_one_baseline():
     a1, a2 = (type("A", (), {"id": f"addon:{n}"})() for n in "xy")
-    runs = plan_addons([a1, a2], [task()], 3)
+    runs = plan_addons([a1, a2], [task()], 3, warmup=False)
     assert [r.arm for r in runs].count("baseline") == 3 and len(runs) == 9
+
+
+def test_plan_addons_warms_up_then_interleaves():
+    a1, a2 = (type("A", (), {"id": f"addon:{n}"})() for n in "xy")
+    runs = plan_addons([a1, a2], [task()], 5)
+    # One discarded warm-up per arm comes first, so no arm pays the cache write in a measured run.
+    assert [r.arm for r in runs[:3]] == ["warmup"] * 3
+    assert {r.subject for r in runs[:3]} == {None, "addon:x", "addon:y"}
+    # Then every repeat runs each arm once: baselines are spread through the batch, not first.
+    measured = runs[3:]
+    for r in range(5):
+        block = measured[r * 3:(r + 1) * 3]
+        assert {x.repeat for x in block} == {r} and {x.subject for x in block} == {None, "addon:x", "addon:y"}
+    orders = {tuple(x.subject for x in measured[r * 3:(r + 1) * 3]) for r in range(5)}
+    assert len(orders) > 1  # shuffled, not the same order every time
+    assert [r.key("m") for r in plan_addons([a1, a2], [task()], 5)] == [r.key("m") for r in runs]  # stable on resume
+    assert len({r.key("m") for r in runs}) == len(runs)
 
 
 def test_claude_agent_passes_settings_and_appends_prompt(tmp_path):
@@ -161,22 +178,32 @@ def test_savings_cheaper_when_whole_range_is_below_zero():
 
 
 def test_savings_needs_pass_rate_to_hold():
-    base = [_r("baseline", c) for c in (0.30, 0.32, 0.28)]
-    with_ = [_r("addon", c) for c in (0.10, 0.11, 0.12)]
+    base = [_r("baseline", c) for c in (0.30, 0.32, 0.28, 0.31, 0.29)]
+    with_ = [_r("addon", c) for c in (0.10, 0.11, 0.12, 0.10, 0.11)]
     assert savings(with_, base, delta=-0.10)["verdict"] == "cheaper"
     assert savings(with_, base, delta=-0.34)["verdict"] == "cheaper, fewer passes"
 
 
 def test_savings_costlier_same_and_unknown():
-    base = [_r("baseline", c) for c in (0.10, 0.11, 0.12)]
-    assert savings([_r("addon", c) for c in (0.30, 0.31, 0.29)], base, 0.0)["verdict"] == "costlier"
-    noisy = [_r("addon", c) for c in (0.05, 0.12, 0.20)]
+    base = [_r("baseline", c) for c in (0.10, 0.11, 0.12, 0.10, 0.11)]
+    assert savings([_r("addon", c) for c in (0.30, 0.31, 0.29, 0.30, 0.32)], base, 0.0)["verdict"] == "costlier"
+    noisy = [_r("addon", c) for c in (0.05, 0.12, 0.20, 0.08, 0.15)]
     assert savings(noisy, base, 0.0)["verdict"] == "same cost"
     assert savings([_r("addon", 0.1)], base, 0.0)["verdict"] is None  # one run is not enough
-    no_cost = [dict(_r("addon", None), input_tokens=t) for t in (400, 420, 410)]
-    base_tokens = [dict(_r("baseline", None), input_tokens=t) for t in (1000, 1050, 990)]
+    no_cost = [dict(_r("addon", None), input_tokens=t) for t in (400, 420, 410, 405, 415)]
+    base_tokens = [dict(_r("baseline", None), input_tokens=t) for t in (1000, 1050, 990, 1010, 1020)]
     s = savings(no_cost, base_tokens, 0.0)
     assert s["by"] == "input_tokens" and s["verdict"] == "cheaper"
+
+
+def test_three_runs_are_too_few_for_a_savings_verdict():
+    # The pilot: 3 runs per arm gave a "cheaper" range that excluded zero for an add-on that
+    # never loaded. Three points can't support a range, so no verdict below 5.
+    base = [_r("baseline", c) for c in (0.008, 0.009, 0.008)]
+    with_ = [_r("addon", c) for c in (0.006, 0.006, 0.007)]
+    s = savings(with_, base, 0.0)
+    assert s["verdict"] is None and "fewer than 5 runs" in s["note"]
+    assert s["metrics"]["cost_usd"]["change"] < 0  # the numbers are still shown
 
 
 def test_savings_is_deterministic():
@@ -189,10 +216,10 @@ def test_summary_pools_savings_across_tasks_of_different_size():
     sk = [{"id": "addon:x", "name": "x", "description": "", "source": "addon", "upfront_tokens": 0,
            "onuse_tokens": 0, "addon": True}]
     tk = [{"id": "small", "title": "", "tags": []}, {"id": "big", "title": "", "tags": []}]
-    recs = ([_r("baseline", c, task="small") for c in (0.10, 0.11, 0.09)]
-            + [_r("baseline", c, task="big") for c in (1.00, 1.10, 0.90)]
-            + [_r("addon", c, task="small", subject="addon:x") for c in (0.05, 0.06, 0.05)]
-            + [_r("addon", c, task="big", subject="addon:x") for c in (0.50, 0.55, 0.45)])
+    recs = ([_r("baseline", c, task="small") for c in (0.10, 0.11, 0.09, 0.10, 0.10)]
+            + [_r("baseline", c, task="big") for c in (1.00, 1.10, 0.90, 1.00, 1.05)]
+            + [_r("addon", c, task="small", subject="addon:x") for c in (0.05, 0.06, 0.05, 0.05, 0.06)]
+            + [_r("addon", c, task="big", subject="addon:x") for c in (0.50, 0.55, 0.45, 0.50, 0.52)])
     s = summarize(recs, sk, tk, [])
     entry = s["skills"][0]
     assert entry["savings"]["verdict"] == "cheaper"
@@ -206,7 +233,8 @@ def test_summary_pools_savings_across_tasks_of_different_size():
 def test_skill_that_saves_is_not_costly_no_lift():
     sk = [{"id": "p/a", "name": "a", "description": "", "source": "p", "upfront_tokens": 500, "onuse_tokens": 5000}]
     tk = [{"id": "t1", "title": "", "tags": []}]
-    recs = [_r("baseline", c) for c in (0.30, 0.31, 0.29)] + [_r("skill", c, subject="p/a") for c in (0.1, 0.11, 0.09)]
+    recs = ([_r("baseline", c) for c in (0.30, 0.31, 0.29, 0.30, 0.30)]
+            + [_r("skill", c, subject="p/a") for c in (0.1, 0.11, 0.09, 0.10, 0.10)])
     s = summarize(recs, sk, tk, [])
     assert s["skills"][0]["verdict"] == "no lift" and s["skills"][0]["savings"]["verdict"] == "cheaper"
     assert s["gaps"]["costly_no_lift"] == []
@@ -220,11 +248,12 @@ def test_cli_compare_end_to_end(tmp_path, capsys):
     pricey = addon(tmp_path / "pricey", {"name": "pricey", "env": {"FAKE_AGENT_COST": "0.5"}})
     out = tmp_path / "out"
     argv = ["compare", str(cheap), str(pricey), "--out", str(out), "--task", "fix-pagination",
-            "--repeats", "3", "--workers", "3", "--yes",
+            "--repeats", "5", "--workers", "3", "--yes",
             "--agent-cmd", f"{sys.executable} {FAKE} {{prompt_file}}"]
     assert main(argv) == 0
     printed = capsys.readouterr().out
     assert "cheap: cheaper · cost -60%" in printed and "pricey: costlier · cost +100%" in printed
+    assert "control: same cost" in printed and "WARNING" not in printed
     summary = json.loads((out / "summary.json").read_text())
     by = {s["id"]: s for s in summary["skills"]}
     assert by["addon:cheap"]["savings"]["verdict"] == "cheaper"
@@ -234,9 +263,13 @@ def test_cli_compare_end_to_end(tmp_path, capsys):
     md = (out / "report.md").read_text()
     assert "## Cost and tokens" in md and "**cheaper**" in md
     assert "Cost and tokens" in (out / "report.html").read_text()
-    assert len((out / "results.jsonl").read_text().splitlines()) == 9
+    rows = [json.loads(l) for l in (out / "results.jsonl").read_text().splitlines()]
+    # 4 arms (baseline, cheap, pricey, control): 4 warm-ups + 4 x 5 measured runs
+    assert len(rows) == 24 and sum(r["arm"] == "warmup" for r in rows) == 4
+    assert by["addon:control"]["savings"]["verdict"] == "same cost"
+    assert summary["control_warning"] is None
     assert main(argv) == 0  # resume: nothing new
-    assert len((out / "results.jsonl").read_text().splitlines()) == 9
+    assert len((out / "results.jsonl").read_text().splitlines()) == 24
 
 
 def test_cli_compare_refuses_missing_program(tmp_path, capsys):
@@ -274,7 +307,8 @@ def test_cli_agent_cmd_with_relative_path_works_as_written(tmp_path, monkeypatch
     monkeypatch.chdir(FAKE.parent.parent)
     cheap = addon(tmp_path / "cheap", {"name": "cheap", "env": {"FAKE_AGENT_COST": "0.1"}})
     argv = ["compare", str(cheap), "--out", str(tmp_path / "out"), "--task", "fix-pagination",
-            "--repeats", "2", "--yes", "--agent-cmd", "python3 tests/fake_agent.py {prompt_file}"]
+            "--repeats", "5", "--no-control", "--no-warmup", "--yes",
+            "--agent-cmd", "python3 tests/fake_agent.py {prompt_file}"]
     assert main(argv) == 0
     assert "cheap: cheaper" in capsys.readouterr().out
     rows = [json.loads(l) for l in (tmp_path / "out" / "results.jsonl").read_text().splitlines()]
@@ -288,3 +322,43 @@ def test_command_agent_keeps_program_names(tmp_path, monkeypatch):
     (tmp_path / "agent.py").write_text("")
     a = _command_agent("python3 agent.py --flag {prompt_file}")
     assert shlex.split(a.template) == ["python3", str(tmp_path / "agent.py"), "--flag", "{prompt_file}"]
+
+
+def test_relative_addon_path_reaches_the_agent_as_absolute(tmp_path, monkeypatch):
+    # The pilot bug: `skilllab compare examples/addons/rtk` passed a relative --settings and
+    # --plugin-dir to an agent running in the workspace, where they don't exist.
+    addon(tmp_path / "addons" / "x", {"name": "x", "settings": "settings.json", "plugin_dir": "plugin"},
+          {"settings.json": "{}", "plugin/.claude-plugin/plugin.json": "{}"})
+    monkeypatch.chdir(tmp_path)
+    a = load_addon(Path("addons/x"))
+    ws = tmp_path / "elsewhere"
+    ws.mkdir()
+    monkeypatch.chdir(ws)
+    extra = a.install(ws)
+    assert Path(extra["settings"]).is_absolute() and Path(extra["settings"]).is_file()
+    assert extra["plugin_dirs"][0].is_absolute() and extra["plugin_dirs"][0].is_dir()
+
+
+def test_control_arm_catches_order_bias(tmp_path):
+    # Fake an order effect: the first run of each task is expensive, the rest are cheap,
+    # and the control (which changes nothing) happened to run late. It must be flagged.
+    sk = [{"id": "addon:control", "name": "control", "description": "", "source": "addon",
+           "upfront_tokens": 0, "onuse_tokens": 0, "addon": True, "control": True}]
+    tk = [{"id": "t1", "title": "", "tags": []}]
+    recs = ([_r("baseline", c) for c in (0.30, 0.31, 0.29, 0.30, 0.30)]
+            + [_r("addon", c, subject="addon:control") for c in (0.20, 0.21, 0.19, 0.20, 0.20)])
+    s = summarize(recs, sk, tk, [])
+    assert "don't trust any cost verdict" in s["control_warning"]
+    from skilllab.report import to_markdown
+    assert "**Warning.**" in to_markdown(s, "m")
+
+
+def test_warmup_runs_are_not_counted(tmp_path):
+    sk = [{"id": "addon:x", "name": "x", "description": "", "source": "addon",
+           "upfront_tokens": 0, "onuse_tokens": 0, "addon": True}]
+    tk = [{"id": "t1", "title": "", "tags": []}]
+    recs = ([_r("warmup", 5.0), _r("warmup", 5.0, subject="addon:x")]
+            + [_r("baseline", 0.3)] * 5 + [_r("addon", 0.3, subject="addon:x")] * 5)
+    s = summarize(recs, sk, tk, [])
+    assert s["baseline"]["t1"]["n"] == 5 and s["pairs"][0]["n"] == 5
+    assert s["skills"][0]["savings"]["verdict"] == "same cost"

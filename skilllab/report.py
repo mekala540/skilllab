@@ -76,20 +76,25 @@ METRIC_LABELS = {"cost_usd": "Cost", "input_tokens": "Input tokens", "output_tok
 
 
 def _has_savings(summary: dict) -> bool:
-    return any((p.get("savings") or {}).get("verdict") for p in summary["pairs"])
+    return any((p.get("savings") or {}).get("metrics") for p in summary["pairs"])
 
 
 def _savings_md(summary: dict) -> list:
-    out = ["## Cost and tokens", "",
+    out = ["## Cost and tokens", ""]
+    if summary.get("control_warning"):
+        out += [f"> **Warning.** {summary['control_warning']}", ""]
+    out += [
            "Median per run, with vs without, over all valid runs (passed or not). The range is a 90% "
            "bootstrap interval for the change. **cheaper** needs the whole range below zero and a pass "
            f"rate that didn't drop by more than {round(SAVINGS_GUARD * 100)} pts.", "",
+           "The `addon:control` row changes nothing; it should say *same cost*. If it doesn't, the batch is biased.",
+           "",
            "| Subject | Cost/tokens verdict | Change | Pass rate change | Tasks |",
            "| --- | --- | --- | --- | --- |"]
     for s in summary["skills"]:
         sv = s.get("savings") or {}
         what = {"cost_usd": "cost", "input_tokens": "input tokens"}.get(sv.get("by"), "")
-        out.append(f"| `{s['id']}` | **{sv.get('verdict') or '–'}** | {what} {_change(sv.get('change'), sv.get('ci'))} | "
+        out.append(f"| `{s['id']}` | **{sv.get('verdict') or sv.get('note') or '–'}** | {what} {_change(sv.get('change'), sv.get('ci'))} | "
                    f"{_delta(s.get('pass_delta'))} | {len(s['tasks'])} |")
     out += ["", "| Subject | Task | " + " | ".join(METRIC_LABELS.values()) + " | Verdict |",
             "| --- | --- | " + " | ".join("---" for _ in METRIC_LABELS) + " | --- |"]
@@ -186,7 +191,7 @@ def to_html(summary: dict, model: str) -> str:
         for s in summary["skills"]:
             sv = s.get("savings") or {}
             what = {"cost_usd": "cost", "input_tokens": "input tokens"}.get(sv.get("by"), "")
-            v = sv.get("verdict") or "–"
+            v = sv.get("verdict") or sv.get("note") or "–"
             cls = {"cheaper": "helps", "costlier": "hurts", "cheaper, fewer passes": "flagged"}.get(v, "no-lift")
             srows += (f"<tr><td><code>{e(s['id'])}</code></td><td><span class='v v-{cls}'>{e(v)}</span></td>"
                       f"<td class=n>{e(what)} {e(_change(sv.get('change'), sv.get('ci')))}</td>"
@@ -202,7 +207,9 @@ def to_html(summary: dict, model: str) -> str:
             prow += (f"<tr><td><code>{e(p['skill'])}</code></td><td>{e(p['task'])}</td>{cells}"
                      f"<td>{e(sv.get('verdict') or '–')}</td></tr>")
         heads = "".join(f"<th class=n>{e(l)}</th>" for l in METRIC_LABELS.values())
-        cost_html = (f"<h2>Cost and tokens</h2><p class=meta>Median per run with vs without, all valid runs. "
+        warn = (f"<p class=gap><b>Warning.</b> {e(summary['control_warning'])}</p>"
+                if summary.get("control_warning") else "")
+        cost_html = (f"<h2>Cost and tokens</h2>{warn}<p class=meta>Median per run with vs without, all valid runs. "
                      f"Range: 90% bootstrap interval. <b>cheaper</b> needs the whole range below zero and a pass "
                      f"rate that held (drop ≤ {round(SAVINGS_GUARD * 100)} pts).</p>"
                      f"<div class=wrap><table><tr><th>Subject</th><th>Verdict</th><th class=n>Change</th>"

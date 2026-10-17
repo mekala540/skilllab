@@ -15,7 +15,7 @@ from .agent import ClaudeAgent, CommandAgent, find_claude
 from . import relevance
 from .lab import to_lab_html
 from .report import to_html, to_markdown
-from .addons import load_addon
+from .addons import control_addon, load_addon
 from .runner import final_results, load_results, plan, plan_addons, run_all
 from .skills import Skill, load_sources, packs
 from .tasks import DEFAULT_SUITE, TIERS, Task, load_suites, matches
@@ -187,9 +187,11 @@ def cmd_compare(args) -> int:
     except ValueError as exc:
         print(exc, file=sys.stderr)
         return 2
+    if not args.no_control:
+        addons.append(control_addon())
     names = [a.name for a in addons]
     if len(set(names)) != len(names):
-        print("two add-ons share a name; names must be unique", file=sys.stderr)
+        print("two add-ons share a name; names must be unique ('control' is built in)", file=sys.stderr)
         return 2
     missing = {a.name: a.missing() for a in addons if a.missing()}
     if missing:
@@ -200,9 +202,12 @@ def cmd_compare(args) -> int:
     if not tasks:
         print("no tasks selected", file=sys.stderr)
         return 1
-    runs = plan_addons(addons, tasks, args.repeats)
-    print(f"{len(addons)} add-on{'s' if len(addons) != 1 else ''} × {len(tasks)} tasks × {args.repeats} repeats, "
-          f"plus {len(tasks) * args.repeats} shared baseline runs = {len(runs)} runs")
+    runs = plan_addons(addons, tasks, args.repeats, warmup=not args.no_warmup)
+    warm = sum(1 for r in runs if r.warmup)
+    print(f"{len(addons)} add-on{'s' if len(addons) != 1 else ''}"
+          f"{' (incl. the no-op control)' if not args.no_control else ''} × {len(tasks)} tasks × "
+          f"{args.repeats} repeats, plus {len(tasks) * args.repeats} shared baseline runs"
+          f"{f' and {warm} discarded warm-ups' if warm else ''} = {len(runs)} runs, interleaved")
     if args.agent_cmd:
         agent = _command_agent(args.agent_cmd)
     else:
@@ -235,6 +240,8 @@ def cmd_compare(args) -> int:
     print()
     for s in summary["skills"]:
         print(_savings_line(s))
+    if summary.get("control_warning"):
+        print("WARNING: " + summary["control_warning"])
     print(f"Report: {out / 'report.md'}  ·  {out / 'report.html'}  ·  replay: {out / 'lab.html'}")
     return 0
 
@@ -243,7 +250,7 @@ def _savings_line(s: dict) -> str:
     from .report import _change, _delta
     sv = s.get("savings") or {}
     if not sv.get("verdict"):
-        return f"{s['name']}: not enough data for a cost comparison"
+        return f"{s['name']}: {sv.get('note') or 'not enough data for a cost comparison'}"
     what = "cost" if sv["by"] == "cost_usd" else "input tokens"
     return (f"{s['name']}: {sv['verdict']} · {what} {_change(sv['change'], sv['ci'])} · "
             f"pass rate {_delta(s.get('pass_delta'))} vs baseline")
@@ -509,6 +516,10 @@ def main(argv=None) -> int:
     cmp_.add_argument("--keep", action="store_true")
     cmp_.add_argument("--yes", action="store_true")
     cmp_.add_argument("--watch", action="store_true")
+    cmp_.add_argument("--no-control", action="store_true",
+                      help="skip the no-op control arm that checks the method for bias")
+    cmp_.add_argument("--no-warmup", action="store_true",
+                      help="skip the discarded warm-up run per arm and task")
     cmp_.set_defaults(fn=cmd_compare)
 
     sg = sub.add_parser("suggest", parents=[common], help="draft tasks for untested skills")

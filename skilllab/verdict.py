@@ -15,6 +15,8 @@ CHEAPER, COSTLIER, SAME_COST, CHEAPER_FEWER = "cheaper", "costlier", "same cost"
 # needs the whole interval below zero AND a pass rate that held (dropped by no more than
 # SAVINGS_GUARD). A saver that makes the agent fail more is not a saving.
 SAVINGS_GUARD = 0.15
+# A bootstrap range from 3 runs is far too narrow. Below this many runs per arm, no verdict.
+MIN_SAVINGS_RUNS = 5
 BOOTSTRAP = 2000
 METRICS = ("cost_usd", "input_tokens", "output_tokens", "duration_s", "turns")
 
@@ -111,7 +113,8 @@ def savings(recs: List[dict], base_recs: List[dict], delta: Optional[float]) -> 
             out[m] = {"with": median(w), "base": median(b), "change": res[0], "ci": res[1]}
     key = "cost_usd" if "cost_usd" in out else "input_tokens" if "input_tokens" in out else None
     verdict = None
-    if key:
+    enough = min(len(recs), len(base_recs)) >= MIN_SAVINGS_RUNS
+    if key and enough:
         lo, hi = out[key]["ci"]
         if hi < 0:
             verdict = CHEAPER if delta is None or delta >= -SAVINGS_GUARD else CHEAPER_FEWER
@@ -119,7 +122,8 @@ def savings(recs: List[dict], base_recs: List[dict], delta: Optional[float]) -> 
             verdict = COSTLIER
         else:
             verdict = SAME_COST
-    return {"metrics": out, "by": key, "verdict": verdict}
+    note = None if enough or not out else f"fewer than {MIN_SAVINGS_RUNS} runs per arm: no verdict"
+    return {"metrics": out, "by": key, "verdict": verdict, "note": note}
 
 
 def _pooled_savings(recs: List[dict], baseline_recs: Dict[str, List[dict]], delta: Optional[float]) -> dict:
@@ -136,6 +140,9 @@ def _pooled_savings(recs: List[dict], baseline_recs: Dict[str, List[dict]], delt
             w += [float(r[m]) / bm for r in recs if r["task"] == task and r.get(m)]
         if len(w) >= MIN_VALID:
             res = _ratio_ci(w, b)
+            if res and min(len(w), len(b)) < MIN_SAVINGS_RUNS:
+                return {"by": m, "change": res[0], "ci": res[1], "verdict": None,
+                        "note": f"fewer than {MIN_SAVINGS_RUNS} runs per arm: no verdict"}
             if res:
                 lo, hi = res[1]
                 verdict = ((CHEAPER if delta is None or delta >= -SAVINGS_GUARD else CHEAPER_FEWER)
@@ -247,8 +254,15 @@ def summarize(records: List[dict], skills: List[dict], tasks: List[dict],
                           "pass_delta": overall_delta,
                           "savings": _pooled_savings(mine, base_by_task, overall_delta)})
 
+    control = [s for s in per_skill if s.get("control")]
+    bias = [s for s in control if (s.get("savings") or {}).get("verdict") not in (None, SAME_COST)]
+    control_warning = (
+        f"The control arm, which changes nothing, came out '{bias[0]['savings']['verdict']}'. "
+        "Cost differences in this batch include bias from run order, caching or noise, so don't "
+        "trust any cost verdict here. Rerun with more --repeats.") if bias else None
+
     return {
-        "runs": len(records), "errors": errors,
+        "runs": len(records), "errors": errors, "control_warning": control_warning,
         "cost_usd": round(sum(r.get("cost_usd") or 0 for r in records), 4),
         "threshold": threshold, "alpha": alpha,
         "baseline": baseline, "pairs": pairs, "skills": per_skill,
