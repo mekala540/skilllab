@@ -5,9 +5,10 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from .skills import Skill
 
@@ -21,7 +22,7 @@ class Task:
     prompt: str
     check: str  # shell command run in the workspace after the agent; exit 0 = pass
     tags: List[str]
-    fixture: Path  # starting files copied into a fresh workspace
+    fixture: Optional[Path]  # starting files copied into a fresh workspace (laid over base/repo)
     hidden: Optional[Path] = None  # copied in only after the agent finishes
     protect: List[str] = field(default_factory=list)  # files the agent must not change
     timeout: int = 900
@@ -30,17 +31,28 @@ class Task:
     tools: List[str] = field(default_factory=list)  # extra tools this task allows (e.g. git)
     requires: List[str] = field(default_factory=list)  # programs that must be on PATH
     base: Optional[Path] = None  # shared project copied first; the fixture is laid over it
+    # A real project at a pinned commit: {"url": ..., "commit": ..., "fix": ...}. The workspace
+    # starts as that commit's files; "fix" is the upstream commit that fixed the bug (for checks).
+    repo: Optional[Dict[str, str]] = None
+    env: Dict[str, str] = field(default_factory=dict)  # for the agent and the check; {workspace} expands
+    requires_python: Optional[str] = None  # e.g. "3.10": skipped on older Pythons
 
     def meta(self) -> dict:
         return {"id": self.id, "title": self.title, "tags": self.tags, "tier": self.tier}
 
     def missing(self) -> List[str]:
-        return [r for r in self.requires if not shutil.which(r)]
+        out = [r for r in self.requires if not shutil.which(r)]
+        if self.requires_python:
+            need = tuple(int(x) for x in self.requires_python.split("."))
+            if sys.version_info[:len(need)] < need:
+                out.append(f"python>={self.requires_python}")
+        return out
 
 
 # easy: smoke tests. standard: short focused tasks. project: work inside one shared, realistic
 # project (many files, git, test runs, logs), where token savers and memory tools have room to act.
-TIERS = ("easy", "standard", "project", "all")
+# real: real bugs from real open-source projects, checked by the tests that came with the real fix.
+TIERS = ("easy", "standard", "project", "real", "all")
 
 
 def load_suite(suite_dir: Path = DEFAULT_SUITE, tier: str = "all") -> List[Task]:
@@ -52,7 +64,7 @@ def load_suite(suite_dir: Path = DEFAULT_SUITE, tier: str = "all") -> List[Task]
         task_tier = data.get("tier", "standard")
         if tier != "all" and task_tier != tier:
             continue
-        fixture = suite_dir / data["fixture"]
+        fixture = suite_dir / data["fixture"] if data.get("fixture") else None
         hidden = suite_dir / data["hidden"] if data.get("hidden") else None
         tasks.append(
             Task(
@@ -70,6 +82,9 @@ def load_suite(suite_dir: Path = DEFAULT_SUITE, tier: str = "all") -> List[Task]
                 tools=data.get("tools", []),
                 requires=data.get("requires", []),
                 base=suite_dir / data["base"] if data.get("base") else None,
+                repo=data.get("repo"),
+                env=data.get("env", {}),
+                requires_python=data.get("requires_python"),
             )
         )
     return tasks

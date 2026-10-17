@@ -1,0 +1,42 @@
+{
+  "id": "click-help-hint",
+  "tier": "real",
+  "title": "click: Bug report (issue #2790) from a user of this library",
+  "tags": [
+    "cli",
+    "errors",
+    "help",
+    "usage",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/pallets/click.git",
+    "commit": "f1f191ecd2c790b161187c78e7c88440e9524e5c",
+    "fix": "1241abaed4e441582a21f4bf90c8482de02b92df"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-click-help-hint-hidden",
+  "prompt": "This repo is click (an open-source Python library). Bug report (issue #2790) from a user of this library:\n\n> Our group uses `context_settings={\"help_option_names\": [\"-h\", \"--help\"]}`, and a subcommand has its own `--host/-h` option. When you make a usage mistake in that subcommand, the error ends with `Try 'cli foo -h' for help.`, but `-h` there means `--host`, so the hint is wrong. The hint should only suggest help option names the command actually still accepts (preferring the longest, like `--help`), and show no hint if none are left.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}/src",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/pallets/click/commit/1241abaed4e441582a21f4bf90c8482de02b92df (BSD-3-Clause)",
+  "requires_python": "3.10"
+}

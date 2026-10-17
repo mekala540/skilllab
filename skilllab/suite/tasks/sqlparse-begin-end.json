@@ -1,0 +1,42 @@
+{
+  "id": "sqlparse-begin-end",
+  "tier": "real",
+  "title": "sqlparse: Bug report (issue #809) from a user of this library",
+  "tags": [
+    "sql",
+    "parser",
+    "parsing",
+    "split",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/andialbrecht/sqlparse.git",
+    "commit": "e92a032c81d51a6645b4f8c32470481894818ba0",
+    "fix": "1a3bfbd50b82c05d9adcc51bacba059671dc1bc7"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-sqlparse-begin-end-hidden",
+  "prompt": "This repo is sqlparse (an open-source Python library). Bug report (issue #809) from a user of this library:\n\n> `sqlparse.split()` breaks a single statement apart when it contains a `BEGIN ... END` block with semicolons inside, for example a `WITH FUNCTION ... BEGIN DECLARE ...; RETURN ...; END SELECT ...` query or a `CREATE PROCEDURE` body. The semicolons inside the block are part of the statement; splitting should only happen after the whole statement.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/andialbrecht/sqlparse/commit/1a3bfbd50b82c05d9adcc51bacba059671dc1bc7 (BSD-3-Clause)",
+  "requires_python": "3.8"
+}

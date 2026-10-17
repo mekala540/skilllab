@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/mahmoud/boltons.git",
+  "fix": "448b1db11afdde8edaf7c2c280a5b38f0d8672a7",
+  "test_files": [
+    "tests/test_listutils.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_listutils.py::test_barrellist_slicing_matches_list"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

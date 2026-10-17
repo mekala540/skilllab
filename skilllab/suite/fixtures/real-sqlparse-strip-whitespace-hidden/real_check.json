@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/andialbrecht/sqlparse.git",
+  "fix": "0c4902f3f7aafa8c2e63a375ec307c210842f543",
+  "test_files": [
+    "tests/test_format.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_format.py::test_strip_ws_removes_trailing_ws_in_groups"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

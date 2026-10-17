@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/pallets/click.git",
+  "fix": "1241abaed4e441582a21f4bf90c8482de02b92df",
+  "test_files": [
+    "tests/test_formatting.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_formatting.py::test_formatting_usage_error_help_hint"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

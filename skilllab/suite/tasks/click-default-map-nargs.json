@@ -1,0 +1,41 @@
+{
+  "id": "click-default-map-nargs",
+  "tier": "real",
+  "title": "click: Bug report (issue #2745) from a user of this library",
+  "tags": [
+    "config",
+    "defaults",
+    "options",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/pallets/click.git",
+    "commit": "8bd8b4a074c55c03b6eb5666edc44a9c43df38a2",
+    "fix": "3a3e0350b6a2ea3e799440d48e779acabcf44de9"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-click-default-map-nargs-hidden",
+  "prompt": "This repo is click (an open-source Python library). Bug report (issue #2745) from a user of this library:\n\n> We load `default_map` from a config file, so every value is a string. For an option with `nargs=2` (or a tuple type), `default_map={\"point\": \"3 4\"}` doesn't work: the command fails or gets the whole string, instead of `(3, 4)`. Setting the same value through the option's environment variable works, because click splits it. A string in `default_map` should be split the same way. Values that are already a list or tuple, and values given on the command line, must keep working.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}/src",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/pallets/click/commit/3a3e0350b6a2ea3e799440d48e779acabcf44de9 (BSD-3-Clause)",
+  "requires_python": "3.10"
+}

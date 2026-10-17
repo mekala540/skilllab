@@ -1,0 +1,42 @@
+{
+  "id": "click-choice-brackets",
+  "tier": "real",
+  "title": "click: Bug report from a user of this library",
+  "tags": [
+    "cli",
+    "help",
+    "usage",
+    "formatting",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/pallets/click.git",
+    "commit": "8929d392781c8113bc569f388c15c47b94f86581",
+    "fix": "762c97eef7c1b3779678992f26a553a2a8c80793"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-click-choice-brackets-hidden",
+  "prompt": "This repo is click (an open-source Python library). Bug report from a user of this library:\n\n> The usage line in `--help` shows doubled brackets for optional arguments that use `click.Choice`. With\n>\n> ```python\n> @click.command()\n> @click.argument(\"method\", type=click.Choice([\"foo\", \"bar\", \"baz\"]), required=False)\n> def cli(method): ...\n> ```\n>\n> `--help` prints `Usage: cli [OPTIONS] [[foo|bar|baz]]`. The same happens with `nargs=-1`, and with other types whose metavar is already in brackets. Expected: `[foo|bar|baz]`.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}/src",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/pallets/click/commit/762c97eef7c1b3779678992f26a553a2a8c80793 (BSD-3-Clause)",
+  "requires_python": "3.10"
+}

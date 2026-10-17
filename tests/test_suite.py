@@ -17,7 +17,7 @@ TASKS = load_suite()
 
 
 class DoNothing:
-    def run(self, prompt, cwd, timeout, tools=None):
+    def run(self, prompt, cwd, timeout, tools=None, **kw):
         return AgentResult(cost_usd=0.0)
 
 
@@ -25,12 +25,14 @@ class CopySolution:
     def __init__(self, task_id, root=SOLUTIONS):
         self.src = root / task_id
 
-    def run(self, prompt, cwd, timeout, tools=None):
+    def run(self, prompt, cwd, timeout, tools=None, **kw):
         # Files are copied as is; a _solve.py (e.g. git commands) runs and is removed.
         shutil.copytree(self.src, cwd, dirs_exist_ok=True, ignore=shutil.ignore_patterns("_solve.py"))
         if (self.src / "_solve.py").exists():
+            root = str(Path(__file__).resolve().parent.parent)  # so _solve.py can import skilllab
+            env = dict(__import__("os").environ, PYTHONPATH=root)
             subprocess.run([sys.executable, str(self.src / "_solve.py")], cwd=cwd, check=True,
-                           capture_output=True)
+                           capture_output=True, env=env)
         return AgentResult(cost_usd=0.0)
 
 
@@ -40,8 +42,14 @@ def test_easy_tier():
         "feature-durations", "review-inventory"}
 
 
+def _skip_unavailable(task):
+    if task.missing():
+        pytest.skip(f"needs {', '.join(task.missing())}")
+
+
 @pytest.mark.parametrize("task", TASKS, ids=lambda t: t.id)
 def test_fixture_fails_check(task):
+    _skip_unavailable(task)
     rec = execute(Run(task, None, 0), DoNothing(), "test")
     assert not rec["infra_error"]
     assert rec["passed"] is False, rec["check_tail"]
@@ -49,6 +57,7 @@ def test_fixture_fails_check(task):
 
 @pytest.mark.parametrize("task", TASKS, ids=lambda t: t.id)
 def test_solution_passes_check(task):
+    _skip_unavailable(task)
     assert (SOLUTIONS / task.id).is_dir(), f"add a reference solution in tests/solutions/{task.id}"
     rec = execute(Run(task, None, 0), CopySolution(task.id), "test")
     assert rec["passed"] is True, rec["check_tail"]
@@ -113,3 +122,11 @@ def test_project_tier_shares_one_base():
     assert len(project) >= 12
     assert {t.base.name for t in project} == {"tally"}
     assert all("git" in t.requires and t.setup for t in project)
+
+
+def test_real_tier_tasks_name_their_upstream_fix():
+    real = [t for t in TASKS if t.tier == "real"]
+    assert len(real) >= 12
+    for t in real:
+        assert t.repo and len(t.repo["commit"]) == 40 and len(t.repo["fix"]) == 40, t.id
+        assert t.hidden and (t.hidden / "real_check.json").is_file() and not t.fixture

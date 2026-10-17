@@ -1,0 +1,41 @@
+{
+  "id": "boltons-relative-time",
+  "tier": "real",
+  "title": "boltons: Bug report (issue #469) from a user of this library",
+  "tags": [
+    "datetime",
+    "time",
+    "timezone",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/mahmoud/boltons.git",
+    "commit": "dfd632467c06089a19427e14010e83f57502c9bc",
+    "fix": "8789df2cc35a4d9ddfebfa59c14f3e80e34234e1"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-boltons-relative-time-hidden",
+  "prompt": "This repo is boltons (an open-source Python library). Bug report (issue #469) from a user of this library:\n\n> `boltons.timeutils.relative_time(d)` and `decimal_relative_time(d)` fail for timezone-aware datetimes when you don't pass `other`: `relative_time(datetime.now(timezone.utc))` raises instead of returning `'0 seconds ago'`. Naive datetimes work. The default comparison time should match the timezone (or lack of one) of the datetime passed in.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/mahmoud/boltons/commit/8789df2cc35a4d9ddfebfa59c14f3e80e34234e1 (BSD-3-Clause)",
+  "requires_python": "3.7"
+}

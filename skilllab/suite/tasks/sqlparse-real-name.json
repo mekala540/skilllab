@@ -1,0 +1,42 @@
+{
+  "id": "sqlparse-real-name",
+  "tier": "real",
+  "title": "sqlparse: Bug report (issue #332) from a user of this library",
+  "tags": [
+    "sql",
+    "parser",
+    "parsing",
+    "identifiers",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/andialbrecht/sqlparse.git",
+    "commit": "df8e28495a87954a9d52de70c33ef7225c53b28f",
+    "fix": "f66d12c245412f28c58f045b646eb53c0e691b8b"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-sqlparse-real-name-hidden",
+  "prompt": "This repo is sqlparse (an open-source Python library). Bug report (issue #332) from a user of this library:\n\n> For identifiers with more than two dotted parts, `get_real_name()` returns the wrong part:\n>\n> ```python\n> sqlparse.parse(\"db.schema.tbl.col\")[0].tokens[0].get_real_name()  # 'schema', expected 'col'\n> ```\n>\n> Two-part names like `tbl.col` are fine. `get_parent_name()` should keep behaving as documented.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/andialbrecht/sqlparse/commit/f66d12c245412f28c58f045b646eb53c0e691b8b (BSD-3-Clause)",
+  "requires_python": "3.10"
+}

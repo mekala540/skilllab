@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/andialbrecht/sqlparse.git",
+  "fix": "1a3bfbd50b82c05d9adcc51bacba059671dc1bc7",
+  "test_files": [
+    "tests/test_split.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_split.py::test_split_begin_end_semicolons"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

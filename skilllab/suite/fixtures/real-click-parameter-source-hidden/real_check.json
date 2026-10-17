@@ -1,0 +1,19 @@
+{
+  "project": "https://github.com/pallets/click.git",
+  "fix": "7d05a59b9d46a415d85937630d1d812cf477f60a",
+  "test_files": [
+    "tests/test_defaults.py",
+    "tests/test_options.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_defaults.py::test_parameter_source_during_paramtype_convert",
+    "tests/test_defaults.py::test_parameter_source_during_eager_callback",
+    "tests/test_defaults.py::test_flask_debug_env_not_stomped_by_default_flag"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

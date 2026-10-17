@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/pallets/click.git",
+  "fix": "3a3e0350b6a2ea3e799440d48e779acabcf44de9",
+  "test_files": [
+    "tests/test_defaults.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_defaults.py::test_default_map_nargs"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

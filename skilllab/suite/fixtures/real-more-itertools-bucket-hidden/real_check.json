@@ -1,0 +1,17 @@
+{
+  "project": "https://github.com/more-itertools/more-itertools.git",
+  "fix": "2b8d5cddce4ea01f88a973551cd50479cf5fa45f",
+  "test_files": [
+    "tests/test_more.py"
+  ],
+  "conftests": [],
+  "must_pass": [
+    "tests/test_more.py::BucketTests::test_getitem_miss_does_not_add_key",
+    "tests/test_more.py::BucketTests::test_in_does_not_add_key",
+    "tests/test_more.py::BucketTests::test_in_does_not_add_key_with_validator",
+    "tests/test_more.py::BucketTests::test_keys_are_only_those_seen"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

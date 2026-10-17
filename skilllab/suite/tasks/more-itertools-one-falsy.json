@@ -1,0 +1,39 @@
+{
+  "id": "more-itertools-one-falsy",
+  "tier": "real",
+  "title": "more-itertools: Bug report from a user of this library",
+  "tags": [
+    "iterators",
+    "errors",
+    "exceptions",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/more-itertools/more-itertools.git",
+    "commit": "9ed3dbb0ae527230cd156d91d0af305478558fba",
+    "fix": "def2dabea858b6ecb84ee0c52e6e07929f2c409c"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-more-itertools-one-falsy-hidden",
+  "prompt": "This repo is more-itertools (an open-source Python library). Bug report from a user of this library:\n\n> `more_itertools.one(it, too_long=MyError())` raises a plain `ValueError` instead of `MyError` when `MyError` instances are falsy (it defines `__bool__`). `only()` has the same problem, and so does `too_short`. A custom exception that was passed in must always be the one raised.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/more-itertools/more-itertools/commit/def2dabea858b6ecb84ee0c52e6e07929f2c409c (MIT)",
+  "requires_python": "3.10"
+}

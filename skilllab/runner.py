@@ -4,8 +4,11 @@ skill (or per whole pack)."""
 from __future__ import annotations
 
 import hashlib
+import io
 import json
+import os
 import random
+import tarfile
 import shlex
 import shutil
 import subprocess
@@ -13,6 +16,7 @@ import sys
 import tempfile
 import threading
 import time
+from collections import defaultdict
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import dataclass
 from pathlib import Path
@@ -23,6 +27,63 @@ from .skills import Pack, Skill
 from .tasks import Task, matches
 
 CHECK_TIMEOUT = 300
+GIT_TIMEOUT = 600
+_repo_locks: Dict[str, threading.Lock] = defaultdict(threading.Lock)
+
+
+def repo_cache() -> Path:
+    return Path(os.environ.get("SKILLLAB_REPO_CACHE") or Path.home() / ".cache" / "skilllab" / "repos")
+
+
+def repo_gitdir(url: str) -> Path:
+    """Where the bare clone of `url` is cached: ~/.cache/skilllab/repos/<owner>-<name>.git"""
+    path = url.rstrip("/")
+    path = path[:-4] if path.endswith(".git") else path
+    parts = path.split("/")
+    return repo_cache() / f"{parts[-2]}-{parts[-1]}.git"
+
+
+def _git(gitdir: Path, *args, check=True):
+    env = dict(os.environ, GIT_TERMINAL_PROMPT="0")
+    return subprocess.run(["git", "--git-dir", str(gitdir), *args], capture_output=True, timeout=GIT_TIMEOUT,
+                          check=check, env=env)
+
+
+def ensure_commits(url: str, *shas: str) -> Path:
+    """Clone `url` into the cache once (bare), fetching again only if a pinned commit is missing."""
+    gitdir = repo_gitdir(url)
+    with _repo_locks[str(gitdir)]:
+        if not gitdir.exists():
+            gitdir.parent.mkdir(parents=True, exist_ok=True)
+            tmp = gitdir.with_name(gitdir.name + f".tmp{os.getpid()}")
+            subprocess.run(["git", "clone", "--quiet", "--bare", url, str(tmp)], check=True, capture_output=True,
+                           timeout=GIT_TIMEOUT, env=dict(os.environ, GIT_TERMINAL_PROMPT="0"))
+            os.replace(tmp, gitdir)
+        missing = [s for s in shas if _git(gitdir, "cat-file", "-e", f"{s}^{{commit}}", check=False).returncode]
+        if missing:
+            _git(gitdir, "fetch", "--quiet", "origin", "+refs/heads/*:refs/heads/*", "+refs/tags/*:refs/tags/*")
+            still = [s for s in missing if _git(gitdir, "cat-file", "-e", f"{s}^{{commit}}", check=False).returncode]
+            if still:
+                raise RuntimeError(f"{url}: commit {still[0]} not found")
+    return gitdir
+
+
+def materialize(url: str, sha: str, dest: Path) -> None:
+    """Write the files of `url` at commit `sha` into dest (no history: later commits stay out)."""
+    gitdir = ensure_commits(url, sha)
+    data = _git(gitdir, "archive", "--format=tar", sha).stdout
+    with tarfile.open(fileobj=io.BytesIO(data)) as tar:
+        for member in tar.getmembers():
+            if member.name.startswith("/") or ".." in Path(member.name).parts:
+                raise RuntimeError(f"unsafe path in {url}@{sha}: {member.name}")
+        try:
+            tar.extractall(dest, filter="data")  # Python 3.12+, and recent 3.9-3.11 patch releases
+        except TypeError:
+            tar.extractall(dest)
+
+
+def task_env(task: Task, ws: Path) -> Dict[str, str]:
+    return {k: v.replace("{workspace}", str(ws)) for k, v in task.env.items()}
 # This many infrastructure errors in a row (usage limit, logged out, CLI missing) stops the batch.
 MAX_CONSECUTIVE_ERRORS = 8
 
@@ -132,9 +193,12 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
     task = run.task
     ws = Path(tempfile.mkdtemp(prefix="skilllab-"))
     try:
+        if task.repo:
+            materialize(task.repo["url"], task.repo["commit"], ws)
         if task.base:
             shutil.copytree(task.base, ws, dirs_exist_ok=True)
-        shutil.copytree(task.fixture, ws, dirs_exist_ok=True)
+        if task.fixture:
+            shutil.copytree(task.fixture, ws, dirs_exist_ok=True)
         if task.setup:
             _run_setup(task, ws)
         prompt, extra = task.prompt, {}
@@ -152,6 +216,8 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
         elif run.addon:
             extra = run.addon.install(ws)
         tools = list(task.tools) + (list(run.addon.tools) if run.addon else [])
+        if task.env:
+            extra["env"] = {**task_env(task, ws), **(extra.get("env") or {})}
         before = {p: _hash(ws / p) for p in task.protect}
 
         res = agent.run(prompt, ws, task.timeout, tools=tools, **extra)
@@ -164,8 +230,11 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
                 shutil.copytree(task.hidden, ws, dirs_exist_ok=True)
             cmd = task.check.replace("{python}", shlex.quote(sys.executable))
             try:
+                check_env = dict(os.environ, **task_env(task, ws))
+                if task.repo:
+                    check_env["SKILLLAB_REPO_GIT"] = str(repo_gitdir(task.repo["url"]))
                 proc = subprocess.run(cmd, shell=True, cwd=str(ws), capture_output=True,
-                                      text=True, timeout=CHECK_TIMEOUT)
+                                      text=True, timeout=CHECK_TIMEOUT, env=check_env)
                 passed = proc.returncode == 0 and not changed
                 check_tail = (proc.stdout + proc.stderr).strip()[-600:]
             except subprocess.TimeoutExpired:

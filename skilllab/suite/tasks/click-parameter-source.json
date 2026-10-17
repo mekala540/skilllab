@@ -1,0 +1,42 @@
+{
+  "id": "click-parameter-source",
+  "tier": "real",
+  "title": "click: Bug report (issue #3458) from a user of this library, a regression in the latest re",
+  "tags": [
+    "parameters",
+    "callbacks",
+    "types",
+    "regression",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/pallets/click.git",
+    "commit": "4b24a6c8f6658ef89fd6db4dcaf8ee88eef75dfa",
+    "fix": "7d05a59b9d46a415d85937630d1d812cf477f60a"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-click-parameter-source-hidden",
+  "prompt": "This repo is click (an open-source Python library). Bug report (issue #3458) from a user of this library, a regression in the latest release:\n\n> Inside a custom `ParamType.convert()`, `ctx.get_parameter_source(param.name)` now returns `None`. It used to return the source (`DEFAULT`, `COMMANDLINE`, ...). The same goes for eager option callbacks. Minimal example:\n>\n> ```python\n> class Source(click.ParamType):\n>     name = \"source\"\n>     def convert(self, value, param, ctx):\n>         return (value, ctx.get_parameter_source(param.name))\n>\n> @click.command()\n> @click.option(\"--default\", type=Source(), default=\"/tmp/file\")\n> def cli(default):\n>     click.echo(default)\n> ```\n>\n> prints `('/tmp/file', None)` instead of `('/tmp/file', <ParameterSource.DEFAULT: 3>)`. When several options share one parameter name, the source reported afterwards must still be the one of the option that won.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}/src",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/pallets/click/commit/7d05a59b9d46a415d85937630d1d812cf477f60a (BSD-3-Clause)",
+  "requires_python": "3.10"
+}

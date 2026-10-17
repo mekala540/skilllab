@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/mahmoud/boltons.git",
+  "fix": "d45cc414e33aa4e08a73e0993574df4397e2e9db",
+  "test_files": [
+    "tests/test_urlutils.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_urlutils.py::test_parse_qsl_encoding"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

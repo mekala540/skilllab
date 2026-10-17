@@ -1,0 +1,39 @@
+{
+  "id": "more-itertools-bucket",
+  "tier": "real",
+  "title": "more-itertools: Bug report (issue #1284) from a user of this library",
+  "tags": [
+    "iterators",
+    "iteration",
+    "data structures",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/more-itertools/more-itertools.git",
+    "commit": "b2f3aff7633057d234ec9186c18a53f4df306d08",
+    "fix": "2b8d5cddce4ea01f88a973551cd50479cf5fa45f"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-more-itertools-bucket-hidden",
+  "prompt": "This repo is more-itertools (an open-source Python library). Bug report (issue #1284) from a user of this library:\n\n> Looking up a key that doesn't exist in a `more_itertools.bucket` adds it. After `'c' in s` (or `s['c']`) for a key with no items, `list(s)` suddenly lists `'c'`, so `'c' in s` and `'c' in list(s)` disagree. A lookup must not create keys; `list(s)` should only list keys that actually had items.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/more-itertools/more-itertools/commit/2b8d5cddce4ea01f88a973551cd50479cf5fa45f (MIT)",
+  "requires_python": "3.10"
+}

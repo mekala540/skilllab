@@ -1,0 +1,17 @@
+{
+  "project": "https://github.com/more-itertools/more-itertools.git",
+  "fix": "def2dabea858b6ecb84ee0c52e6e07929f2c409c",
+  "test_files": [
+    "tests/test_more.py"
+  ],
+  "conftests": [],
+  "must_pass": [
+    "tests/test_more.py::OneTests::test_falsy_custom_exception",
+    "tests/test_more.py::OneTests::test_too_long_does_not_evaluate_repr",
+    "tests/test_more.py::OnlyTests::test_falsy_custom_exception",
+    "tests/test_more.py::OnlyTests::test_too_long_does_not_evaluate_repr"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

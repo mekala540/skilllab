@@ -1,0 +1,17 @@
+{
+  "project": "https://github.com/pallets/click.git",
+  "fix": "762c97eef7c1b3779678992f26a553a2a8c80793",
+  "test_files": [
+    "tests/test_basic.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_basic.py::test_choice_argument_optional_metavar",
+    "tests/test_basic.py::test_datetime_argument_optional_metavar"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

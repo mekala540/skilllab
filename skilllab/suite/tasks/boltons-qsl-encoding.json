@@ -1,0 +1,42 @@
+{
+  "id": "boltons-qsl-encoding",
+  "tier": "real",
+  "title": "boltons: Bug report (issue #455) from a user of this library",
+  "tags": [
+    "urls",
+    "url",
+    "encoding",
+    "unicode",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/mahmoud/boltons.git",
+    "commit": "967864f89791509f9eb36b22b4579d36b72a6df2",
+    "fix": "d45cc414e33aa4e08a73e0993574df4397e2e9db"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-boltons-qsl-encoding-hidden",
+  "prompt": "This repo is boltons (an open-source Python library). Bug report (issue #455) from a user of this library:\n\n> `boltons.urlutils.parse_qsl(qs, encoding='latin-1')` ignores the encoding: `parse_qsl('k=%E9', encoding='latin-1')` should give `[('k', '\u00e9')]`, but the value is decoded as UTF-8. Keys have the same problem. The default behaviour (UTF-8) shouldn't change.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/mahmoud/boltons/commit/d45cc414e33aa4e08a73e0993574df4397e2e9db (BSD-3-Clause)",
+  "requires_python": "3.7"
+}

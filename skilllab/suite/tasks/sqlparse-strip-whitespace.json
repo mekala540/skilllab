@@ -1,0 +1,42 @@
+{
+  "id": "sqlparse-strip-whitespace",
+  "tier": "real",
+  "title": "sqlparse: Bug report (issue #782) from a user of this library",
+  "tags": [
+    "sql",
+    "formatting",
+    "format",
+    "whitespace",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/andialbrecht/sqlparse.git",
+    "commit": "a8de06e16d3b3bbf7fdb2f176e1e5153ca3f98a0",
+    "fix": "0c4902f3f7aafa8c2e63a375ec307c210842f543"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-sqlparse-strip-whitespace-hidden",
+  "prompt": "This repo is sqlparse (an open-source Python library). Bug report (issue #782) from a user of this library:\n\n> `sqlparse.format(sql, strip_whitespace=True)` leaves trailing whitespace and line breaks in place when they are inside a group, such as a parenthesis or a sub-select, while the same whitespace at the top level is removed. All of it should be stripped.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/andialbrecht/sqlparse/commit/0c4902f3f7aafa8c2e63a375ec307c210842f543 (BSD-3-Clause)",
+  "requires_python": "3.8"
+}

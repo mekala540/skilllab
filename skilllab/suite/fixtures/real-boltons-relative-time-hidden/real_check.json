@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/mahmoud/boltons.git",
+  "fix": "8789df2cc35a4d9ddfebfa59c14f3e80e34234e1",
+  "test_files": [
+    "tests/test_timeutils.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_timeutils.py::test_relative_time_defaults_to_matching_timezone"
+  ],
+  "suite": [
+    "tests"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "boltons-barrellist-slices",
+  "tier": "real",
+  "title": "boltons: Bug report from a user of this library",
+  "tags": [
+    "data structures",
+    "lists",
+    "slicing",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/mahmoud/boltons.git",
+    "commit": "967864f89791509f9eb36b22b4579d36b72a6df2",
+    "fix": "448b1db11afdde8edaf7c2c280a5b38f0d8672a7"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-boltons-barrellist-slices-hidden",
+  "prompt": "This repo is boltons (an open-source Python library). Bug report from a user of this library:\n\n> `boltons.listutils.BarrelList` doesn't slice like a list. Negative bounds, bounds past the end and negative steps give results that differ from the same slice on a plain `list` (for example `bl[::-1]` or `bl[-20:2]`). Every slice should give exactly what `list(bl)[slice]` gives, including `ValueError` for a step of 0.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "tests/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/mahmoud/boltons/commit/448b1db11afdde8edaf7c2c280a5b38f0d8672a7 (BSD-3-Clause)",
+  "requires_python": "3.7"
+}

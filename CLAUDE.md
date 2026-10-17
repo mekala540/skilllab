@@ -26,6 +26,7 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
 - `skilllab/runner.py`: `plan` (shared baselines), `execute` (one run in a temp workspace), `run_all` (parallel, budget, resume).
 - `skilllab/verdict.py`: pass-rate verdicts, cost/token savings (`savings`, bootstrap ranges), gaps. `skilllab/report.py`: markdown and HTML. `skilllab/lab.py`: the animated `lab.html` replay (canvas, no dependencies). `skilllab/cli.py`: commands only.
 - `skilllab/suite/`: tasks, fixtures, hidden checks. `tests/solutions/`: a reference solution per task.
+- Real tier: `tests/generators/real_tasks.py` writes `suite/tasks/<id>.json`, `suite/fixtures/real-<id>-hidden/` and `tests/solutions/<id>/_solve.py` from a list of upstream fix commits. `runner.ensure_commits`/`materialize` clone into `~/.cache/skilllab/repos` and extract one commit; `fixtures/real-check/check_real.py` is the shared checker. Never copy upstream code or tests into this repo; read them from the cache.
 - `skilllab/suite/projects/tally/`: the shared base project for the `project` tier. A task names it as `"base"`; its fixture only holds the files it changes. Some hidden checks hold golden files made from the base (expected totals, outputs, saved files): if you change the base, regenerate them, and `pytest` will tell you which ones drifted.
 
 ## Rules
@@ -35,6 +36,7 @@ No runtime dependencies; keep it that way. Python 3.9+, so no syntax newer than 
   plausible-but-incomplete attempt in `tests/shallow/<id>/` that must fail. A solution may include
   `_solve.py` (run in the workspace) for steps like git commits.
 - **Project tasks must stay realistic.** Visible tests pass in the fixture unless the task is about failing tests; the bug or gap is something a careful engineer finds, not something the tests point at. Keep the generator scripts for big fixtures (logs, histories) deterministic.
+- **Real tasks** need no shallow attempt: the upstream tests are the arbiter. A real task's fix must make previously failing upstream tests pass, verified by the generator; the workspace must never contain upstream history after the snapshot.
 - Calibrate new tasks (`skilllab calibrate`) before relying on them: a task the baseline always passes can't show lift.
 - **Checks are code, not AI judgment.** Hidden files are copied in after the agent finishes.
   Prefer checks that can't be gamed by spraying (mutation testing, behavior comparison, bullet caps).

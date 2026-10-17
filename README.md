@@ -162,6 +162,17 @@ Six more standard tasks (code review and security, hooks, PR writing, skill writ
 
 Every project task has a hidden checker, a reference solution and a plausible-but-incomplete attempt that must fail. They are new: run `skilllab calibrate --tier project` before relying on them.
 
+**Real tier** (`--tier real`): twelve real bugs from four well-known open-source Python projects, each fixed upstream with a test. The workspace is the project at the commit just before the fix (as one fresh commit, without upstream history, so the fix can't be looked up); the agent gets the bug the way a user reported it; the hidden check is **the test that came with the real fix**, plus the project's whole test suite.
+
+| Project | Tasks | Fixes from |
+| --- | --- | --- |
+| [click](https://github.com/pallets/click) | optional `Choice` brackets in usage, `default_map` strings for `nargs`, help hint with shadowed names, parameter source during conversion | 2026 |
+| [sqlparse](https://github.com/andialbrecht/sqlparse) | `BEGIN...END` splitting, whitespace stripping in groups, real name of dotted identifiers | 2025–2026 |
+| [boltons](https://github.com/mahmoud/boltons) | relative time with time zones, `BarrelList` slicing, `parse_qsl` encoding | 2026 |
+| [more-itertools](https://github.com/more-itertools/more-itertools) | `bucket` lookups inventing keys, `one()` dropping falsy custom exceptions | 2026 |
+
+Most fixes are newer than current models' training data, so the models can't have memorised them. Nothing from these projects is copied into skilllab: the first run clones each project once into `~/.cache/skilllab/repos` (set `SKILLLAB_REPO_CACHE` to move it) and reads the snapshot, the upstream tests and the reference fix from there. The tasks need `git`, network on first use, and `pytest` for the Python that runs skilllab; click and more-itertools tasks need Python 3.10+. `tests/generators/real_tasks.py` builds the tier from a list of fix commits, so adding a task is one line.
+
 **Easy tier** (`--tier easy`): five small tasks for smoke tests. Current models usually pass them without help, so they can't show lift.
 
 Tasks needing a program that isn't installed (`node`, `git`) are skipped with a message.
@@ -191,6 +202,7 @@ Tasks the baseline passes more than 60% of the time are marked "too easy for thi
 - **Errors.** Runs where the agent never really started (missing CLI, bad auth) are excluded and retried on resume. Timeouts and max-turn stops count as failed attempts, because a skill that makes the agent loop is a real result.
 - **Matching, in two steps.** First, keywords propose candidates: a task tag appearing as a whole word in the skill's name or description (`contest` does not match `test`). A shared word is not enough, though: "git" pairs a skill that installs git hooks with a task about finding a regression. So, second, a cheap model (Claude Haiku, about a cent per batch, no tools) judges each candidate: is the skill's own "use when" condition met by this task as given? Its yes/no and a one-line reason go to `matches.json` in the results folder and into the report. Edit the file to overrule it; saved decisions are never re-judged. `--pair SKILL:TASK` forces a pair, and `--no-judge` skips the check.
 - **Untested is not "not needed".** A skill with no fair task is listed as untested: nothing is known about it. Those built around a conversation with a person (grilling, teaching, hand-offs) are listed separately, because an unattended run can't judge them.
+- **Real tasks** start from a real project at a pinned commit (`"repo": {"url", "commit", "fix"}`), cloned once into a local cache. Only that commit's files reach the workspace. The check writes the upstream fix's test files over the workspace's copies, then runs pytest: every test that failed before the fix must pass, and so must the rest of the suite. A task-level `env` (here `PYTHONPATH` and `PYTEST_ADDOPTS`) is set for both the agent and the check.
 - **Project tasks** share one base project (`suite/projects/tally`). Each task's fixture holds only the files it changes, laid over a fresh copy of the base; then a setup script makes the workspace a git repo (one commit, or a longer history for the git tasks) with fixed dates, so commit hashes are the same in every run.
 - **Setup and tools.** Some tasks run a setup script first (e.g. to build a git history) and allow extra tools (`git`, `node`) for that task only.
 - **Token costs** of a skill (before running it) are characters ÷ 4: name + description up front, the body on use.

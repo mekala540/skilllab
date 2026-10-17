@@ -1,0 +1,16 @@
+{
+  "project": "https://github.com/andialbrecht/sqlparse.git",
+  "fix": "f66d12c245412f28c58f045b646eb53c0e691b8b",
+  "test_files": [
+    "tests/test_parse.py"
+  ],
+  "conftests": [
+    "tests/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_parse.py::test_get_real_name_multi_part_dotted"
+  ],
+  "suite": [
+    "tests"
+  ]
+}
