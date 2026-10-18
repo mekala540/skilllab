@@ -1,7 +1,7 @@
 # Outreach drafts
 
 Issues to tool makers, posted before results are shared widely, so they can check our setup.
-`<LINK>` is replaced with the published results folder before posting. Every number must
+Results: https://github.com/mekala540/skilllab/tree/main/docs/results/2026-10-17-project-tier. Every number must
 match the published report.
 
 | Tool | Repo | Draft |

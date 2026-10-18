@@ -9,6 +9,6 @@ Hi! We're building skilllab (https://github.com/mekala540/skilllab), an open-sou
 - In an earlier single-task pilot, replies were 36% shorter, but the plugin's own instructions and skills added about 19% input, which cancelled the saving.
 - With the mode off, the plugin alone cost about 18% more on that pilot task.
 
-**Data and method:** <LINK>
+**Data and method:** https://github.com/mekala540/skilllab/tree/main/docs/results/2026-10-17-project-tier
 
 This is preliminary (one model, 12 tasks). Is this the setup you'd recommend for Claude Code used non-interactively? Happy to rerun with any change you suggest.
