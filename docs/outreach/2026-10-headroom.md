@@ -6,9 +6,9 @@ Hi! We're building skilllab (https://github.com/mekala540/skilllab), an open-sou
 
 **What we saw:**
 - Cost per run vs. no proxy: **−12%** (90% range −17% to −7%), pass rate 32/36 vs 32/36.
-- On a single small task earlier we saw −33%; the saving shrinks as tasks get bigger.
+- In an earlier single-task pilot (not in the linked data) we saw −33%, so the saving seems to shrink as tasks get bigger.
 - The proxy restarted once (the batch hit a usage limit and resumed), so `/stats` comes in two files. Together they report ~3.2M tokens removed by compression and ~71M tokens of tool definitions held back by tool search, so most of the effect comes from deferring tool definitions.
-- One thing we'd like to understand: `/stats` reports **$4.12 + $6.49 ≈ $10.61 saved** (`summary.cost.total_saved_usd`, mostly `tool_search_savings_usd`). Measured on the bill, the whole Headroom arm cost about **$0.65** (36 runs), about **$0.07** less than the same runs without the proxy. Our guess is that the counter prices deferred tool tokens at the full input rate, while Claude Code would mostly have read them from the prompt cache at a fraction of that price. Is that right?
+- One thing we'd like to understand: `/stats` reports **$4.12 + $6.49 ≈ $10.61 saved** (`summary.cost.total_saved_usd`, mostly `tool_search_savings_usd`). Those counters cover the 48 runs that went through the proxy (36 measured runs plus 12 warm-ups), which cost about **$0.90** in total on the bill. Over the 36 measured runs, the saving against the same runs without the proxy was roughly **$0.05–0.08**. Our guess is that the counter prices deferred tool tokens at the full input rate, while Claude Code would mostly have read them from the prompt cache at a fraction of that price. Is that right? This may be what #4238 (savings redesign) is addressing; happy to move the question there.
 
 **Data and method:** https://github.com/mekala540/skilllab/tree/main/docs/results/2026-10-17-project-tier
 
