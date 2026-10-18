@@ -5,6 +5,10 @@ without it (Claude Code headless), checks results with hidden tests, and reports
 verdicts, measured cost/token savings and gaps. Sibling of skillprint, which estimates what a
 skill costs before it runs; this one measures what it does.
 
+**Start every session by reading `docs/CONTEXT.md`**: the mission, the rules that never change
+(neutrality, credit to mekala540 with no co-author lines, privacy), current state and the next
+steps. Update it when the state changes.
+
 ## Setup and tests
 
 ```bash
