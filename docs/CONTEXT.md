@@ -3,7 +3,7 @@
 Where the project stands, why, and what's next, so any session (cloud or local) can pick up
 without the history. Keep it current: update "State" and "Next" whenever something changes.
 
-Last updated: 18 October 2026.
+Last updated: 19 October 2026.
 
 ## The mission
 
@@ -76,12 +76,22 @@ instructions cancel the saving on these tasks.
 headroomlabs-ai/headroom#4260, JuliusBrussee/caveman#1323 (drafts in `docs/outreach/`). Related
 upstream issues: rtk #2001, Headroom #4238.
 
+Replies so far:
+- rtk#4640: automated triage bot only (category "question"); points to rtk #582, where other
+  users measured rtk *increasing* cost (+18% single run, +81% over 50 tasks). Our +2% fits.
+  Optional follow-up drafted: rtk +10% input / +3% output / +1% turns vs control (medians).
+- caveman#1323 (19 Oct): setup confirmed correct; flagged to the owner in caveman PR #1315.
+  Asked for (1) the pilot data (output saving vs input overhead) and (2) a voice-only arm vs the
+  full plugin, because `--plugin-dir` also loads all bundled skills. We said we'd do both.
+- headroom#4260: no reply yet.
+
 ## Next, in order
 
 1. Review the real-tier calibration (`results/calibration-real` on the Mac); fix unfair tasks.
 2. Add real bugs from flask, requests and rich to the real tier (cloud; free).
 3. Token-saver comparison on the real tier (Mac; budget from the calibration).
 4. Answer maker replies on the three issues; rerun anything they show we set up wrong.
+   Now: publish pilot-3 data; caveman full plugin vs voice-only comparison (Mac, ~$4).
 5. Results page + Reddit post (r/ClaudeAI) 2–3 days after the issues, linking them; HN later.
 6. Release skilllab on PyPI.
 7. Second model (Sonnet), more tools (memory tools next), harder tasks so skills can show lift.
