@@ -102,8 +102,10 @@ Replies so far:
 3. Token-saver comparison on the real tier (Mac; budget from the calibration).
 4. Answer maker replies on the three issues; rerun anything they show we set up wrong.
    Pilot-3 data published 21 Nov (`docs/results/2026-10-17-pilot-3/`), linked on caveman#1323
-   (issuecomment-7066008929). Now: caveman full plugin
-   vs voice-only comparison (Mac, ~$4), with the cache split recorded.
+   (issuecomment-7066008929). Voice-only rerun done 21 Nov (`docs/results/2026-11-21-caveman-voice/`,
+   240 runs, $5.29, Claude Code 2.1.330): caveman plugin and voice-only both ~−5 to −9% (output
+   −15–18%); Headroom now same cost, its tool_search deferred 0 tokens (likely Claude Code now
+   defers tools itself; unconfirmed). Next: post results on caveman#1323 and headroom#4260.
 5. Results page + Reddit post (r/ClaudeAI) 2–3 days after the issues, linking them; HN later.
 6. Release skilllab on PyPI: 0.3.0 prepared 21 Nov (publish workflow, `pypi` environment);
    waits for the PyPI pending publisher, then `gh release create v0.3.0`.

@@ -1,0 +1,4567 @@
+{
+  "runs": 240,
+  "errors": 0,
+  "control_warning": null,
+  "cost_usd": 5.2945,
+  "threshold": 0.3,
+  "alpha": 0.1,
+  "baseline": {
+    "tally-bisect": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01493339,
+      "cost_per_pass": 0.014637863333333334
+    },
+    "tally-csv-import": {
+      "n": 3,
+      "passes": 2,
+      "rate": 0.6666666666666666,
+      "ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.04401753000000001,
+      "cost_per_pass": 0.06635518500000001
+    },
+    "tally-double-charge": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02601613,
+      "cost_per_pass": 0.02462386666666667
+    },
+    "tally-export-security": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.022603500000000002,
+      "cost_per_pass": 0.022036603333333335
+    },
+    "tally-invoice-mismatch": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02079866,
+      "cost_per_pass": 0.021024193333333333
+    },
+    "tally-red-build": {
+      "n": 3,
+      "passes": 2,
+      "rate": 0.6666666666666666,
+      "ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.01977438,
+      "cost_per_pass": 0.029645965
+    },
+    "tally-remove-fmt": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.026213300000000002,
+      "cost_per_pass": 0.025490469999999998
+    },
+    "tally-report-json": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.033752229999999994,
+      "cost_per_pass": 0.03190612333333333
+    },
+    "tally-slow-export": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.021767350000000005,
+      "cost_per_pass": 0.021056223333333336
+    },
+    "tally-storage": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.0255749,
+      "cost_per_pass": 0.02552175666666667
+    },
+    "tally-timezone": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01748746,
+      "cost_per_pass": 0.017878033333333335
+    },
+    "tally-why-cap": {
+      "n": 3,
+      "passes": 3,
+      "rate": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.00792669,
+      "cost_per_pass": 0.007989456666666667
+    }
+  },
+  "pairs": [
+    {
+      "skill": "addon:caveman",
+      "task": "tally-bisect",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01380451,
+      "base_cost": 0.01493339,
+      "cost_per_pass": 0.014313586666666668,
+      "base_cost_per_pass": 0.014637863333333334,
+      "turns": 20,
+      "bash_calls": 14,
+      "base_bash_calls": 12,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01380451,
+            "base": 0.01493339,
+            "change": -0.0756,
+            "ci": [
+              -0.1731,
+              0.2316
+            ]
+          },
+          "input_tokens": {
+            "with": 465637.0,
+            "base": 522037.0,
+            "change": -0.108,
+            "ci": [
+              -0.2498,
+              0.3328
+            ]
+          },
+          "output_tokens": {
+            "with": 4181.0,
+            "base": 5277.0,
+            "change": -0.2077,
+            "ci": [
+              -0.3306,
+              0.044
+            ]
+          },
+          "duration_s": {
+            "with": 28.5,
+            "base": 36.8,
+            "change": -0.2255,
+            "ci": [
+              -0.2324,
+              0.1543
+            ]
+          },
+          "turns": {
+            "with": 20.0,
+            "base": 24.0,
+            "change": -0.1667,
+            "ci": [
+              -0.28,
+              0.1
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-csv-import",
+      "n": 3,
+      "with_rate": 0.6666666666666666,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.254,
+        0.922
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.04291374,
+      "base_cost": 0.04401753000000001,
+      "cost_per_pass": 0.06385802,
+      "base_cost_per_pass": 0.06635518500000001,
+      "turns": 38,
+      "bash_calls": 4,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.04291374,
+            "base": 0.04401753000000001,
+            "change": -0.0251,
+            "ci": [
+              -0.1369,
+              0.0547
+            ]
+          },
+          "input_tokens": {
+            "with": 1233521.0,
+            "base": 1053291.0,
+            "change": 0.1711,
+            "ci": [
+              0.0209,
+              0.3183
+            ]
+          },
+          "output_tokens": {
+            "with": 31031.0,
+            "base": 37535.0,
+            "change": -0.1733,
+            "ci": [
+              -0.2686,
+              -0.0447
+            ]
+          },
+          "duration_s": {
+            "with": 145.4,
+            "base": 165.2,
+            "change": -0.1199,
+            "ci": [
+              -0.2301,
+              -0.0457
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 40.0,
+            "change": -0.05,
+            "ci": [
+              -0.05,
+              0.0541
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-double-charge",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.022679900000000003,
+      "base_cost": 0.02601613,
+      "cost_per_pass": 0.022893623333333335,
+      "base_cost_per_pass": 0.02462386666666667,
+      "turns": 23,
+      "bash_calls": 10,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "head",
+        "ls",
+        "python3",
+        "wc"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.022679900000000003,
+            "base": 0.02601613,
+            "change": -0.1282,
+            "ci": [
+              -0.2874,
+              0.3807
+            ]
+          },
+          "input_tokens": {
+            "with": 892088.0,
+            "base": 932089.0,
+            "change": -0.0429,
+            "ci": [
+              -0.2997,
+              0.6787
+            ]
+          },
+          "output_tokens": {
+            "with": 10313.0,
+            "base": 9667.0,
+            "change": 0.0668,
+            "ci": [
+              -0.3125,
+              0.406
+            ]
+          },
+          "duration_s": {
+            "with": 62.6,
+            "base": 58.4,
+            "change": 0.0719,
+            "ci": [
+              -0.261,
+              0.3728
+            ]
+          },
+          "turns": {
+            "with": 23.0,
+            "base": 20.0,
+            "change": 0.15,
+            "ci": [
+              -0.1304,
+              0.4706
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-export-security",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.022342360000000002,
+      "base_cost": 0.022603500000000002,
+      "cost_per_pass": 0.02169026666666667,
+      "base_cost_per_pass": 0.022036603333333335,
+      "turns": 22,
+      "bash_calls": 10,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "git",
+        "grep",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.022342360000000002,
+            "base": 0.022603500000000002,
+            "change": -0.0116,
+            "ci": [
+              -0.2782,
+              0.3565
+            ]
+          },
+          "input_tokens": {
+            "with": 731136.0,
+            "base": 624286.0,
+            "change": 0.1712,
+            "ci": [
+              -0.3621,
+              0.7537
+            ]
+          },
+          "output_tokens": {
+            "with": 12341.0,
+            "base": 13899.0,
+            "change": -0.1121,
+            "ci": [
+              -0.3406,
+              0.2028
+            ]
+          },
+          "duration_s": {
+            "with": 66.9,
+            "base": 71.0,
+            "change": -0.0577,
+            "ci": [
+              -0.3129,
+              0.2423
+            ]
+          },
+          "turns": {
+            "with": 22.0,
+            "base": 20.0,
+            "change": 0.1,
+            "ci": [
+              -0.2381,
+              0.5625
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-invoice-mismatch",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.016579960000000005,
+      "base_cost": 0.02079866,
+      "cost_per_pass": 0.017019403333333336,
+      "base_cost_per_pass": 0.021024193333333333,
+      "turns": 25,
+      "bash_calls": 5,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "find",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.016579960000000005,
+            "base": 0.02079866,
+            "change": -0.2028,
+            "ci": [
+              -0.3073,
+              -0.0508
+            ]
+          },
+          "input_tokens": {
+            "with": 481940.0,
+            "base": 644718.0,
+            "change": -0.2525,
+            "ci": [
+              -0.3378,
+              0.0837
+            ]
+          },
+          "output_tokens": {
+            "with": 6150.0,
+            "base": 8959.0,
+            "change": -0.3135,
+            "ci": [
+              -0.4785,
+              -0.2098
+            ]
+          },
+          "duration_s": {
+            "with": 36.5,
+            "base": 53.0,
+            "change": -0.3113,
+            "ci": [
+              -0.4836,
+              -0.1588
+            ]
+          },
+          "turns": {
+            "with": 25.0,
+            "base": 30.0,
+            "change": -0.1667,
+            "ci": [
+              -0.3438,
+              -0.1034
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-red-build",
+      "n": 3,
+      "with_rate": 0.3333333333333333,
+      "base_rate": 0.6666666666666666,
+      "delta": -0.3333333333333333,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.078,
+        0.746
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.01586843,
+      "base_cost": 0.01977438,
+      "cost_per_pass": 0.04974625,
+      "base_cost_per_pass": 0.029645965,
+      "turns": 18,
+      "bash_calls": 13,
+      "base_bash_calls": 21,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "difference not significant (p=1.00)",
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01586843,
+            "base": 0.01977438,
+            "change": -0.1975,
+            "ci": [
+              -0.2399,
+              -0.036
+            ]
+          },
+          "input_tokens": {
+            "with": 447766.0,
+            "base": 590800.0,
+            "change": -0.2421,
+            "ci": [
+              -0.4008,
+              0.1739
+            ]
+          },
+          "output_tokens": {
+            "with": 7022.0,
+            "base": 9439.0,
+            "change": -0.2561,
+            "ci": [
+              -0.3005,
+              -0.0607
+            ]
+          },
+          "duration_s": {
+            "with": 41.2,
+            "base": 53.6,
+            "change": -0.2313,
+            "ci": [
+              -0.2839,
+              -0.0274
+            ]
+          },
+          "turns": {
+            "with": 18.0,
+            "base": 26.0,
+            "change": -0.3077,
+            "ci": [
+              -0.4194,
+              0.1304
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-remove-fmt",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.0231297,
+      "base_cost": 0.026213300000000002,
+      "cost_per_pass": 0.023235920000000004,
+      "base_cost_per_pass": 0.025490469999999998,
+      "turns": 40,
+      "bash_calls": 7,
+      "base_bash_calls": 13,
+      "bash_used": [
+        "cat",
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.0231297,
+            "base": 0.026213300000000002,
+            "change": -0.1176,
+            "ci": [
+              -0.2741,
+              0.1742
+            ]
+          },
+          "input_tokens": {
+            "with": 776779.0,
+            "base": 856630.0,
+            "change": -0.0932,
+            "ci": [
+              -0.3455,
+              0.2815
+            ]
+          },
+          "output_tokens": {
+            "with": 11183.0,
+            "base": 15142.0,
+            "change": -0.2615,
+            "ci": [
+              -0.327,
+              0.1231
+            ]
+          },
+          "duration_s": {
+            "with": 62.9,
+            "base": 80.5,
+            "change": -0.2186,
+            "ci": [
+              -0.553,
+              0.1487
+            ]
+          },
+          "turns": {
+            "with": 40.0,
+            "base": 45.0,
+            "change": -0.1111,
+            "ci": [
+              -0.3061,
+              0.0769
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-report-json",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.027980000000000005,
+      "base_cost": 0.033752229999999994,
+      "cost_per_pass": 0.028577713333333338,
+      "base_cost_per_pass": 0.03190612333333333,
+      "turns": 37,
+      "bash_calls": 7,
+      "base_bash_calls": 9,
+      "bash_used": [
+        "find",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.027980000000000005,
+            "base": 0.033752229999999994,
+            "change": -0.171,
+            "ci": [
+              -0.249,
+              0.1821
+            ]
+          },
+          "input_tokens": {
+            "with": 914774.0,
+            "base": 1129723.0,
+            "change": -0.1903,
+            "ci": [
+              -0.3645,
+              0.3471
+            ]
+          },
+          "output_tokens": {
+            "with": 16050.0,
+            "base": 20495.0,
+            "change": -0.2169,
+            "ci": [
+              -0.2817,
+              0.0338
+            ]
+          },
+          "duration_s": {
+            "with": 81.3,
+            "base": 102.9,
+            "change": -0.2099,
+            "ci": [
+              -0.2889,
+              0.1098
+            ]
+          },
+          "turns": {
+            "with": 37.0,
+            "base": 44.0,
+            "change": -0.1591,
+            "ci": [
+              -0.2766,
+              0.3103
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-slow-export",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02072138,
+      "base_cost": 0.021767350000000005,
+      "cost_per_pass": 0.02148641666666667,
+      "base_cost_per_pass": 0.021056223333333336,
+      "turns": 25,
+      "bash_calls": 8,
+      "base_bash_calls": 10,
+      "bash_used": [
+        "git",
+        "head",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.02072138,
+            "base": 0.021767350000000005,
+            "change": -0.0481,
+            "ci": [
+              -0.1243,
+              0.2651
+            ]
+          },
+          "input_tokens": {
+            "with": 709251.0,
+            "base": 625758.0,
+            "change": 0.1334,
+            "ci": [
+              -0.2269,
+              0.5713
+            ]
+          },
+          "output_tokens": {
+            "with": 8076.0,
+            "base": 9286.0,
+            "change": -0.1303,
+            "ci": [
+              -0.3703,
+              0.0953
+            ]
+          },
+          "duration_s": {
+            "with": 83.0,
+            "base": 95.6,
+            "change": -0.1318,
+            "ci": [
+              -0.5346,
+              0.4544
+            ]
+          },
+          "turns": {
+            "with": 25.0,
+            "base": 30.0,
+            "change": -0.1667,
+            "ci": [
+              -0.2727,
+              0.1481
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-storage",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01876538,
+      "base_cost": 0.0255749,
+      "cost_per_pass": 0.02066599333333333,
+      "base_cost_per_pass": 0.02552175666666667,
+      "turns": 24,
+      "bash_calls": 3,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01876538,
+            "base": 0.0255749,
+            "change": -0.2663,
+            "ci": [
+              -0.305,
+              0.0081
+            ]
+          },
+          "input_tokens": {
+            "with": 461182.0,
+            "base": 720887.0,
+            "change": -0.3603,
+            "ci": [
+              -0.4524,
+              0.09
+            ]
+          },
+          "output_tokens": {
+            "with": 10245.0,
+            "base": 17446.0,
+            "change": -0.4128,
+            "ci": [
+              -0.4461,
+              0.0052
+            ]
+          },
+          "duration_s": {
+            "with": 49.4,
+            "base": 81.5,
+            "change": -0.3939,
+            "ci": [
+              -0.4293,
+              -0.0397
+            ]
+          },
+          "turns": {
+            "with": 24.0,
+            "base": 34.0,
+            "change": -0.2941,
+            "ci": [
+              -0.3429,
+              0.0938
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-timezone",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.016160980000000002,
+      "base_cost": 0.01748746,
+      "cost_per_pass": 0.016620136666666667,
+      "base_cost_per_pass": 0.017878033333333335,
+      "turns": 19,
+      "bash_calls": 4,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "env",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.016160980000000002,
+            "base": 0.01748746,
+            "change": -0.0759,
+            "ci": [
+              -0.2284,
+              0.1312
+            ]
+          },
+          "input_tokens": {
+            "with": 443387.0,
+            "base": 518020.0,
+            "change": -0.1441,
+            "ci": [
+              -0.3629,
+              0.4335
+            ]
+          },
+          "output_tokens": {
+            "with": 6591.0,
+            "base": 7080.0,
+            "change": -0.0691,
+            "ci": [
+              -0.1829,
+              -0.0532
+            ]
+          },
+          "duration_s": {
+            "with": 40.0,
+            "base": 43.5,
+            "change": -0.0805,
+            "ci": [
+              -0.1864,
+              0.0714
+            ]
+          },
+          "turns": {
+            "with": 19.0,
+            "base": 22.0,
+            "change": -0.1364,
+            "ci": [
+              -0.1818,
+              0.15
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "tally-why-cap",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.00842177,
+      "base_cost": 0.00792669,
+      "cost_per_pass": 0.00834318,
+      "base_cost_per_pass": 0.007989456666666667,
+      "turns": 6,
+      "bash_calls": 3,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "git"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.00842177,
+            "base": 0.00792669,
+            "change": 0.0625,
+            "ci": [
+              -0.0177,
+              0.091
+            ]
+          },
+          "input_tokens": {
+            "with": 144998.0,
+            "base": 165642.0,
+            "change": -0.1246,
+            "ci": [
+              -0.285,
+              0.3831
+            ]
+          },
+          "output_tokens": {
+            "with": 1695.0,
+            "base": 2274.0,
+            "change": -0.2546,
+            "ci": [
+              -0.3231,
+              0.1766
+            ]
+          },
+          "duration_s": {
+            "with": 14.3,
+            "base": 15.6,
+            "change": -0.0833,
+            "ci": [
+              -0.2189,
+              0.1286
+            ]
+          },
+          "turns": {
+            "with": 6.0,
+            "base": 7.0,
+            "change": -0.1429,
+            "ci": [
+              -0.25,
+              -0.1429
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-bisect",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.013786200000000002,
+      "base_cost": 0.01493339,
+      "cost_per_pass": 0.013585850000000002,
+      "base_cost_per_pass": 0.014637863333333334,
+      "turns": 19,
+      "bash_calls": 11,
+      "base_bash_calls": 12,
+      "bash_used": [
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.013786200000000002,
+            "base": 0.01493339,
+            "change": -0.0768,
+            "ci": [
+              -0.1918,
+              0.0859
+            ]
+          },
+          "input_tokens": {
+            "with": 480035.0,
+            "base": 522037.0,
+            "change": -0.0805,
+            "ci": [
+              -0.2367,
+              0.1642
+            ]
+          },
+          "output_tokens": {
+            "with": 4075.0,
+            "base": 5277.0,
+            "change": -0.2278,
+            "ci": [
+              -0.2762,
+              -0.015
+            ]
+          },
+          "duration_s": {
+            "with": 31.2,
+            "base": 36.8,
+            "change": -0.1522,
+            "ci": [
+              -0.2351,
+              0.0482
+            ]
+          },
+          "turns": {
+            "with": 19.0,
+            "base": 24.0,
+            "change": -0.2083,
+            "ci": [
+              -0.24,
+              0.05
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-csv-import",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.04275315999999999,
+      "base_cost": 0.04401753000000001,
+      "cost_per_pass": 0.04402936,
+      "base_cost_per_pass": 0.06635518500000001,
+      "turns": 38,
+      "bash_calls": 4,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "python3",
+        "sed"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "difference not significant (p=1.00)",
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.04275315999999999,
+            "base": 0.04401753000000001,
+            "change": -0.0287,
+            "ci": [
+              -0.0773,
+              0.0968
+            ]
+          },
+          "input_tokens": {
+            "with": 1272511.0,
+            "base": 1053291.0,
+            "change": 0.2081,
+            "ci": [
+              0.0717,
+              0.5719
+            ]
+          },
+          "output_tokens": {
+            "with": 31428.0,
+            "base": 37535.0,
+            "change": -0.1627,
+            "ci": [
+              -0.2239,
+              -0.0114
+            ]
+          },
+          "duration_s": {
+            "with": 144.3,
+            "base": 165.2,
+            "change": -0.1265,
+            "ci": [
+              -0.1929,
+              0.0076
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 40.0,
+            "change": -0.05,
+            "ci": [
+              -0.125,
+              0.0541
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-double-charge",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.019999489999999998,
+      "base_cost": 0.02601613,
+      "cost_per_pass": 0.02030966,
+      "base_cost_per_pass": 0.02462386666666667,
+      "turns": 24,
+      "bash_calls": 8,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "cat",
+        "find",
+        "grep",
+        "head",
+        "ls",
+        "python3",
+        "wc"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.019999489999999998,
+            "base": 0.02601613,
+            "change": -0.2313,
+            "ci": [
+              -0.4528,
+              0.3752
+            ]
+          },
+          "input_tokens": {
+            "with": 725895.0,
+            "base": 932089.0,
+            "change": -0.2212,
+            "ci": [
+              -0.477,
+              0.6113
+            ]
+          },
+          "output_tokens": {
+            "with": 8503.0,
+            "base": 9667.0,
+            "change": -0.1204,
+            "ci": [
+              -0.5219,
+              0.1881
+            ]
+          },
+          "duration_s": {
+            "with": 52.4,
+            "base": 58.4,
+            "change": -0.1027,
+            "ci": [
+              -0.4524,
+              0.1854
+            ]
+          },
+          "turns": {
+            "with": 24.0,
+            "base": 20.0,
+            "change": 0.2,
+            "ci": [
+              -0.1304,
+              0.4118
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-export-security",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.018547920000000002,
+      "base_cost": 0.022603500000000002,
+      "cost_per_pass": 0.018117193333333333,
+      "base_cost_per_pass": 0.022036603333333335,
+      "turns": 16,
+      "bash_calls": 2,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.018547920000000002,
+            "base": 0.022603500000000002,
+            "change": -0.1794,
+            "ci": [
+              -0.3889,
+              0.1276
+            ]
+          },
+          "input_tokens": {
+            "with": 433413.0,
+            "base": 624286.0,
+            "change": -0.3057,
+            "ci": [
+              -0.5264,
+              0.0502
+            ]
+          },
+          "output_tokens": {
+            "with": 11658.0,
+            "base": 13899.0,
+            "change": -0.1612,
+            "ci": [
+              -0.3725,
+              0.304
+            ]
+          },
+          "duration_s": {
+            "with": 59.9,
+            "base": 71.0,
+            "change": -0.1563,
+            "ci": [
+              -0.388,
+              0.302
+            ]
+          },
+          "turns": {
+            "with": 16.0,
+            "base": 20.0,
+            "change": -0.2,
+            "ci": [
+              -0.3333,
+              0.25
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-invoice-mismatch",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01879914,
+      "base_cost": 0.02079866,
+      "cost_per_pass": 0.017490353333333333,
+      "base_cost_per_pass": 0.021024193333333333,
+      "turns": 25,
+      "bash_calls": 5,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "cat",
+        "find",
+        "grep",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01879914,
+            "base": 0.02079866,
+            "change": -0.0961,
+            "ci": [
+              -0.3716,
+              -0.0207
+            ]
+          },
+          "input_tokens": {
+            "with": 554970.0,
+            "base": 644718.0,
+            "change": -0.1392,
+            "ci": [
+              -0.4412,
+              0.0686
+            ]
+          },
+          "output_tokens": {
+            "with": 7178.0,
+            "base": 8959.0,
+            "change": -0.1988,
+            "ci": [
+              -0.467,
+              -0.0404
+            ]
+          },
+          "duration_s": {
+            "with": 44.6,
+            "base": 53.0,
+            "change": -0.1585,
+            "ci": [
+              -0.4423,
+              -0.0725
+            ]
+          },
+          "turns": {
+            "with": 25.0,
+            "base": 30.0,
+            "change": -0.1667,
+            "ci": [
+              -0.4688,
+              0.0
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-red-build",
+      "n": 3,
+      "with_rate": 0.6666666666666666,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.254,
+        0.922
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.019784420000000004,
+      "base_cost": 0.01977438,
+      "cost_per_pass": 0.035280900000000004,
+      "base_cost_per_pass": 0.029645965,
+      "turns": 25,
+      "bash_calls": 17,
+      "base_bash_calls": 21,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.019784420000000004,
+            "base": 0.01977438,
+            "change": 0.0005,
+            "ci": [
+              -0.1095,
+              0.7183
+            ]
+          },
+          "input_tokens": {
+            "with": 557620.0,
+            "base": 590800.0,
+            "change": -0.0562,
+            "ci": [
+              -0.1959,
+              1.0589
+            ]
+          },
+          "output_tokens": {
+            "with": 9276.0,
+            "base": 9439.0,
+            "change": -0.0173,
+            "ci": [
+              -0.1545,
+              0.2102
+            ]
+          },
+          "duration_s": {
+            "with": 54.3,
+            "base": 53.6,
+            "change": 0.0131,
+            "ci": [
+              -0.1002,
+              0.1761
+            ]
+          },
+          "turns": {
+            "with": 25.0,
+            "base": 26.0,
+            "change": -0.0385,
+            "ci": [
+              -0.2258,
+              0.4348
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-remove-fmt",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02228457,
+      "base_cost": 0.026213300000000002,
+      "cost_per_pass": 0.021080706666666667,
+      "base_cost_per_pass": 0.025490469999999998,
+      "turns": 38,
+      "bash_calls": 4,
+      "base_bash_calls": 13,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.02228457,
+            "base": 0.026213300000000002,
+            "change": -0.1499,
+            "ci": [
+              -0.406,
+              0.087
+            ]
+          },
+          "input_tokens": {
+            "with": 599198.0,
+            "base": 856630.0,
+            "change": -0.3005,
+            "ci": [
+              -0.6729,
+              0.0179
+            ]
+          },
+          "output_tokens": {
+            "with": 12537.0,
+            "base": 15142.0,
+            "change": -0.172,
+            "ci": [
+              -0.3732,
+              0.1549
+            ]
+          },
+          "duration_s": {
+            "with": 70.4,
+            "base": 80.5,
+            "change": -0.1255,
+            "ci": [
+              -0.6283,
+              0.1532
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 45.0,
+            "change": -0.1556,
+            "ci": [
+              -0.3673,
+              0.0
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-report-json",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.028855560000000006,
+      "base_cost": 0.033752229999999994,
+      "cost_per_pass": 0.029079193333333336,
+      "base_cost_per_pass": 0.03190612333333333,
+      "turns": 38,
+      "bash_calls": 5,
+      "base_bash_calls": 9,
+      "bash_used": [
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.028855560000000006,
+            "base": 0.033752229999999994,
+            "change": -0.1451,
+            "ci": [
+              -0.2402,
+              0.1941
+            ]
+          },
+          "input_tokens": {
+            "with": 905671.0,
+            "base": 1129723.0,
+            "change": -0.1983,
+            "ci": [
+              -0.3815,
+              0.2294
+            ]
+          },
+          "output_tokens": {
+            "with": 17547.0,
+            "base": 20495.0,
+            "change": -0.1438,
+            "ci": [
+              -0.1961,
+              0.1757
+            ]
+          },
+          "duration_s": {
+            "with": 91.1,
+            "base": 102.9,
+            "change": -0.1147,
+            "ci": [
+              -0.2355,
+              0.2146
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 44.0,
+            "change": -0.1364,
+            "ci": [
+              -0.2766,
+              0.4483
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-slow-export",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.021448210000000002,
+      "base_cost": 0.021767350000000005,
+      "cost_per_pass": 0.020446833333333334,
+      "base_cost_per_pass": 0.021056223333333336,
+      "turns": 26,
+      "bash_calls": 8,
+      "base_bash_calls": 10,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.021448210000000002,
+            "base": 0.021767350000000005,
+            "change": -0.0147,
+            "ci": [
+              -0.1746,
+              0.123
+            ]
+          },
+          "input_tokens": {
+            "with": 672842.0,
+            "base": 625758.0,
+            "change": 0.0752,
+            "ci": [
+              -0.3449,
+              0.1835
+            ]
+          },
+          "output_tokens": {
+            "with": 8533.0,
+            "base": 9286.0,
+            "change": -0.0811,
+            "ci": [
+              -0.2748,
+              0.083
+            ]
+          },
+          "duration_s": {
+            "with": 93.1,
+            "base": 95.6,
+            "change": -0.0262,
+            "ci": [
+              -0.4629,
+              0.3656
+            ]
+          },
+          "turns": {
+            "with": 26.0,
+            "base": 30.0,
+            "change": -0.1333,
+            "ci": [
+              -0.2121,
+              0.1481
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-storage",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01751392,
+      "base_cost": 0.0255749,
+      "cost_per_pass": 0.020627976666666666,
+      "base_cost_per_pass": 0.02552175666666667,
+      "turns": 24,
+      "bash_calls": 6,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "find",
+        "git",
+        "grep",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01751392,
+            "base": 0.0255749,
+            "change": -0.3152,
+            "ci": [
+              -0.3304,
+              0.0805
+            ]
+          },
+          "input_tokens": {
+            "with": 403533.0,
+            "base": 720887.0,
+            "change": -0.4402,
+            "ci": [
+              -0.4958,
+              0.4025
+            ]
+          },
+          "output_tokens": {
+            "with": 10286.0,
+            "base": 17446.0,
+            "change": -0.4104,
+            "ci": [
+              -0.4788,
+              -0.0593
+            ]
+          },
+          "duration_s": {
+            "with": 49.9,
+            "base": 81.5,
+            "change": -0.3877,
+            "ci": [
+              -0.4578,
+              -0.0499
+            ]
+          },
+          "turns": {
+            "with": 24.0,
+            "base": 34.0,
+            "change": -0.2941,
+            "ci": [
+              -0.3143,
+              0.1562
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-timezone",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.014960459999999998,
+      "base_cost": 0.01748746,
+      "cost_per_pass": 0.01468012,
+      "base_cost_per_pass": 0.017878033333333335,
+      "turns": 16,
+      "bash_calls": 1,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "env",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.014960459999999998,
+            "base": 0.01748746,
+            "change": -0.1445,
+            "ci": [
+              -0.3238,
+              -0.0367
+            ]
+          },
+          "input_tokens": {
+            "with": 367647.0,
+            "base": 518020.0,
+            "change": -0.2903,
+            "ci": [
+              -0.413,
+              -0.0928
+            ]
+          },
+          "output_tokens": {
+            "with": 6258.0,
+            "base": 7080.0,
+            "change": -0.1161,
+            "ci": [
+              -0.274,
+              -0.0739
+            ]
+          },
+          "duration_s": {
+            "with": 38.0,
+            "base": 43.5,
+            "change": -0.1264,
+            "ci": [
+              -0.2352,
+              -0.0567
+            ]
+          },
+          "turns": {
+            "with": 16.0,
+            "base": 22.0,
+            "change": -0.2727,
+            "ci": [
+              -0.2727,
+              -0.1
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman-voice",
+      "task": "tally-why-cap",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.008275580000000001,
+      "base_cost": 0.00792669,
+      "cost_per_pass": 0.008243256666666667,
+      "base_cost_per_pass": 0.007989456666666667,
+      "turns": 10,
+      "bash_calls": 8,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "cat",
+        "git",
+        "grep"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.008275580000000001,
+            "base": 0.00792669,
+            "change": 0.044,
+            "ci": [
+              -0.045,
+              0.1001
+            ]
+          },
+          "input_tokens": {
+            "with": 169111.0,
+            "base": 165642.0,
+            "change": 0.0209,
+            "ci": [
+              -0.3159,
+              0.3062
+            ]
+          },
+          "output_tokens": {
+            "with": 2507.0,
+            "base": 2274.0,
+            "change": 0.1025,
+            "ci": [
+              -0.2195,
+              0.2475
+            ]
+          },
+          "duration_s": {
+            "with": 16.6,
+            "base": 15.6,
+            "change": 0.0641,
+            "ci": [
+              -0.2189,
+              0.2071
+            ]
+          },
+          "turns": {
+            "with": 10.0,
+            "base": 7.0,
+            "change": 0.4286,
+            "ci": [
+              -0.125,
+              0.4286
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-bisect",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.013955299999999999,
+      "base_cost": 0.01493339,
+      "cost_per_pass": 0.014310949999999998,
+      "base_cost_per_pass": 0.014637863333333334,
+      "turns": 22,
+      "bash_calls": 13,
+      "base_bash_calls": 12,
+      "bash_used": [
+        "find",
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.013955299999999999,
+            "base": 0.01493339,
+            "change": -0.0655,
+            "ci": [
+              -0.178,
+              0.2254
+            ]
+          },
+          "input_tokens": {
+            "with": 493603.0,
+            "base": 522037.0,
+            "change": -0.0545,
+            "ci": [
+              -0.3111,
+              0.3779
+            ]
+          },
+          "output_tokens": {
+            "with": 5035.0,
+            "base": 5277.0,
+            "change": -0.0459,
+            "ci": [
+              -0.0685,
+              0.2788
+            ]
+          },
+          "duration_s": {
+            "with": 36.0,
+            "base": 36.8,
+            "change": -0.0217,
+            "ci": [
+              -0.1486,
+              0.3376
+            ]
+          },
+          "turns": {
+            "with": 22.0,
+            "base": 24.0,
+            "change": -0.0833,
+            "ci": [
+              -0.16,
+              0.25
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-csv-import",
+      "n": 3,
+      "with_rate": 0.6666666666666666,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.254,
+        0.922
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.04164354000000001,
+      "base_cost": 0.04401753000000001,
+      "cost_per_pass": 0.061725745,
+      "base_cost_per_pass": 0.06635518500000001,
+      "turns": 36,
+      "bash_calls": 4,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.04164354000000001,
+            "base": 0.04401753000000001,
+            "change": -0.0539,
+            "ci": [
+              -0.1257,
+              -0.0267
+            ]
+          },
+          "input_tokens": {
+            "with": 1050218.0,
+            "base": 1053291.0,
+            "change": -0.0029,
+            "ci": [
+              -0.1191,
+              0.1342
+            ]
+          },
+          "output_tokens": {
+            "with": 33348.0,
+            "base": 37535.0,
+            "change": -0.1115,
+            "ci": [
+              -0.2057,
+              0.006
+            ]
+          },
+          "duration_s": {
+            "with": 153.6,
+            "base": 165.2,
+            "change": -0.0702,
+            "ci": [
+              -0.1809,
+              -0.0133
+            ]
+          },
+          "turns": {
+            "with": 36.0,
+            "base": 40.0,
+            "change": -0.1,
+            "ci": [
+              -0.15,
+              0.0811
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-double-charge",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02183733,
+      "base_cost": 0.02601613,
+      "cost_per_pass": 0.02098896,
+      "base_cost_per_pass": 0.02462386666666667,
+      "turns": 25,
+      "bash_calls": 5,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "git",
+        "ls",
+        "python3",
+        "wc"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.02183733,
+            "base": 0.02601613,
+            "change": -0.1606,
+            "ci": [
+              -0.3882,
+              0.2773
+            ]
+          },
+          "input_tokens": {
+            "with": 751643.0,
+            "base": 932089.0,
+            "change": -0.1936,
+            "ci": [
+              -0.5243,
+              0.3037
+            ]
+          },
+          "output_tokens": {
+            "with": 12070.0,
+            "base": 9667.0,
+            "change": 0.2486,
+            "ci": [
+              -0.2554,
+              0.5962
+            ]
+          },
+          "duration_s": {
+            "with": 71.0,
+            "base": 58.4,
+            "change": 0.2158,
+            "ci": [
+              -0.2354,
+              0.5049
+            ]
+          },
+          "turns": {
+            "with": 25.0,
+            "base": 20.0,
+            "change": 0.25,
+            "ci": [
+              -0.087,
+              0.5294
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-export-security",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.027210710000000003,
+      "base_cost": 0.022603500000000002,
+      "cost_per_pass": 0.024622543333333333,
+      "base_cost_per_pass": 0.022036603333333335,
+      "turns": 26,
+      "bash_calls": 10,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "git",
+        "grep",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.027210710000000003,
+            "base": 0.022603500000000002,
+            "change": 0.2038,
+            "ci": [
+              -0.2816,
+              0.5816
+            ]
+          },
+          "input_tokens": {
+            "with": 823642.0,
+            "base": 624286.0,
+            "change": 0.3193,
+            "ci": [
+              -0.4901,
+              1.0009
+            ]
+          },
+          "output_tokens": {
+            "with": 16990.0,
+            "base": 13899.0,
+            "change": 0.2224,
+            "ci": [
+              -0.1783,
+              0.7158
+            ]
+          },
+          "duration_s": {
+            "with": 91.7,
+            "base": 71.0,
+            "change": 0.2915,
+            "ci": [
+              -0.2103,
+              0.7486
+            ]
+          },
+          "turns": {
+            "with": 26.0,
+            "base": 20.0,
+            "change": 0.3,
+            "ci": [
+              -0.1905,
+              1.0
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-invoice-mismatch",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02011915,
+      "base_cost": 0.02079866,
+      "cost_per_pass": 0.020139223333333334,
+      "base_cost_per_pass": 0.021024193333333333,
+      "turns": 28,
+      "bash_calls": 5,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.02011915,
+            "base": 0.02079866,
+            "change": -0.0327,
+            "ci": [
+              -0.1921,
+              0.1113
+            ]
+          },
+          "input_tokens": {
+            "with": 631026.0,
+            "base": 644718.0,
+            "change": -0.0212,
+            "ci": [
+              -0.2617,
+              0.3863
+            ]
+          },
+          "output_tokens": {
+            "with": 9242.0,
+            "base": 8959.0,
+            "change": 0.0316,
+            "ci": [
+              -0.2002,
+              0.0637
+            ]
+          },
+          "duration_s": {
+            "with": 53.9,
+            "base": 53.0,
+            "change": 0.017,
+            "ci": [
+              -0.2341,
+              0.1412
+            ]
+          },
+          "turns": {
+            "with": 28.0,
+            "base": 30.0,
+            "change": -0.0667,
+            "ci": [
+              -0.1562,
+              0.0345
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-red-build",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.01602735,
+      "base_cost": 0.01977438,
+      "cost_per_pass": 0.016202326666666666,
+      "base_cost_per_pass": 0.029645965,
+      "turns": 22,
+      "bash_calls": 16,
+      "base_bash_calls": 21,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "head",
+        "python3",
+        "sed"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "difference not significant (p=1.00)",
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01602735,
+            "base": 0.01977438,
+            "change": -0.1895,
+            "ci": [
+              -0.28,
+              -0.0608
+            ]
+          },
+          "input_tokens": {
+            "with": 444559.0,
+            "base": 590800.0,
+            "change": -0.2475,
+            "ci": [
+              -0.3587,
+              -0.1346
+            ]
+          },
+          "output_tokens": {
+            "with": 8279.0,
+            "base": 9439.0,
+            "change": -0.1229,
+            "ci": [
+              -0.2718,
+              0.0608
+            ]
+          },
+          "duration_s": {
+            "with": 49.4,
+            "base": 53.6,
+            "change": -0.0784,
+            "ci": [
+              -0.2004,
+              -0.0176
+            ]
+          },
+          "turns": {
+            "with": 22.0,
+            "base": 26.0,
+            "change": -0.1538,
+            "ci": [
+              -0.3548,
+              -0.0435
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-remove-fmt",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.028592250000000003,
+      "base_cost": 0.026213300000000002,
+      "cost_per_pass": 0.028412053333333336,
+      "base_cost_per_pass": 0.025490469999999998,
+      "turns": 43,
+      "bash_calls": 9,
+      "base_bash_calls": 13,
+      "bash_used": [
+        "git",
+        "head",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.028592250000000003,
+            "base": 0.026213300000000002,
+            "change": 0.0908,
+            "ci": [
+              -0.0638,
+              0.3621
+            ]
+          },
+          "input_tokens": {
+            "with": 1031586.0,
+            "base": 856630.0,
+            "change": 0.2042,
+            "ci": [
+              0.0278,
+              0.5409
+            ]
+          },
+          "output_tokens": {
+            "with": 15212.0,
+            "base": 15142.0,
+            "change": 0.0046,
+            "ci": [
+              -0.1477,
+              0.4395
+            ]
+          },
+          "duration_s": {
+            "with": 88.8,
+            "base": 80.5,
+            "change": 0.1031,
+            "ci": [
+              -0.3771,
+              0.9175
+            ]
+          },
+          "turns": {
+            "with": 43.0,
+            "base": 45.0,
+            "change": -0.0444,
+            "ci": [
+              -0.2245,
+              0.1795
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-report-json",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.024211899999999998,
+      "base_cost": 0.033752229999999994,
+      "cost_per_pass": 0.025597079999999998,
+      "base_cost_per_pass": 0.03190612333333333,
+      "turns": 33,
+      "bash_calls": 5,
+      "base_bash_calls": 9,
+      "bash_used": [
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.024211899999999998,
+            "base": 0.033752229999999994,
+            "change": -0.2827,
+            "ci": [
+              -0.3307,
+              0.0961
+            ]
+          },
+          "input_tokens": {
+            "with": 687455.0,
+            "base": 1129723.0,
+            "change": -0.3915,
+            "ci": [
+              -0.564,
+              0.1835
+            ]
+          },
+          "output_tokens": {
+            "with": 16119.0,
+            "base": 20495.0,
+            "change": -0.2135,
+            "ci": [
+              -0.25,
+              0.028
+            ]
+          },
+          "duration_s": {
+            "with": 82.8,
+            "base": 102.9,
+            "change": -0.1953,
+            "ci": [
+              -0.3007,
+              0.0744
+            ]
+          },
+          "turns": {
+            "with": 33.0,
+            "base": 44.0,
+            "change": -0.25,
+            "ci": [
+              -0.4468,
+              0.2759
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-slow-export",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.026658160000000004,
+      "base_cost": 0.021767350000000005,
+      "cost_per_pass": 0.02409619333333334,
+      "base_cost_per_pass": 0.021056223333333336,
+      "turns": 32,
+      "bash_calls": 10,
+      "base_bash_calls": 10,
+      "bash_used": [
+        "git",
+        "head",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.026658160000000004,
+            "base": 0.021767350000000005,
+            "change": 0.2247,
+            "ci": [
+              -0.1758,
+              0.4229
+            ]
+          },
+          "input_tokens": {
+            "with": 980814.0,
+            "base": 625758.0,
+            "change": 0.5674,
+            "ci": [
+              -0.4035,
+              0.907
+            ]
+          },
+          "output_tokens": {
+            "with": 11480.0,
+            "base": 9286.0,
+            "change": 0.2363,
+            "ci": [
+              -0.079,
+              0.6283
+            ]
+          },
+          "duration_s": {
+            "with": 96.9,
+            "base": 95.6,
+            "change": 0.0136,
+            "ci": [
+              -0.4071,
+              2.6182
+            ]
+          },
+          "turns": {
+            "with": 32.0,
+            "base": 30.0,
+            "change": 0.0667,
+            "ci": [
+              -0.2424,
+              0.4815
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-storage",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.03474769,
+      "base_cost": 0.0255749,
+      "cost_per_pass": 0.03626588666666667,
+      "base_cost_per_pass": 0.02552175666666667,
+      "turns": 47,
+      "bash_calls": 9,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "cat",
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.03474769,
+            "base": 0.0255749,
+            "change": 0.3587,
+            "ci": [
+              0.2341,
+              0.6809
+            ]
+          },
+          "input_tokens": {
+            "with": 1075326.0,
+            "base": 720887.0,
+            "change": 0.4917,
+            "ci": [
+              0.2002,
+              1.0179
+            ]
+          },
+          "output_tokens": {
+            "with": 26882.0,
+            "base": 17446.0,
+            "change": 0.5409,
+            "ci": [
+              0.1535,
+              0.8661
+            ]
+          },
+          "duration_s": {
+            "with": 132.7,
+            "base": 81.5,
+            "change": 0.6282,
+            "ci": [
+              0.2687,
+              0.831
+            ]
+          },
+          "turns": {
+            "with": 47.0,
+            "base": 34.0,
+            "change": 0.3824,
+            "ci": [
+              0.1714,
+              0.5312
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-timezone",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.017711380000000002,
+      "base_cost": 0.01748746,
+      "cost_per_pass": 0.01888154666666667,
+      "base_cost_per_pass": 0.017878033333333335,
+      "turns": 24,
+      "bash_calls": 4,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "TZ=Asia/Kolkata",
+        "TZ=Europe/London",
+        "env",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.017711380000000002,
+            "base": 0.01748746,
+            "change": 0.0128,
+            "ci": [
+              -0.1228,
+              0.3246
+            ]
+          },
+          "input_tokens": {
+            "with": 572117.0,
+            "base": 518020.0,
+            "change": 0.1044,
+            "ci": [
+              -0.1971,
+              0.9366
+            ]
+          },
+          "output_tokens": {
+            "with": 8977.0,
+            "base": 7080.0,
+            "change": 0.2679,
+            "ci": [
+              -0.0751,
+              0.4347
+            ]
+          },
+          "duration_s": {
+            "with": 56.1,
+            "base": 43.5,
+            "change": 0.2897,
+            "ci": [
+              -0.0339,
+              0.6084
+            ]
+          },
+          "turns": {
+            "with": 24.0,
+            "base": 22.0,
+            "change": 0.0909,
+            "ci": [
+              -0.0909,
+              0.3
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "tally-why-cap",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.00747632,
+      "base_cost": 0.00792669,
+      "cost_per_pass": 0.007433850000000001,
+      "base_cost_per_pass": 0.007989456666666667,
+      "turns": 6,
+      "bash_calls": 3,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "git"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.00747632,
+            "base": 0.00792669,
+            "change": -0.0568,
+            "ci": [
+              -0.1509,
+              0.003
+            ]
+          },
+          "input_tokens": {
+            "with": 124954.0,
+            "base": 165642.0,
+            "change": -0.2456,
+            "ci": [
+              -0.395,
+              0.1957
+            ]
+          },
+          "output_tokens": {
+            "with": 2206.0,
+            "base": 2274.0,
+            "change": -0.0299,
+            "ci": [
+              -0.2453,
+              0.0961
+            ]
+          },
+          "duration_s": {
+            "with": 15.1,
+            "base": 15.6,
+            "change": -0.0321,
+            "ci": [
+              -0.2485,
+              0.0929
+            ]
+          },
+          "turns": {
+            "with": 6.0,
+            "base": 7.0,
+            "change": -0.1429,
+            "ci": [
+              -0.375,
+              0.0
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-bisect",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01589497,
+      "base_cost": 0.01493339,
+      "cost_per_pass": 0.015699973333333336,
+      "base_cost_per_pass": 0.014637863333333334,
+      "turns": 25,
+      "bash_calls": 15,
+      "base_bash_calls": 12,
+      "bash_used": [
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01589497,
+            "base": 0.01493339,
+            "change": 0.0644,
+            "ci": [
+              -0.1729,
+              0.3932
+            ]
+          },
+          "input_tokens": {
+            "with": 567121.0,
+            "base": 522037.0,
+            "change": 0.0864,
+            "ci": [
+              -0.1807,
+              0.4306
+            ]
+          },
+          "output_tokens": {
+            "with": 5502.0,
+            "base": 5277.0,
+            "change": 0.0426,
+            "ci": [
+              -0.1157,
+              0.5252
+            ]
+          },
+          "duration_s": {
+            "with": 37.6,
+            "base": 36.8,
+            "change": 0.0217,
+            "ci": [
+              -0.1297,
+              0.4437
+            ]
+          },
+          "turns": {
+            "with": 25.0,
+            "base": 24.0,
+            "change": 0.0417,
+            "ci": [
+              -0.08,
+              0.5
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-csv-import",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.04502298,
+      "base_cost": 0.04401753000000001,
+      "cost_per_pass": 0.04309423666666667,
+      "base_cost_per_pass": 0.06635518500000001,
+      "turns": 38,
+      "bash_calls": 6,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "find",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "difference not significant (p=1.00)",
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.04502298,
+            "base": 0.04401753000000001,
+            "change": 0.0228,
+            "ci": [
+              -0.1455,
+              0.0513
+            ]
+          },
+          "input_tokens": {
+            "with": 1029598.0,
+            "base": 1053291.0,
+            "change": -0.0225,
+            "ci": [
+              -0.1665,
+              0.2055
+            ]
+          },
+          "output_tokens": {
+            "with": 35648.0,
+            "base": 37535.0,
+            "change": -0.0503,
+            "ci": [
+              -0.2273,
+              0.1164
+            ]
+          },
+          "duration_s": {
+            "with": 158.3,
+            "base": 165.2,
+            "change": -0.0418,
+            "ci": [
+              -0.1952,
+              0.054
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 40.0,
+            "change": -0.05,
+            "ci": [
+              -0.15,
+              0.1351
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-double-charge",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.023218660000000006,
+      "base_cost": 0.02601613,
+      "cost_per_pass": 0.02349203666666667,
+      "base_cost_per_pass": 0.02462386666666667,
+      "turns": 24,
+      "bash_calls": 8,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "find",
+        "git",
+        "grep",
+        "head",
+        "ls",
+        "python3",
+        "wc"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.023218660000000006,
+            "base": 0.02601613,
+            "change": -0.1075,
+            "ci": [
+              -0.247,
+              0.3832
+            ]
+          },
+          "input_tokens": {
+            "with": 755327.0,
+            "base": 932089.0,
+            "change": -0.1896,
+            "ci": [
+              -0.305,
+              0.4764
+            ]
+          },
+          "output_tokens": {
+            "with": 11987.0,
+            "base": 9667.0,
+            "change": 0.24,
+            "ci": [
+              -0.2594,
+              0.5535
+            ]
+          },
+          "duration_s": {
+            "with": 69.3,
+            "base": 58.4,
+            "change": 0.1866,
+            "ci": [
+              -0.2049,
+              0.5227
+            ]
+          },
+          "turns": {
+            "with": 24.0,
+            "base": 20.0,
+            "change": 0.2,
+            "ci": [
+              0.0435,
+              0.8235
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-export-security",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.021244790000000006,
+      "base_cost": 0.022603500000000002,
+      "cost_per_pass": 0.0226071,
+      "base_cost_per_pass": 0.022036603333333335,
+      "turns": 21,
+      "bash_calls": 7,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "cat",
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.021244790000000006,
+            "base": 0.022603500000000002,
+            "change": -0.0601,
+            "ci": [
+              -0.2779,
+              0.5717
+            ]
+          },
+          "input_tokens": {
+            "with": 620317.0,
+            "base": 624286.0,
+            "change": -0.0064,
+            "ci": [
+              -0.3976,
+              0.6952
+            ]
+          },
+          "output_tokens": {
+            "with": 12545.0,
+            "base": 13899.0,
+            "change": -0.0974,
+            "ci": [
+              -0.1763,
+              0.8835
+            ]
+          },
+          "duration_s": {
+            "with": 66.6,
+            "base": 71.0,
+            "change": -0.062,
+            "ci": [
+              -0.2128,
+              0.7342
+            ]
+          },
+          "turns": {
+            "with": 21.0,
+            "base": 20.0,
+            "change": 0.05,
+            "ci": [
+              -0.1429,
+              0.6875
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-invoice-mismatch",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.02123687,
+      "base_cost": 0.02079866,
+      "cost_per_pass": 0.020461803333333334,
+      "base_cost_per_pass": 0.021024193333333333,
+      "turns": 30,
+      "bash_calls": 5,
+      "base_bash_calls": 5,
+      "bash_used": [
+        "find",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.02123687,
+            "base": 0.02079866,
+            "change": 0.0211,
+            "ci": [
+              -0.1753,
+              0.0856
+            ]
+          },
+          "input_tokens": {
+            "with": 674488.0,
+            "base": 644718.0,
+            "change": 0.0462,
+            "ci": [
+              -0.0923,
+              0.3141
+            ]
+          },
+          "output_tokens": {
+            "with": 8997.0,
+            "base": 8959.0,
+            "change": 0.0042,
+            "ci": [
+              -0.283,
+              0.0313
+            ]
+          },
+          "duration_s": {
+            "with": 52.5,
+            "base": 53.0,
+            "change": -0.0094,
+            "ci": [
+              -0.2478,
+              0.0549
+            ]
+          },
+          "turns": {
+            "with": 30.0,
+            "base": 30.0,
+            "change": 0.0,
+            "ci": [
+              -0.2188,
+              0.069
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-red-build",
+      "n": 3,
+      "with_rate": 0.6666666666666666,
+      "base_rate": 0.6666666666666666,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.254,
+        0.922
+      ],
+      "base_ci": [
+        0.254,
+        0.922
+      ],
+      "cost": 0.01646461,
+      "base_cost": 0.01977438,
+      "cost_per_pass": 0.023738580000000002,
+      "base_cost_per_pass": 0.029645965,
+      "turns": 21,
+      "bash_calls": 15,
+      "base_bash_calls": 21,
+      "bash_used": [
+        "cat",
+        "find",
+        "git",
+        "grep",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01646461,
+            "base": 0.01977438,
+            "change": -0.1674,
+            "ci": [
+              -0.3681,
+              -0.0472
+            ]
+          },
+          "input_tokens": {
+            "with": 450405.0,
+            "base": 590800.0,
+            "change": -0.2376,
+            "ci": [
+              -0.5461,
+              0.0893
+            ]
+          },
+          "output_tokens": {
+            "with": 6626.0,
+            "base": 9439.0,
+            "change": -0.298,
+            "ci": [
+              -0.3681,
+              -0.0934
+            ]
+          },
+          "duration_s": {
+            "with": 39.9,
+            "base": 53.6,
+            "change": -0.2556,
+            "ci": [
+              -0.3377,
+              -0.1331
+            ]
+          },
+          "turns": {
+            "with": 21.0,
+            "base": 26.0,
+            "change": -0.1923,
+            "ci": [
+              -0.4516,
+              -0.087
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-remove-fmt",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.023454280000000004,
+      "base_cost": 0.026213300000000002,
+      "cost_per_pass": 0.026084116666666667,
+      "base_cost_per_pass": 0.025490469999999998,
+      "turns": 38,
+      "bash_calls": 10,
+      "base_bash_calls": 13,
+      "bash_used": [
+        "cat",
+        "cmp",
+        "find",
+        "git",
+        "ls",
+        "python3",
+        "wc"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.023454280000000004,
+            "base": 0.026213300000000002,
+            "change": -0.1053,
+            "ci": [
+              -0.2393,
+              0.4963
+            ]
+          },
+          "input_tokens": {
+            "with": 733276.0,
+            "base": 856630.0,
+            "change": -0.144,
+            "ci": [
+              -0.308,
+              0.7392
+            ]
+          },
+          "output_tokens": {
+            "with": 13189.0,
+            "base": 15142.0,
+            "change": -0.129,
+            "ci": [
+              -0.258,
+              0.1181
+            ]
+          },
+          "duration_s": {
+            "with": 71.5,
+            "base": 80.5,
+            "change": -0.1118,
+            "ci": [
+              -0.5253,
+              0.2003
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 45.0,
+            "change": -0.1556,
+            "ci": [
+              -0.2245,
+              0.0769
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-report-json",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.032257749999999995,
+      "base_cost": 0.033752229999999994,
+      "cost_per_pass": 0.030981096666666666,
+      "base_cost_per_pass": 0.03190612333333333,
+      "turns": 38,
+      "bash_calls": 4,
+      "base_bash_calls": 9,
+      "bash_used": [
+        "find",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.032257749999999995,
+            "base": 0.033752229999999994,
+            "change": -0.0443,
+            "ci": [
+              -0.2873,
+              0.3477
+            ]
+          },
+          "input_tokens": {
+            "with": 1006736.0,
+            "base": 1129723.0,
+            "change": -0.1089,
+            "ci": [
+              -0.483,
+              0.419
+            ]
+          },
+          "output_tokens": {
+            "with": 20850.0,
+            "base": 20495.0,
+            "change": 0.0173,
+            "ci": [
+              -0.1718,
+              0.3013
+            ]
+          },
+          "duration_s": {
+            "with": 104.3,
+            "base": 102.9,
+            "change": 0.0136,
+            "ci": [
+              -0.2319,
+              0.311
+            ]
+          },
+          "turns": {
+            "with": 38.0,
+            "base": 44.0,
+            "change": -0.1364,
+            "ci": [
+              -0.3617,
+              0.4483
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-slow-export",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01948702,
+      "base_cost": 0.021767350000000005,
+      "cost_per_pass": 0.02168127666666667,
+      "base_cost_per_pass": 0.021056223333333336,
+      "turns": 27,
+      "bash_calls": 11,
+      "base_bash_calls": 10,
+      "bash_used": [
+        "git",
+        "head",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01948702,
+            "base": 0.021767350000000005,
+            "change": -0.1048,
+            "ci": [
+              -0.125,
+              0.3605
+            ]
+          },
+          "input_tokens": {
+            "with": 612858.0,
+            "base": 625758.0,
+            "change": -0.0206,
+            "ci": [
+              -0.2812,
+              0.5539
+            ]
+          },
+          "output_tokens": {
+            "with": 8553.0,
+            "base": 9286.0,
+            "change": -0.0789,
+            "ci": [
+              -0.2168,
+              0.4231
+            ]
+          },
+          "duration_s": {
+            "with": 85.7,
+            "base": 95.6,
+            "change": -0.1036,
+            "ci": [
+              -0.5181,
+              0.6667
+            ]
+          },
+          "turns": {
+            "with": 27.0,
+            "base": 30.0,
+            "change": -0.1,
+            "ci": [
+              -0.1818,
+              0.4074
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-storage",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.023389120000000003,
+      "base_cost": 0.0255749,
+      "cost_per_pass": 0.02304541666666667,
+      "base_cost_per_pass": 0.02552175666666667,
+      "turns": 34,
+      "bash_calls": 7,
+      "base_bash_calls": 7,
+      "bash_used": [
+        "git",
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.023389120000000003,
+            "base": 0.0255749,
+            "change": -0.0855,
+            "ci": [
+              -0.2123,
+              0.0119
+            ]
+          },
+          "input_tokens": {
+            "with": 682146.0,
+            "base": 720887.0,
+            "change": -0.0537,
+            "ci": [
+              -0.2685,
+              0.1332
+            ]
+          },
+          "output_tokens": {
+            "with": 14356.0,
+            "base": 17446.0,
+            "change": -0.1771,
+            "ci": [
+              -0.3435,
+              0.0677
+            ]
+          },
+          "duration_s": {
+            "with": 70.1,
+            "base": 81.5,
+            "change": -0.1399,
+            "ci": [
+              -0.2699,
+              0.0218
+            ]
+          },
+          "turns": {
+            "with": 34.0,
+            "base": 34.0,
+            "change": 0.0,
+            "ci": [
+              -0.2857,
+              0.125
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-timezone",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.01881882,
+      "base_cost": 0.01748746,
+      "cost_per_pass": 0.018577283333333333,
+      "base_cost_per_pass": 0.017878033333333335,
+      "turns": 24,
+      "bash_calls": 6,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "env",
+        "find",
+        "git",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.01881882,
+            "base": 0.01748746,
+            "change": 0.0761,
+            "ci": [
+              -0.1686,
+              0.2562
+            ]
+          },
+          "input_tokens": {
+            "with": 547932.0,
+            "base": 518020.0,
+            "change": 0.0577,
+            "ci": [
+              -0.2695,
+              0.8391
+            ]
+          },
+          "output_tokens": {
+            "with": 7401.0,
+            "base": 7080.0,
+            "change": 0.0453,
+            "ci": [
+              -0.0816,
+              0.2694
+            ]
+          },
+          "duration_s": {
+            "with": 49.6,
+            "base": 43.5,
+            "change": 0.1402,
+            "ci": [
+              -0.089,
+              0.234
+            ]
+          },
+          "turns": {
+            "with": 24.0,
+            "base": 22.0,
+            "change": 0.0909,
+            "ci": [
+              -0.0909,
+              0.25
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "tally-why-cap",
+      "n": 3,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.526,
+        1.0
+      ],
+      "base_ci": [
+        0.526,
+        1.0
+      ],
+      "cost": 0.00791906,
+      "base_cost": 0.00792669,
+      "cost_per_pass": 0.007792660000000001,
+      "base_cost_per_pass": 0.007989456666666667,
+      "turns": 5,
+      "bash_calls": 2,
+      "base_bash_calls": 4,
+      "bash_used": [
+        "git"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "small sample: only large effects detectable",
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.00791906,
+            "base": 0.00792669,
+            "change": -0.001,
+            "ci": [
+              -0.1823,
+              0.1171
+            ]
+          },
+          "input_tokens": {
+            "with": 128340.0,
+            "base": 165642.0,
+            "change": -0.2252,
+            "ci": [
+              -0.533,
+              0.5572
+            ]
+          },
+          "output_tokens": {
+            "with": 2552.0,
+            "base": 2274.0,
+            "change": 0.1223,
+            "ci": [
+              -0.3415,
+              0.2897
+            ]
+          },
+          "duration_s": {
+            "with": 17.3,
+            "base": 15.6,
+            "change": 0.109,
+            "ci": [
+              -0.3669,
+              0.2786
+            ]
+          },
+          "turns": {
+            "with": 5.0,
+            "base": 7.0,
+            "change": -0.2857,
+            "ci": [
+              -0.625,
+              0.2857
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": null,
+        "note": "fewer than 5 runs per arm: no verdict"
+      },
+      "match": null
+    }
+  ],
+  "skills": [
+    {
+      "id": "addon:caveman",
+      "name": "caveman",
+      "description": "caveman 4.0.1 as its Claude Code plugin: a SessionStart hook turns on a terse 'caveman' reply voice for the whole session; code, commands and errors stay verbatim. Claims 65% fewer tokens (repo description).",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": false,
+      "verdict": "no lift",
+      "tasks": [
+        "tally-bisect",
+        "tally-csv-import",
+        "tally-double-charge",
+        "tally-export-security",
+        "tally-invoice-mismatch",
+        "tally-red-build",
+        "tally-remove-fmt",
+        "tally-report-json",
+        "tally-slow-export",
+        "tally-storage",
+        "tally-timezone",
+        "tally-why-cap"
+      ],
+      "trigger_rate": null,
+      "pass_delta": -0.02777777777777779,
+      "savings": {
+        "by": "cost_usd",
+        "change": -0.0854,
+        "ci": [
+          -0.1177,
+          -0.0515
+        ],
+        "verdict": "cheaper"
+      }
+    },
+    {
+      "id": "addon:caveman-voice",
+      "name": "caveman-voice",
+      "description": "caveman 4.0.1 voice only: the caveman skill alone (no plugin, hooks or other skills), started with /caveman. Claims 65% fewer tokens (repo description).",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": false,
+      "verdict": "no lift",
+      "tasks": [
+        "tally-bisect",
+        "tally-csv-import",
+        "tally-double-charge",
+        "tally-export-security",
+        "tally-invoice-mismatch",
+        "tally-red-build",
+        "tally-remove-fmt",
+        "tally-report-json",
+        "tally-slow-export",
+        "tally-storage",
+        "tally-timezone",
+        "tally-why-cap"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.02777777777777779,
+      "savings": {
+        "by": "cost_usd",
+        "change": -0.0878,
+        "ci": [
+          -0.1445,
+          -0.0623
+        ],
+        "verdict": "cheaper"
+      }
+    },
+    {
+      "id": "addon:headroom",
+      "name": "headroom",
+      "description": "Headroom 0.41.0 in proxy mode: compresses tool outputs, logs and files in each request before it reaches the model. Claims 20% fewer tokens for coding agents, 60-95% for JSON.",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": false,
+      "verdict": "no lift",
+      "tasks": [
+        "tally-bisect",
+        "tally-csv-import",
+        "tally-double-charge",
+        "tally-export-security",
+        "tally-invoice-mismatch",
+        "tally-red-build",
+        "tally-remove-fmt",
+        "tally-report-json",
+        "tally-slow-export",
+        "tally-storage",
+        "tally-timezone",
+        "tally-why-cap"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.02777777777777779,
+      "savings": {
+        "by": "cost_usd",
+        "change": -0.0508,
+        "ci": [
+          -0.107,
+          0.0073
+        ],
+        "verdict": "same cost"
+      }
+    },
+    {
+      "id": "addon:control",
+      "name": "control",
+      "description": "Changes nothing. Checks the method: it should come out 'same cost'.",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": true,
+      "verdict": "no lift",
+      "tasks": [
+        "tally-bisect",
+        "tally-csv-import",
+        "tally-double-charge",
+        "tally-export-security",
+        "tally-invoice-mismatch",
+        "tally-red-build",
+        "tally-remove-fmt",
+        "tally-report-json",
+        "tally-slow-export",
+        "tally-storage",
+        "tally-timezone",
+        "tally-why-cap"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.02777777777777779,
+      "savings": {
+        "by": "cost_usd",
+        "change": -0.0567,
+        "ci": [
+          -0.105,
+          0.0005
+        ],
+        "verdict": "same cost"
+      }
+    }
+  ],
+  "gaps": {
+    "costly_no_lift": [],
+    "never_triggered": [],
+    "hurts": [],
+    "ceiling_tasks": [
+      "tally-bisect",
+      "tally-double-charge",
+      "tally-export-security",
+      "tally-invoice-mismatch",
+      "tally-remove-fmt",
+      "tally-report-json",
+      "tally-slow-export",
+      "tally-storage",
+      "tally-timezone",
+      "tally-why-cap"
+    ],
+    "unsolved_tasks": [],
+    "needs_person": [],
+    "untested_claims": [],
+    "lookalikes": []
+  }
+}
