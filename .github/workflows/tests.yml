@@ -6,8 +6,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Python 3.9 isn't available on Ubuntu 26.04 (ubuntu-latest); test it on 24.04.
+    runs-on: ${{ matrix.python == '3.9' && 'ubuntu-24.04' || 'ubuntu-latest' }}
     strategy:
+      fail-fast: false
       matrix:
         python: ["3.9", "3.11", "3.13"]
     steps:
