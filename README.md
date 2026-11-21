@@ -23,7 +23,14 @@ It measures more than skills. **Add-ons** (token savers, memory tools, prompt st
 ## Install
 
 ```bash
-git clone <this repo> && cd skilllab
+pipx install skilllab
+```
+
+The built-in task suite comes with the package. To use the example add-ons in
+[`examples/addons/`](examples/addons/), or to work on skilllab itself, clone the repo instead:
+
+```bash
+git clone https://github.com/mekala540/skilllab && cd skilllab
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
 ```

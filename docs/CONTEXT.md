@@ -105,6 +105,7 @@ Replies so far:
    (issuecomment-7066008929). Now: caveman full plugin
    vs voice-only comparison (Mac, ~$4), with the cache split recorded.
 5. Results page + Reddit post (r/ClaudeAI) 2–3 days after the issues, linking them; HN later.
-6. Release skilllab on PyPI.
+6. Release skilllab on PyPI: 0.3.0 prepared 21 Nov (publish workflow, `pypi` environment);
+   waits for the PyPI pending publisher, then `gh release create v0.3.0`.
 7. Second model (Sonnet), more tools (memory tools next), harder tasks so skills can show lift.
 8. Later: private evaluations for companies (start with ~10 interviews).
