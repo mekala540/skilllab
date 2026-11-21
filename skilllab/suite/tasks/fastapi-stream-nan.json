@@ -1,0 +1,54 @@
+{
+  "id": "fastapi-stream-nan",
+  "tier": "real",
+  "title": "fastapi: Bug report from a user of this library",
+  "tags": [
+    "web",
+    "api",
+    "json",
+    "streaming",
+    "serialization",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/fastapi/fastapi.git",
+    "commit": "0b919816378eaa773df7ce4204414c712c9fdbea",
+    "fix": "d1fd422fd9c3b24b0e2bcf1cc89f1e7249b5fcd6"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-fastapi-stream-nan-hidden",
+  "prompt": "This repo is fastapi (an open-source Python library). Bug report from a user of this library:\n\n> Streaming endpoints write invalid JSON for non-finite floats. A JSONL endpoint (an async generator path operation with no return annotation) or a Server-Sent Events endpoint (`response_class=EventSourceResponse`, or yielding `ServerSentEvent(data=...)`) that yields `float('nan')`, `float('inf')` or `float('-inf')`, alone, nested in dicts and lists, or inside a Pydantic model, sends bare `NaN` / `Infinity` tokens, which clients' JSON parsers reject. Each item should be serialized the way Pydantic serializes JSON by default (`pydantic_core.to_json`): non-finite floats become `null`, everything else unchanged. A model that sets its own `ser_json_inf_nan` must keep that setting, and `ServerSentEvent(raw_data=...)` must still be sent exactly as given.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "scripts/tests/test_translation_fixer/conftest.py",
+    "tests/test_telemetry/conftest.py",
+    "tests/test_tutorial/test_opentelemetry/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git",
+    "uv"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/fastapi/fastapi/commit/d1fd422fd9c3b24b0e2bcf1cc89f1e7249b5fcd6 (MIT)",
+  "deps": {
+    "python": "3.12",
+    "groups": [
+      "tests"
+    ],
+    "extras": [
+      "all"
+    ]
+  }
+}

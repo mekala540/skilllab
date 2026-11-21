@@ -170,7 +170,7 @@ Six more standard tasks (code review and security, hooks, PR writing, skill writ
 
 Every project task has a hidden checker, a reference solution and a plausible-but-incomplete attempt that must fail. They are new: run `skilllab calibrate --tier project` before relying on them.
 
-**Real tier** (`--tier real`): twelve real bugs from four well-known open-source Python projects, each fixed upstream with a test. The workspace is the project at the commit just before the fix (as one fresh commit, without upstream history, so the fix can't be looked up); the agent gets the bug the way a user reported it; the hidden check is **the test that came with the real fix**, plus the project's whole test suite.
+**Real tier** (`--tier real`): fifteen real bugs from five well-known open-source Python projects, each fixed upstream with a test. The workspace is the project at the commit just before the fix (as one fresh commit, without upstream history, so the fix can't be looked up); the agent gets the bug the way a user reported it; the hidden check is **the test that came with the real fix**, plus the project's whole test suite.
 
 | Project | Tasks | Fixes from |
 | --- | --- | --- |
@@ -178,6 +178,9 @@ Every project task has a hidden checker, a reference solution and a plausible-bu
 | [sqlparse](https://github.com/andialbrecht/sqlparse) | `BEGIN...END` splitting, whitespace stripping in groups, real name of dotted identifiers | 2025–2026 |
 | [boltons](https://github.com/mahmoud/boltons) | relative time with time zones, `BarrelList` slicing, `parse_qsl` encoding | 2026 |
 | [more-itertools](https://github.com/more-itertools/more-itertools) | `bucket` lookups inventing keys, `one()` dropping falsy custom exceptions | 2026 |
+| [fastapi](https://github.com/fastapi/fastapi) | non-finite floats in JSONL/SSE streams, request handlers rebuilt per request in included routers, OpenAPI for nested computed fields | 2026 |
+
+Projects with dependencies (fastapi) run in a virtualenv built with [uv](https://docs.astral.sh/uv/) from the project's own `uv.lock` at that commit, the same environment its CI uses; it's built once and cached in `~/.cache/skilllab/envs`. These tasks need `uv` on your PATH. Upstream tests that fail even with the upstream fix (they depend on the machine) are left out, and so are tests that check private names a bug report couldn't mention.
 
 Most fixes are newer than current models' training data, so the models can't have memorised them. Nothing from these projects is copied into skilllab: the first run clones each project once into `~/.cache/skilllab/repos` (set `SKILLLAB_REPO_CACHE` to move it) and reads the snapshot, the upstream tests and the reference fix from there. The tasks need `git`, network on first use, and `pytest` for the Python that runs skilllab; click and more-itertools tasks need Python 3.10+. `tests/generators/real_tasks.py` builds the tier from a list of fix commits, so adding a task is one line.
 

@@ -1,0 +1,25 @@
+{
+  "project": "https://github.com/fastapi/fastapi.git",
+  "fix": "ac88f563db5f4d3300d43355eca728c93ed9ffe2",
+  "test_files": [
+    "tests/test_route_handler_wrapping.py"
+  ],
+  "conftests": [
+    "scripts/tests/test_translation_fixer/conftest.py",
+    "tests/test_telemetry/conftest.py",
+    "tests/test_tutorial/test_opentelemetry/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_route_handler_wrapping.py::test_endpoint_wrapper_does_not_accumulate_across_requests",
+    "tests/test_route_handler_wrapping.py::test_custom_handlers_are_cached_separately_for_nested_inclusions"
+  ],
+  "suite": [
+    "tests"
+  ],
+  "pytest_args": [
+    "--deselect",
+    "tests/test_route_handler_wrapping.py::test_failed_handler_construction_restores_context_and_can_retry",
+    "--deselect",
+    "tests/test_telemetry/test_integrations.py::test_current_contrib"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "fastapi-router-wrapping",
+  "tier": "real",
+  "title": "fastapi: Bug report from a user of this library",
+  "tags": [
+    "web",
+    "api",
+    "routing",
+    "performance",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/fastapi/fastapi.git",
+    "commit": "bd41128123fd08d693f5541e27c550eebe20f8b0",
+    "fix": "ac88f563db5f4d3300d43355eca728c93ed9ffe2"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-fastapi-router-wrapping-hidden",
+  "prompt": "This repo is fastapi (an open-source Python library). Bug report from a user of this library:\n\n> With an older Sentry SDK, which wraps the endpoint each time FastAPI builds a route's request handler, our app eventually crashes with `RecursionError`. For routes added with `include_router()`, FastAPI seems to build a new request handler on every request, so the wrappers pile up: the Nth request runs the endpoint through N wrappers. A route's request handler (from `get_route_handler()`) should be built once and reused across requests, also for routes in included routers, separately for each place a router is included (different prefixes or `default_response_class`). Dependency overrides and routes added to a router later must still take effect.\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "scripts/tests/test_translation_fixer/conftest.py",
+    "tests/test_telemetry/conftest.py",
+    "tests/test_tutorial/test_opentelemetry/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git",
+    "uv"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/fastapi/fastapi/commit/ac88f563db5f4d3300d43355eca728c93ed9ffe2 (MIT)",
+  "deps": {
+    "python": "3.12",
+    "groups": [
+      "tests"
+    ],
+    "extras": [
+      "all"
+    ]
+  }
+}

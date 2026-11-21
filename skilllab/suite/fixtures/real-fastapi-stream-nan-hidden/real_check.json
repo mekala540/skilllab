@@ -1,0 +1,22 @@
+{
+  "project": "https://github.com/fastapi/fastapi.git",
+  "fix": "d1fd422fd9c3b24b0e2bcf1cc89f1e7249b5fcd6",
+  "test_files": [
+    "tests/test_stream_non_finite_floats.py"
+  ],
+  "conftests": [
+    "scripts/tests/test_translation_fixer/conftest.py",
+    "tests/test_telemetry/conftest.py",
+    "tests/test_tutorial/test_opentelemetry/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_stream_non_finite_floats.py::test_untyped_stream_non_finite_floats"
+  ],
+  "suite": [
+    "tests"
+  ],
+  "pytest_args": [
+    "--deselect",
+    "tests/test_telemetry/test_integrations.py::test_current_contrib"
+  ]
+}

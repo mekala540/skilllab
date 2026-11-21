@@ -7,7 +7,8 @@ code and tests are read from the cached clone at run time.
 
 Run from the repo root (needs network the first time, to clone into ~/.cache/skilllab/repos):
 
-    python3 tests/generators/real_tasks.py
+    python3 tests/generators/real_tasks.py              # every task
+    python3 tests/generators/real_tasks.py TASK_ID ...  # only these
 """
 
 import json
@@ -21,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from skilllab.runner import ensure_commits, materialize  # noqa: E402
+from skilllab.runner import ensure_commits, ensure_env, materialize  # noqa: E402
 
 SUITE = ROOT / "skilllab" / "suite"
 SOLUTIONS = ROOT / "tests" / "solutions"
@@ -40,6 +41,10 @@ PROJECTS = {
                 "pythonpath": "{workspace}", "license": "BSD-3-Clause"},
     "more-itertools": {"url": "https://github.com/more-itertools/more-itertools.git", "src": "more_itertools",
                        "tests": "tests", "pythonpath": "{workspace}", "license": "MIT"},
+    # Needs its pinned dependencies: the environment fastapi's own CI uses (`uv sync --group tests --extra all`).
+    "fastapi": {"url": "https://github.com/fastapi/fastapi.git", "src": "fastapi", "tests": "tests",
+                "pythonpath": "{workspace}", "license": "MIT",
+                "deps": {"python": "3.12", "groups": ["tests"], "extras": ["all"]}},
 }
 
 TASKS = [
@@ -118,11 +123,41 @@ TASKS = [
      "a plain `ValueError` instead of `MyError` when `MyError` instances are falsy (it defines "
      "`__bool__`). `only()` has the same problem, and so does `too_short`. A custom exception that "
      "was passed in must always be the one raised.\n\n"),
+    ("fastapi-stream-nan", "fastapi", "d1fd422fd9", ["web", "api", "json", "streaming", "serialization", "bug"],
+     "Bug report from a user of this library:\n\n> Streaming endpoints write invalid JSON for non-finite "
+     "floats. A JSONL endpoint (an async generator path operation with no return annotation) or a "
+     "Server-Sent Events endpoint (`response_class=EventSourceResponse`, or yielding "
+     "`ServerSentEvent(data=...)`) that yields `float('nan')`, `float('inf')` or `float('-inf')`, alone, "
+     "nested in dicts and lists, or inside a Pydantic model, sends bare `NaN` / `Infinity` tokens, which "
+     "clients' JSON parsers reject. Each item should be serialized the way Pydantic serializes JSON by "
+     "default (`pydantic_core.to_json`): non-finite floats become `null`, everything else unchanged. A model "
+     "that sets its own `ser_json_inf_nan` must keep that setting, and `ServerSentEvent(raw_data=...)` must "
+     "still be sent exactly as given.\n\n"),
+    ("fastapi-router-wrapping", "fastapi", "ac88f563db", ["web", "api", "routing", "performance", "bug"],
+     "Bug report from a user of this library:\n\n> With an older Sentry SDK, which wraps the endpoint "
+     "each time FastAPI builds a route's request handler, our app eventually crashes with `RecursionError`. "
+     "For routes added with `include_router()`, FastAPI seems to build a new request handler on every "
+     "request, so the wrappers pile up: the Nth request runs the endpoint through N wrappers. A route's "
+     "request handler (from `get_route_handler()`) should be built once and reused across requests, also "
+     "for routes in included routers, separately for each place a router is included (different prefixes "
+     "or `default_response_class`). Dependency overrides and routes added to a router later must still "
+     "take effect.\n\n"),
+    ("fastapi-computed-openapi", "fastapi", "a1a05b75d3", ["web", "api", "openapi", "schema", "pydantic", "bug"],
+     "Bug report (discussion #14489) from a user of this library:\n\n> With "
+     "`FastAPI(separate_input_output_schemas=False)`, a model with a `@computed_field` that is used for "
+     "both the request body and the response gets separate `-Input` and `-Output` schemas, which is right. "
+     "But when that model is only *nested* in the response model (as a field, in a list, or recursively), "
+     "the OpenAPI schema is wrong: the response refers to the `-Input` schema, which lacks the computed "
+     "field, instead of the `-Output` one. Any model with a computed field anywhere in its nested models "
+     "should get separate input and output schemas, and responses should reference the `-Output` ones (with "
+     "the computed field marked `readOnly`).\n\n"),
 ]
 
 # Tests from the upstream fix that check something the bug report doesn't ask for. A check only
 # enforces what the task states, so these are left out of must_pass and deselected from the suite.
 UNSTATED = {
+    # Checks a private context variable by name (`routing._effective_route_context_var`).
+    "fastapi-router-wrapping": ["tests/test_route_handler_wrapping.py::test_failed_handler_construction_restores_context_and_can_retry"],
     # The fix also stops building the default message (which reprs items) when a custom
     # exception is given; the report is only about falsy exceptions.
     "more-itertools-one-falsy": ["tests/test_more.py::OneTests::test_too_long_does_not_evaluate_repr",
@@ -143,17 +178,20 @@ def requires_python(gitdir, rev):
     return m.group(1) if m else None
 
 
-def failing_tests(project, parent, fix, test_files, pythonpath):
-    """Test ids that fail at the parent once the fix's test files are in place."""
+def failing_tests(project, rev, targets, python, from_fix=None):
+    """Test ids that fail at `rev`, running `targets`. from_fix: (fix, files) to write over the
+    workspace from the fix commit first (the fix's tests at the parent, to see which fail)."""
     ws = Path(tempfile.mkdtemp())
-    materialize(project["url"], parent, ws)
-    gitdir = ensure_commits(project["url"], fix)
-    for f in test_files:
-        (ws / f).write_text(git(gitdir, "show", f"{fix}:{f}"))
+    materialize(project["url"], rev, ws)
+    if from_fix:
+        fix, files = from_fix
+        gitdir = ensure_commits(project["url"], fix)
+        for f in files:
+            (ws / f).write_text(git(gitdir, "show", f"{fix}:{f}"))
     report = ws / "junit.xml"
-    env = dict(__import__("os").environ, PYTHONPATH=pythonpath.replace("{workspace}", str(ws)))
-    subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "-W", "ignore::DeprecationWarning",
-                    f"--junitxml={report}", *test_files], cwd=ws, capture_output=True, env=env, timeout=900)
+    env = dict(__import__("os").environ, PYTHONPATH=project["pythonpath"].replace("{workspace}", str(ws)))
+    subprocess.run([str(python), "-m", "pytest", "-q", "-p", "no:cacheprovider", "-W", "ignore::DeprecationWarning",
+                    f"--junitxml={report}", *targets], cwd=ws, capture_output=True, env=env, timeout=900)
     ids = []
     for case in ET.parse(report).getroot().iter("testcase"):
         if any(c.tag in ("failure", "error") for c in case):
@@ -163,14 +201,20 @@ def failing_tests(project, parent, fix, test_files, pythonpath):
                 if (ws / ("/".join(parts[:i]) + ".py")).exists():
                     test_id = "::".join(["/".join(parts[:i]) + ".py", *parts[i:], case.get("name").split("[")[0]])
                     break
+            else:
+                # A whole module that fails to import has no test name to require.
+                raise RuntimeError(f"{case.get('name')} failed to collect at {rev[:10]}; "
+                                   "its tests can't be listed one by one")
             if test_id not in ids:
                 ids.append(test_id)
     shutil.rmtree(ws)
     return ids
 
 
-def main():
+def main(only=()):
     for task_id, proj_name, short, tags, report in TASKS:
+        if only and task_id not in only:
+            continue
         project = PROJECTS[proj_name]
         gitdir = ensure_commits(project["url"], short)
         fix = git(gitdir, "rev-parse", f"{short}^{{commit}}").strip()
@@ -178,7 +222,13 @@ def main():
         changed = git(gitdir, "show", "--name-only", "--format=", fix).split()
         test_files = [f for f in changed if f.startswith(project["tests"] + "/") and f.endswith(".py")]
         src_files = [f for f in changed if f.startswith(project["src"] + "/")]
-        must_pass = failing_tests(project, parent, fix, test_files, project["pythonpath"])
+        deps = project.get("deps")
+        python = ensure_env(project["url"], parent, deps) if deps else sys.executable
+        must_pass = failing_tests(project, parent, test_files, python, from_fix=(fix, test_files))
+        # Tests that fail even at the fix commit are broken in this environment (network, OS,
+        # timing): no agent can make them pass, so they're deselected rather than required.
+        broken = failing_tests(project, fix, [project["tests"]], python)
+        must_pass = [t for t in must_pass if t not in broken]
         unstated = UNSTATED.get(task_id, [])
         assert set(unstated) <= set(must_pass), f"{task_id}: UNSTATED lists a test that doesn't fail before the fix"
         must_pass = [t for t in must_pass if t not in unstated]
@@ -190,8 +240,8 @@ def main():
         shutil.copy2(SUITE / "fixtures" / "real-check" / "check_real.py", hidden / "check_real.py")
         check = {"project": project["url"], "fix": fix, "test_files": test_files, "conftests": conftests,
                  "must_pass": must_pass, "suite": [project["tests"]]}
-        if unstated:
-            check["pytest_args"] = [arg for t in unstated for arg in ("--deselect", t)]
+        if unstated or broken:
+            check["pytest_args"] = [arg for t in unstated + broken for arg in ("--deselect", t)]
         (hidden / "real_check.json").write_text(json.dumps(check, indent=2) + "\n")
 
         spec = {
@@ -210,9 +260,12 @@ def main():
             "timeout": 1500,
             "source": f"{project['url'].removesuffix('.git')}/commit/{fix} ({project['license']})",
         }
-        rp = requires_python(gitdir, parent)
+        rp = None if deps else requires_python(gitdir, parent)
         if rp:
             spec["requires_python"] = rp
+        if deps:
+            spec["deps"] = deps
+            spec["requires"].append("uv")
         (SUITE / "tasks" / f"{task_id}.json").write_text(json.dumps(spec, indent=2) + "\n")
 
         sol = SOLUTIONS / task_id
@@ -225,8 +278,9 @@ def main():
             "    data = subprocess.run(['git', '--git-dir', str(gitdir), 'show', f'{FIX}:{path}'],\n"
             "                          capture_output=True, check=True).stdout\n"
             "    Path(path).write_bytes(data)\n")
-        print(f"{task_id}: {len(must_pass)} failing tests before the fix, python>={rp}")
+        print(f"{task_id}: {len(must_pass)} failing tests before the fix, {len(broken)} broken here, "
+              f"python {deps['python'] if deps else '>=' + str(rp)}")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])  # task ids to (re)generate; none means all

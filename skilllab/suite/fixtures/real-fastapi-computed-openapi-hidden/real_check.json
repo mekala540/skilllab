@@ -1,0 +1,26 @@
+{
+  "project": "https://github.com/fastapi/fastapi.git",
+  "fix": "a1a05b75d3e60f6ced5f3bb067232ebc6b47e201",
+  "test_files": [
+    "tests/test_computed_fields.py",
+    "tests/test_openapi_separate_input_output_schemas.py"
+  ],
+  "conftests": [
+    "scripts/tests/test_translation_fixer/conftest.py",
+    "tests/test_telemetry/conftest.py",
+    "tests/test_tutorial/test_opentelemetry/conftest.py"
+  ],
+  "must_pass": [
+    "tests/test_computed_fields.py::test_nested_computed_field_schemas",
+    "tests/test_computed_fields.py::test_computed_field_with_after_model_validator",
+    "tests/test_computed_fields.py::test_recursive_computed_field_schemas",
+    "tests/test_openapi_separate_input_output_schemas.py::test_openapi_schema_no_separate"
+  ],
+  "suite": [
+    "tests"
+  ],
+  "pytest_args": [
+    "--deselect",
+    "tests/test_telemetry/test_integrations.py::test_current_contrib"
+  ]
+}

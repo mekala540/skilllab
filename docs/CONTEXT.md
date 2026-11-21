@@ -98,7 +98,9 @@ Replies so far:
 ## Next, in order
 
 1. ~~Review the real-tier calibration~~ and ~~answer headroom#4260~~ (both done 21 Nov).
-2. Add real bugs from flask, requests and rich to the real tier (cloud; free).
+2. Real tier: dependency support done 21 Nov (`deps`: venv from the project's uv.lock via uv);
+   3 fastapi tasks added (stream NaN, router wrapping, nested computed OpenAPI). Next: calibrate
+   them on the Mac (~$0.30), then more projects (flask, requests, rich) and harder bugs.
 3. Token-saver comparison on the real tier (Mac; budget from the calibration).
 4. Answer maker replies on the three issues; rerun anything they show we set up wrong.
    Pilot-3 data published 21 Nov (`docs/results/2026-10-17-pilot-3/`), linked on caveman#1323

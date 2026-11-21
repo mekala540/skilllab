@@ -82,6 +82,53 @@ def materialize(url: str, sha: str, dest: Path) -> None:
             tar.extractall(dest)
 
 
+ENV_TIMEOUT = 900
+_env_locks: Dict[str, threading.Lock] = defaultdict(threading.Lock)
+
+
+def env_cache() -> Path:
+    return Path(os.environ.get("SKILLLAB_ENV_CACHE") or Path.home() / ".cache" / "skilllab" / "envs")
+
+
+def ensure_env(url: str, commit: str, deps: dict) -> Path:
+    """The Python of a cached virtualenv holding a project's own pinned dependencies.
+
+    deps: {"python": "3.12", "groups": ["tests"], "extras": ["all"]}. The versions come from
+    the project's uv.lock at `commit`, exported with uv, so nothing is guessed. Built once per
+    project, commit and deps; later runs reuse it."""
+    key = hashlib.sha256(json.dumps([url, commit, deps], sort_keys=True).encode()).hexdigest()[:12]
+    root = env_cache() / f"{repo_gitdir(url).stem}-{key}"
+    python = root / "bin" / "python"
+    with _env_locks[str(root)]:
+        if (root / ".ready").exists():
+            return python
+        shutil.rmtree(root, ignore_errors=True)
+        gitdir = ensure_commits(url, commit)
+        with tempfile.TemporaryDirectory() as tmp:
+            for name in ("pyproject.toml", "uv.lock"):
+                (Path(tmp) / name).write_bytes(_git(gitdir, "show", f"{commit}:{name}").stdout)
+            cmd = ["uv", "export", "--frozen", "--no-emit-project", "--no-hashes", "--no-default-groups",
+                   "--format", "requirements-txt", "-q", "-o", "requirements.txt"]
+            cmd += [a for g in deps.get("groups", []) for a in ("--group", g)]
+            cmd += [a for e in deps.get("extras", []) for a in ("--extra", e)]
+            for step in (cmd,
+                         ["uv", "venv", "-q", "--python", deps["python"], str(root)],
+                         ["uv", "pip", "install", "-q", "--python", str(python), "-r", "requirements.txt"]):
+                proc = subprocess.run(step, cwd=tmp, capture_output=True, text=True, timeout=ENV_TIMEOUT)
+                if proc.returncode != 0:
+                    shutil.rmtree(root, ignore_errors=True)
+                    raise RuntimeError(f"building the environment for {url}@{commit[:10]} failed "
+                                       f"({' '.join(step[:2])}): {(proc.stderr or proc.stdout).strip()[-300:]}")
+        (root / ".ready").write_text("")
+    return python
+
+
+def env_vars(python: Path) -> Dict[str, str]:
+    """Put a task's virtualenv first on PATH, so `python3` and `pytest` are the project's."""
+    bindir = str(python.parent)
+    return {"PATH": bindir + os.pathsep + os.environ.get("PATH", ""), "VIRTUAL_ENV": str(python.parent.parent)}
+
+
 def task_env(task: Task, ws: Path) -> Dict[str, str]:
     return {k: v.replace("{workspace}", str(ws)) for k, v in task.env.items()}
 # This many infrastructure errors in a row (usage limit, logged out, CLI missing) stops the batch.
@@ -218,8 +265,10 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
             if run.addon.start_command:
                 prompt = f"{run.addon.start_command} {task.prompt}"
         tools = list(task.tools) + (list(run.addon.tools) if run.addon else [])
-        if task.env:
-            extra["env"] = {**task_env(task, ws), **(extra.get("env") or {})}
+        python = ensure_env(task.repo["url"], task.repo["commit"], task.deps) if task.deps else Path(sys.executable)
+        if task.env or task.deps:
+            base_env = {**(env_vars(python) if task.deps else {}), **task_env(task, ws)}
+            extra["env"] = {**base_env, **(extra.get("env") or {})}
         before = {p: _hash(ws / p) for p in task.protect}
 
         res = agent.run(prompt, ws, task.timeout, tools=tools, **extra)
@@ -230,9 +279,9 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
             if task.hidden:
                 # Hidden checks arrive after the agent is done, overwriting anything it wrote.
                 shutil.copytree(task.hidden, ws, dirs_exist_ok=True)
-            cmd = task.check.replace("{python}", shlex.quote(sys.executable))
+            cmd = task.check.replace("{python}", shlex.quote(str(python)))
             try:
-                check_env = dict(os.environ, **task_env(task, ws))
+                check_env = dict(os.environ, **(env_vars(python) if task.deps else {}), **task_env(task, ws))
                 if task.repo:
                     check_env["SKILLLAB_REPO_GIT"] = str(repo_gitdir(task.repo["url"]))
                 proc = subprocess.run(cmd, shell=True, cwd=str(ws), capture_output=True,

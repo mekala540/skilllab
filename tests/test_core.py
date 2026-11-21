@@ -396,3 +396,16 @@ def test_user_invoked_and_irrelevant_skills_are_not_never_triggered():
     assert [x["id"] for x in s["gaps"]["never_triggered"]] == ["p/a"]
     by = {p["skill"]: p for p in s["pairs"]}
     assert by["p/u"]["trigger_rate"] is None and by["p/a"]["match"] == "fits"
+
+
+def test_task_with_project_deps_needs_uv_and_ignores_requires_python(monkeypatch):
+    from skilllab import tasks
+    from skilllab.runner import env_vars
+    t = tasks.Task(id="t", title="t", prompt="p", check="c", tags=[], fixture=None,
+                   requires_python="99.0", deps={"python": "3.12", "groups": ["tests"]})
+    monkeypatch.setattr(tasks.shutil, "which", lambda name: None)
+    assert t.missing() == ["uv"]  # the project's own Python is used, so 99.0 doesn't apply
+    monkeypatch.setattr(tasks.shutil, "which", lambda name: "/usr/bin/" + name)
+    assert t.missing() == []
+    env = env_vars(Path("/envs/x/bin/python"))
+    assert env["PATH"].startswith("/envs/x/bin") and env["VIRTUAL_ENV"] == "/envs/x"

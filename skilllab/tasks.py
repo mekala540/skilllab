@@ -36,13 +36,18 @@ class Task:
     repo: Optional[Dict[str, str]] = None
     env: Dict[str, str] = field(default_factory=dict)  # for the agent and the check; {workspace} expands
     requires_python: Optional[str] = None  # e.g. "3.10": skipped on older Pythons
+    # A real project's own pinned dependencies, built with uv from its uv.lock at repo.commit:
+    # {"python": "3.12", "groups": ["tests"], "extras": ["all"]}. requires_python then doesn't apply.
+    deps: Optional[Dict[str, object]] = None
 
     def meta(self) -> dict:
         return {"id": self.id, "title": self.title, "tags": self.tags, "tier": self.tier}
 
     def missing(self) -> List[str]:
         out = [r for r in self.requires if not shutil.which(r)]
-        if self.requires_python:
+        if self.deps and not shutil.which("uv"):
+            out.append("uv")
+        if self.requires_python and not self.deps:
             need = tuple(int(x) for x in self.requires_python.split("."))
             if sys.version_info[:len(need)] < need:
                 out.append(f"python>={self.requires_python}")
@@ -85,6 +90,7 @@ def load_suite(suite_dir: Path = DEFAULT_SUITE, tier: str = "all") -> List[Task]
                 repo=data.get("repo"),
                 env=data.get("env", {}),
                 requires_python=data.get("requires_python"),
+                deps=data.get("deps"),
             )
         )
     return tasks

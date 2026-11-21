@@ -1,0 +1,54 @@
+{
+  "id": "fastapi-computed-openapi",
+  "tier": "real",
+  "title": "fastapi: Bug report (discussion #14489) from a user of this library",
+  "tags": [
+    "web",
+    "api",
+    "openapi",
+    "schema",
+    "pydantic",
+    "bug"
+  ],
+  "repo": {
+    "url": "https://github.com/fastapi/fastapi.git",
+    "commit": "913c68062c8990ea2c00d856d81b7e2383485155",
+    "fix": "a1a05b75d3e60f6ced5f3bb067232ebc6b47e201"
+  },
+  "setup": "projects/snapshot-setup",
+  "hidden": "fixtures/real-fastapi-computed-openapi-hidden",
+  "prompt": "This repo is fastapi (an open-source Python library). Bug report (discussion #14489) from a user of this library:\n\n> With `FastAPI(separate_input_output_schemas=False)`, a model with a `@computed_field` that is used for both the request body and the response gets separate `-Input` and `-Output` schemas, which is right. But when that model is only *nested* in the response model (as a field, in a list, or recursively), the OpenAPI schema is wrong: the response refers to the `-Input` schema, which lacks the computed field, instead of the `-Output` one. Any model with a computed field anywhere in its nested models should get separate input and output schemas, and responses should reference the `-Output` ones (with the computed field marked `readOnly`).\n\nRun the tests with `python3 -m pytest tests` (the package is importable from the repo as it is). Fix the bug in the library code and add a regression test. Keep the existing tests passing.",
+  "check": "{python} check_real.py",
+  "protect": [
+    "scripts/tests/test_translation_fixer/conftest.py",
+    "tests/test_telemetry/conftest.py",
+    "tests/test_tutorial/test_opentelemetry/conftest.py"
+  ],
+  "env": {
+    "PYTHONPATH": "{workspace}",
+    "PYTEST_ADDOPTS": "-p no:cacheprovider -W ignore::DeprecationWarning"
+  },
+  "tools": [
+    "Bash(git:*)",
+    "Bash(grep:*)",
+    "Bash(find:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)"
+  ],
+  "requires": [
+    "git",
+    "uv"
+  ],
+  "timeout": 1500,
+  "source": "https://github.com/fastapi/fastapi/commit/a1a05b75d3e60f6ced5f3bb067232ebc6b47e201 (MIT)",
+  "deps": {
+    "python": "3.12",
+    "groups": [
+      "tests"
+    ],
+    "extras": [
+      "all"
+    ]
+  }
+}
