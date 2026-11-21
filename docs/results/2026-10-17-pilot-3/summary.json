@@ -1,0 +1,483 @@
+{
+  "runs": 30,
+  "errors": 0,
+  "control_warning": null,
+  "cost_usd": 0.185,
+  "threshold": 0.3,
+  "alpha": 0.1,
+  "baseline": {
+    "fix-pagination": {
+      "n": 5,
+      "passes": 5,
+      "rate": 1.0,
+      "ci": [
+        0.649,
+        1.0
+      ],
+      "cost": 0.006848129999999999,
+      "cost_per_pass": 0.006495486
+    }
+  },
+  "pairs": [
+    {
+      "skill": "addon:rtk",
+      "task": "fix-pagination",
+      "n": 5,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.649,
+        1.0
+      ],
+      "base_ci": [
+        0.649,
+        1.0
+      ],
+      "cost": 0.00573313,
+      "base_cost": 0.006848129999999999,
+      "cost_per_pass": 0.005873016,
+      "base_cost_per_pass": 0.006495486,
+      "turns": 8,
+      "bash_calls": 2,
+      "base_bash_calls": 3,
+      "bash_used": [
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.00573313,
+            "base": 0.006848129999999999,
+            "change": -0.1628,
+            "ci": [
+              -0.1954,
+              0.0017
+            ]
+          },
+          "input_tokens": {
+            "with": 127491.0,
+            "base": 184162.0,
+            "change": -0.3077,
+            "ci": [
+              -0.3356,
+              0.097
+            ]
+          },
+          "output_tokens": {
+            "with": 1818.0,
+            "base": 2287.0,
+            "change": -0.2051,
+            "ci": [
+              -0.3083,
+              0.0485
+            ]
+          },
+          "duration_s": {
+            "with": 14.3,
+            "base": 15.7,
+            "change": -0.0892,
+            "ci": [
+              -0.2485,
+              0.2071
+            ]
+          },
+          "turns": {
+            "with": 8.0,
+            "base": 9.0,
+            "change": -0.1111,
+            "ci": [
+              -0.2,
+              0.0
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": "same cost",
+        "note": null
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:headroom",
+      "task": "fix-pagination",
+      "n": 5,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.649,
+        1.0
+      ],
+      "base_ci": [
+        0.649,
+        1.0
+      ],
+      "cost": 0.00458755,
+      "base_cost": 0.006848129999999999,
+      "cost_per_pass": 0.004725684,
+      "base_cost_per_pass": 0.006495486,
+      "turns": 9,
+      "bash_calls": 2,
+      "base_bash_calls": 3,
+      "bash_used": [
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.00458755,
+            "base": 0.006848129999999999,
+            "change": -0.3301,
+            "ci": [
+              -0.3566,
+              -0.1325
+            ]
+          },
+          "input_tokens": {
+            "with": 98604.0,
+            "base": 184162.0,
+            "change": -0.4646,
+            "ci": [
+              -0.4782,
+              -0.0542
+            ]
+          },
+          "output_tokens": {
+            "with": 2124.0,
+            "base": 2287.0,
+            "change": -0.0713,
+            "ci": [
+              -0.1967,
+              0.1949
+            ]
+          },
+          "duration_s": {
+            "with": 15.8,
+            "base": 15.7,
+            "change": 0.0064,
+            "ci": [
+              -0.1183,
+              0.2154
+            ]
+          },
+          "turns": {
+            "with": 9.0,
+            "base": 9.0,
+            "change": 0.0,
+            "ci": [
+              -0.1111,
+              0.125
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": "cheaper",
+        "note": null
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:caveman",
+      "task": "fix-pagination",
+      "n": 5,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.649,
+        1.0
+      ],
+      "base_ci": [
+        0.649,
+        1.0
+      ],
+      "cost": 0.007347660000000001,
+      "base_cost": 0.006848129999999999,
+      "cost_per_pass": 0.007085986000000001,
+      "base_cost_per_pass": 0.006495486,
+      "turns": 9,
+      "bash_calls": 3,
+      "base_bash_calls": 3,
+      "bash_used": [
+        "ls",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.007347660000000001,
+            "base": 0.006848129999999999,
+            "change": 0.0729,
+            "ci": [
+              -0.06,
+              0.2859
+            ]
+          },
+          "input_tokens": {
+            "with": 219710.0,
+            "base": 184162.0,
+            "change": 0.193,
+            "ci": [
+              -0.0472,
+              0.7789
+            ]
+          },
+          "output_tokens": {
+            "with": 1456.0,
+            "base": 2287.0,
+            "change": -0.3634,
+            "ci": [
+              -0.4493,
+              -0.1052
+            ]
+          },
+          "duration_s": {
+            "with": 15.8,
+            "base": 15.7,
+            "change": 0.0064,
+            "ci": [
+              -0.2789,
+              0.1361
+            ]
+          },
+          "turns": {
+            "with": 9.0,
+            "base": 9.0,
+            "change": 0.0,
+            "ci": [
+              -0.2,
+              0.125
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": "same cost",
+        "note": null
+      },
+      "match": null
+    },
+    {
+      "skill": "addon:control",
+      "task": "fix-pagination",
+      "n": 5,
+      "with_rate": 1.0,
+      "base_rate": 1.0,
+      "delta": 0.0,
+      "trigger_rate": null,
+      "p_value": 1.0,
+      "ci": [
+        0.649,
+        1.0
+      ],
+      "base_ci": [
+        0.649,
+        1.0
+      ],
+      "cost": 0.006997140000000001,
+      "base_cost": 0.006848129999999999,
+      "cost_per_pass": 0.006715864,
+      "base_cost_per_pass": 0.006495486,
+      "turns": 9,
+      "bash_calls": 3,
+      "base_bash_calls": 3,
+      "bash_used": [
+        "env",
+        "python3"
+      ],
+      "verdict": "no lift",
+      "notes": [
+        "ceiling: passes without the skill too"
+      ],
+      "savings": {
+        "metrics": {
+          "cost_usd": {
+            "with": 0.006997140000000001,
+            "base": 0.006848129999999999,
+            "change": 0.0218,
+            "ci": [
+              -0.1399,
+              0.2223
+            ]
+          },
+          "input_tokens": {
+            "with": 189196.0,
+            "base": 184162.0,
+            "change": 0.0273,
+            "ci": [
+              -0.2009,
+              0.5213
+            ]
+          },
+          "output_tokens": {
+            "with": 2582.0,
+            "base": 2287.0,
+            "change": 0.129,
+            "ci": [
+              -0.1759,
+              0.4368
+            ]
+          },
+          "duration_s": {
+            "with": 21.3,
+            "base": 15.7,
+            "change": 0.3567,
+            "ci": [
+              0.1156,
+              0.5308
+            ]
+          },
+          "turns": {
+            "with": 9.0,
+            "base": 9.0,
+            "change": 0.0,
+            "ci": [
+              -0.1,
+              0.25
+            ]
+          }
+        },
+        "by": "cost_usd",
+        "verdict": "same cost",
+        "note": null
+      },
+      "match": null
+    }
+  ],
+  "skills": [
+    {
+      "id": "addon:rtk",
+      "name": "rtk",
+      "description": "rtk (Rust Token Killer) 1.0.1, default pipeline: a PreToolUse hook rewrites Bash commands such as ls and cat to rtk equivalents that compress their output. Claims 60-90% fewer tokens on common dev commands.",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": false,
+      "verdict": "no lift",
+      "tasks": [
+        "fix-pagination"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.0,
+      "savings": {
+        "by": "cost_usd",
+        "change": -0.1628,
+        "ci": [
+          -0.1954,
+          0.0017
+        ],
+        "verdict": "same cost"
+      }
+    },
+    {
+      "id": "addon:headroom",
+      "name": "headroom",
+      "description": "Headroom 0.41.0 in proxy mode: compresses tool outputs, logs and files in each request before it reaches the model. Claims 20% fewer tokens for coding agents, 60-95% for JSON.",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": false,
+      "verdict": "no lift",
+      "tasks": [
+        "fix-pagination"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.0,
+      "savings": {
+        "by": "cost_usd",
+        "change": -0.3301,
+        "ci": [
+          -0.3566,
+          -0.1325
+        ],
+        "verdict": "cheaper"
+      }
+    },
+    {
+      "id": "addon:caveman",
+      "name": "caveman",
+      "description": "caveman 4.0.1 as its Claude Code plugin: a SessionStart hook turns on a terse 'caveman' reply voice for the whole session; code, commands and errors stay verbatim. Claims 65% fewer tokens (repo description).",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": false,
+      "verdict": "no lift",
+      "tasks": [
+        "fix-pagination"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.0,
+      "savings": {
+        "by": "cost_usd",
+        "change": 0.0729,
+        "ci": [
+          -0.06,
+          0.2859
+        ],
+        "verdict": "same cost"
+      }
+    },
+    {
+      "id": "addon:control",
+      "name": "control",
+      "description": "Changes nothing. Checks the method: it should come out 'same cost'.",
+      "source": "addon",
+      "upfront_tokens": 0,
+      "onuse_tokens": 0,
+      "user_invoked": false,
+      "addon": true,
+      "control": true,
+      "verdict": "no lift",
+      "tasks": [
+        "fix-pagination"
+      ],
+      "trigger_rate": null,
+      "pass_delta": 0.0,
+      "savings": {
+        "by": "cost_usd",
+        "change": 0.0218,
+        "ci": [
+          -0.1399,
+          0.2223
+        ],
+        "verdict": "same cost"
+      }
+    }
+  ],
+  "gaps": {
+    "costly_no_lift": [],
+    "never_triggered": [],
+    "hurts": [],
+    "ceiling_tasks": [
+      "fix-pagination"
+    ],
+    "unsolved_tasks": [],
+    "needs_person": [],
+    "untested_claims": [],
+    "lookalikes": []
+  }
+}

@@ -101,7 +101,8 @@ Replies so far:
 2. Add real bugs from flask, requests and rich to the real tier (cloud; free).
 3. Token-saver comparison on the real tier (Mac; budget from the calibration).
 4. Answer maker replies on the three issues; rerun anything they show we set up wrong.
-   Now: publish pilot-3 data; caveman full plugin vs voice-only comparison (Mac, ~$4).
+   Pilot-3 data published 21 Nov (`docs/results/2026-10-17-pilot-3/`). Now: caveman full plugin
+   vs voice-only comparison (Mac, ~$4), with the cache split recorded.
 5. Results page + Reddit post (r/ClaudeAI) 2–3 days after the issues, linking them; HN later.
 6. Release skilllab on PyPI.
 7. Second model (Sonnet), more tools (memory tools next), harder tasks so skills can show lift.
