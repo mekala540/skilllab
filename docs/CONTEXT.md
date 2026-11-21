@@ -3,7 +3,7 @@
 Where the project stands, why, and what's next, so any session (cloud or local) can pick up
 without the history. Keep it current: update "State" and "Next" whenever something changes.
 
-Last updated: 19 October 2026.
+Last updated: 21 November 2026.
 
 ## The mission
 
@@ -55,7 +55,10 @@ counts. Add-ons are `addon.json` folders (`examples/addons/{rtk,headroom,caveman
   logs, test runs. Calibrated on Haiku: most pass every time (fine for cost, too easy for lift).
 - `real`: 12 real upstream bug fixes from click, sqlparse, boltons, more-itertools (mostly 2026),
   checked by the tests that came with the real fix. Built by `tests/generators/real_tasks.py`.
-  **Calibration on Haiku was started; its result hasn't been reviewed yet.**
+  Calibration on Haiku (3 runs each, ~$0.01 a run): 11 of 12 pass every time, so the tier is too
+  easy for Haiku. more-itertools-one-falsy failed every time only on upstream tests for something
+  the report doesn't ask for (no `repr` when a custom exception is given); those two tests are now
+  deselected (`UNSTATED` in the generator). Harder tasks or a stronger model needed for lift.
 
 **First results (project tier, Haiku 5.5, 12 tasks × 3 runs per arm, 240 runs, $4.70):**
 published in `docs/results/2026-10-17-project-tier/`.
@@ -83,11 +86,16 @@ Replies so far:
 - caveman#1323 (19 Oct): setup confirmed correct; flagged to the owner in caveman PR #1315.
   Asked for (1) the pilot data (output saving vs input overhead) and (2) a voice-only arm vs the
   full plugin, because `--plugin-dir` also loads all bundled skills. We said we'd do both.
-- headroom#4260: no reply yet.
+- headroom#4260 (6–7 Nov): a Devin bot asked for per-task input tokens with/without Headroom,
+  whether CCR retrievals happened, whether cache reads were counted; notes `--no-cache` only turns
+  off Headroom's response cache; suggests moving to Discussions. A third party's bot agreed the
+  $10.61 counter likely prices deferred tool tokens at the full input rate instead of cache-read;
+  suggests logging cache read/creation tokens per arm and comparing saving vs run length.
+  Not answered yet.
 
 ## Next, in order
 
-1. Review the real-tier calibration (`results/calibration-real` on the Mac); fix unfair tasks.
+1. ~~Review the real-tier calibration~~ (done 21 Nov). Answer headroom#4260 with the numbers it asks for.
 2. Add real bugs from flask, requests and rich to the real tier (cloud; free).
 3. Token-saver comparison on the real tier (Mac; budget from the calibration).
 4. Answer maker replies on the three issues; rerun anything they show we set up wrong.

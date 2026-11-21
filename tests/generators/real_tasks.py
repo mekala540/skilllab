@@ -120,6 +120,15 @@ TASKS = [
      "was passed in must always be the one raised.\n\n"),
 ]
 
+# Tests from the upstream fix that check something the bug report doesn't ask for. A check only
+# enforces what the task states, so these are left out of must_pass and deselected from the suite.
+UNSTATED = {
+    # The fix also stops building the default message (which reprs items) when a custom
+    # exception is given; the report is only about falsy exceptions.
+    "more-itertools-one-falsy": ["tests/test_more.py::OneTests::test_too_long_does_not_evaluate_repr",
+                                 "tests/test_more.py::OnlyTests::test_too_long_does_not_evaluate_repr"],
+}
+
 
 def git(gitdir, *args):
     return subprocess.run(["git", "--git-dir", str(gitdir), *args], capture_output=True, text=True, check=True).stdout
@@ -170,15 +179,20 @@ def main():
         test_files = [f for f in changed if f.startswith(project["tests"] + "/") and f.endswith(".py")]
         src_files = [f for f in changed if f.startswith(project["src"] + "/")]
         must_pass = failing_tests(project, parent, fix, test_files, project["pythonpath"])
+        unstated = UNSTATED.get(task_id, [])
+        assert set(unstated) <= set(must_pass), f"{task_id}: UNSTATED lists a test that doesn't fail before the fix"
+        must_pass = [t for t in must_pass if t not in unstated]
         assert must_pass, f"{task_id}: no test fails before the fix"
         conftests = [f for f in git(gitdir, "ls-tree", "-r", "--name-only", parent).split() if f.endswith("conftest.py")]
 
         hidden = SUITE / "fixtures" / f"real-{task_id}-hidden"
         hidden.mkdir(parents=True, exist_ok=True)
         shutil.copy2(SUITE / "fixtures" / "real-check" / "check_real.py", hidden / "check_real.py")
-        (hidden / "real_check.json").write_text(json.dumps({
-            "project": project["url"], "fix": fix, "test_files": test_files, "conftests": conftests,
-            "must_pass": must_pass, "suite": [project["tests"]]}, indent=2) + "\n")
+        check = {"project": project["url"], "fix": fix, "test_files": test_files, "conftests": conftests,
+                 "must_pass": must_pass, "suite": [project["tests"]]}
+        if unstated:
+            check["pytest_args"] = [arg for t in unstated for arg in ("--deselect", t)]
+        (hidden / "real_check.json").write_text(json.dumps(check, indent=2) + "\n")
 
         spec = {
             "id": task_id, "tier": "real",

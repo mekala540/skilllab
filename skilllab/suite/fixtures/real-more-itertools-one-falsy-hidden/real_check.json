@@ -7,11 +7,15 @@
   "conftests": [],
   "must_pass": [
     "tests/test_more.py::OneTests::test_falsy_custom_exception",
-    "tests/test_more.py::OneTests::test_too_long_does_not_evaluate_repr",
-    "tests/test_more.py::OnlyTests::test_falsy_custom_exception",
-    "tests/test_more.py::OnlyTests::test_too_long_does_not_evaluate_repr"
+    "tests/test_more.py::OnlyTests::test_falsy_custom_exception"
   ],
   "suite": [
     "tests"
+  ],
+  "pytest_args": [
+    "--deselect",
+    "tests/test_more.py::OneTests::test_too_long_does_not_evaluate_repr",
+    "--deselect",
+    "tests/test_more.py::OnlyTests::test_too_long_does_not_evaluate_repr"
   ]
 }
