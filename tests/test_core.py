@@ -80,11 +80,13 @@ def test_parse_stream_reads_skill_use_and_cost():
             {"type": "text", "text": "hi"},
             {"type": "tool_use", "name": "Skill", "input": {"skill": "tdd"}}]}},
         {"type": "result", "is_error": False, "total_cost_usd": 0.12, "num_turns": 7,
-         "usage": {"input_tokens": 10, "cache_read_input_tokens": 90, "output_tokens": 5}},
+         "usage": {"input_tokens": 10, "cache_read_input_tokens": 80, "cache_creation_input_tokens": 10,
+                   "output_tokens": 5}},
     ]
     res = parse_stream("\n".join(json.dumps(x) for x in lines) + "\nnot json\n")
     assert res.skills_invoked == ["tdd"]
     assert (res.cost_usd, res.input_tokens, res.output_tokens, res.turns) == (0.12, 100, 5, 7)
+    assert (res.cache_read_tokens, res.cache_write_tokens) == (80, 10)
     assert not res.infra_error and not res.note
 
 

@@ -42,7 +42,10 @@ class AgentResult:
     note: str = ""  # ran but ended badly (timeout, max turns): counts as a failed attempt
     duration: float = 0.0
     cost_usd: Optional[float] = None
-    input_tokens: int = 0
+    input_tokens: int = 0  # all input: fresh + cache reads + cache writes
+    # The parts of input_tokens billed at the cache rates, so a token count can be repriced.
+    cache_read_tokens: int = 0
+    cache_write_tokens: int = 0
     output_tokens: int = 0
     turns: Optional[int] = None
     skills_invoked: List[str] = field(default_factory=list)
@@ -84,6 +87,8 @@ def parse_stream(text: str) -> AgentResult:
                 int(usage.get(k) or 0)
                 for k in ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens")
             )
+            res.cache_read_tokens = int(usage.get("cache_read_input_tokens") or 0)
+            res.cache_write_tokens = int(usage.get("cache_creation_input_tokens") or 0)
             res.output_tokens = int(usage.get("output_tokens") or 0)
             res.turns = ev.get("num_turns")
             if ev.get("is_error"):
