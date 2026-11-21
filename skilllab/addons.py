@@ -13,7 +13,8 @@ addon.json (every field optional except name):
       "description": "One line: what it claims to do",
       "settings": "settings.json",        // file in this folder, or an inline object
       "plugin_dir": "plugin",             // loaded with --plugin-dir
-      "skills_dir": "skills",             // each subfolder copied to .claude/skills/
+      "skills_dir": "skills",             // each subfolder copied to .claude/skills/ (or one skill folder)
+      "start_command": "/caveman",        // typed before every task prompt, as a user would
       "claude_md": "CLAUDE.md",           // copied into the workspace
       "append_system_prompt": "Be brief.",
       "env": {"ANTHROPIC_BASE_URL": "http://127.0.0.1:8787"},
@@ -46,6 +47,7 @@ class Addon:
     skills_dir: Optional[str] = None
     claude_md: Optional[str] = None
     append_system_prompt: str = ""
+    start_command: str = ""
     env: Dict[str, str] = field(default_factory=dict)
     tools: List[str] = field(default_factory=list)
     setup: List[str] = field(default_factory=list)
@@ -76,7 +78,7 @@ class Addon:
     control: bool = False  # the built-in no-op arm that checks the method itself
 
     def meta(self) -> dict:
-        how = [k for k in ("settings", "plugin_dir", "skills_dir", "claude_md", "env", "setup")
+        how = [k for k in ("settings", "plugin_dir", "skills_dir", "claude_md", "start_command", "env", "setup")
                if getattr(self, k)]
         if self.append_system_prompt:
             how.append("system prompt")
@@ -97,7 +99,9 @@ class Addon:
         if self.claude_md:
             shutil.copy2(self.root / self.claude_md, ws / "CLAUDE.md")
         if self.skills_dir:
-            for d in sorted((self.root / self.skills_dir).iterdir()):
+            src = self.root / self.skills_dir
+            dirs = [src] if (src / "SKILL.md").is_file() else sorted(src.iterdir())
+            for d in dirs:
                 if (d / "SKILL.md").is_file():
                     shutil.copytree(d, ws / ".claude" / "skills" / d.name, dirs_exist_ok=True)
         for cmd in self.setup:
@@ -126,7 +130,7 @@ def control_addon() -> Addon:
 
 
 FIELDS = ("description", "settings", "plugin_dir", "skills_dir", "claude_md",
-          "append_system_prompt", "env", "tools", "setup", "requires")
+          "append_system_prompt", "start_command", "env", "tools", "setup", "requires")
 
 
 def load_addon(path: Path) -> Addon:

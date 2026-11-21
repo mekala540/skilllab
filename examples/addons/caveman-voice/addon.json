@@ -1,0 +1,6 @@
+{
+  "name": "caveman-voice",
+  "description": "caveman 4.0.1 voice only: the caveman skill alone (no plugin, hooks or other skills), started with /caveman. Claims 65% fewer tokens (repo description).",
+  "skills_dir": "../caveman/plugin/skills/caveman",
+  "start_command": "/caveman"
+}

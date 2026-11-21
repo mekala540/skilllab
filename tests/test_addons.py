@@ -72,7 +72,7 @@ class Recorder:
     def run(self, prompt, cwd, timeout, tools=None, plugin_dirs=None, settings=None, env=None,
             append_prompt=""):
         cwd = Path(cwd)
-        self.calls.append({"tools": tools, "plugin_dirs": plugin_dirs, "settings": settings, "env": env,
+        self.calls.append({"prompt": prompt, "tools": tools, "plugin_dirs": plugin_dirs, "settings": settings, "env": env,
                            "append_prompt": append_prompt,
                            "claude_md": (cwd / "CLAUDE.md").read_text() if (cwd / "CLAUDE.md").exists() else None,
                            "marker": (cwd / "setup-ran").exists(),
@@ -92,6 +92,7 @@ def test_execute_switches_the_addon_on(tmp_path):
     agent = Recorder()
     rec = execute(Run(task(), None, 0, addon=a), agent, "m")
     call = agent.calls[0]
+    assert call["prompt"] == task().prompt
     assert call["settings"] == str(root / "settings.json")
     assert call["plugin_dirs"] == [root / "plugin"]
     assert call["env"] == {"ANTHROPIC_BASE_URL": "http://127.0.0.1:9"}
@@ -105,6 +106,18 @@ def test_execute_switches_the_addon_on(tmp_path):
     base = agent.calls[1]
     assert base["settings"] is None and base["env"] is None and base["claude_md"] is None
     assert not base["marker"] and base["skills"] == [] and "Bash(rtk:*)" not in (base["tools"] or [])
+
+
+def test_start_command_and_a_single_skill_folder(tmp_path):
+    # The voice-only style of install: one skill folder, started the way a user would.
+    root = addon(tmp_path / "voice", {"name": "voice", "skills_dir": "skills/terse", "start_command": "/terse"},
+                 {"skills/terse/SKILL.md": "---\nname: terse\ndescription: d\n---\nbody\n"})
+    agent = Recorder()
+    execute(Run(task(), None, 0, addon=load_addon(root)), agent, "m")
+    assert agent.calls[0]["skills"] == ["terse"]
+    assert agent.calls[0]["prompt"] == "/terse " + task().prompt
+    execute(Run(task(), None, 0), agent, "m")
+    assert agent.calls[1]["prompt"] == task().prompt
 
 
 def test_failed_setup_is_an_infrastructure_error(tmp_path):
@@ -288,11 +301,13 @@ def test_example_addon_loads(name, tmp_path):
     src = EXAMPLES / name
     spec = json.loads((src / "addon.json").read_text(encoding="utf-8"))
     root = src
-    if spec.get("plugin_dir") and not (src / spec["plugin_dir"]).exists():
-        # A plugin fetched by hand (gitignored); check everything else loads without it.
+    fetched = [spec[k] for k in ("plugin_dir", "skills_dir") if spec.get(k) and not (src / spec[k]).exists()]
+    if fetched:
+        # A checkout fetched by hand (gitignored); check everything else loads without it.
         root = tmp_path / name
         shutil.copytree(src, root)
-        (root / spec["plugin_dir"]).mkdir()
+        for rel in fetched:
+            (root / rel).mkdir(parents=True)
     a = load_addon(root)
     assert a.name == name and a.description
     if a.requires:  # a real tool: its README records where the install steps came from

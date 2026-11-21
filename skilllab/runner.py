@@ -215,6 +215,8 @@ def execute(run: Run, agent, model: str, keep: bool = False) -> dict:
                     _install(s, ws)
         elif run.addon:
             extra = run.addon.install(ws)
+            if run.addon.start_command:
+                prompt = f"{run.addon.start_command} {task.prompt}"
         tools = list(task.tools) + (list(run.addon.tools) if run.addon else [])
         if task.env:
             extra["env"] = {**task_env(task, ws), **(extra.get("env") or {})}

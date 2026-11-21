@@ -69,6 +69,7 @@ An add-on is a folder with an `addon.json`. Every field except `name` is optiona
   "skills_dir": "skills",
   "claude_md": "CLAUDE.md",
   "append_system_prompt": "Be brief.",
+  "start_command": "/my-saver",
   "env": {"ANTHROPIC_BASE_URL": "http://127.0.0.1:8787"},
   "tools": ["Bash(my-saver:*)"],
   "setup": ["my-saver init --local"],
@@ -76,7 +77,7 @@ An add-on is a folder with an `addon.json`. Every field except `name` is optiona
 }
 ```
 
-- `settings` is passed with `claude --settings` (hooks and other settings; a file, or an inline object). `plugin_dir` loads with `--plugin-dir`. `skills_dir` subfolders go to `.claude/skills/`, `claude_md` to the workspace's `CLAUDE.md`.
+- `settings` is passed with `claude --settings` (hooks and other settings; a file, or an inline object). `plugin_dir` loads with `--plugin-dir`. `skills_dir` subfolders go to `.claude/skills/` (or `skills_dir` is one skill's folder), `claude_md` to the workspace's `CLAUDE.md`. `start_command` is typed before every task prompt, for a skill a user turns on by hand (`/caveman`).
 - `env` is set for the agent only: point `ANTHROPIC_BASE_URL` at a local proxy, for example. Start the proxy yourself before the batch.
 - `tools` adds to the allowlist (a command rewriter needs its own command allowed). `setup` runs in each fresh workspace before the agent starts; if it fails, the run is an infrastructure error and is retried on resume. `requires` stops the batch early if a program is missing.
 - Settings, hooks, setup commands and proxies run code on your machine. Read an add-on's install steps before you write its `addon.json`.
