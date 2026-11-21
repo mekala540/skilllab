@@ -91,11 +91,13 @@ Replies so far:
   off Headroom's response cache; suggests moving to Discussions. A third party's bot agreed the
   $10.61 counter likely prices deferred tool tokens at the full input rate instead of cache-read;
   suggests logging cache read/creation tokens per arm and comparing saving vs run length.
-  Not answered yet.
+  Answered 21 Nov (issuecomment-7065960250): per-task input −15% median (control −4%), 0 CCR
+  retrievals, cost is the real bill; counter values 43.3M deferred tokens at ~$0.14/M ($6.10),
+  ~$0.43 at the cache-read rate. Runs now record cache read/write tokens separately.
 
 ## Next, in order
 
-1. ~~Review the real-tier calibration~~ (done 21 Nov). Answer headroom#4260 with the numbers it asks for.
+1. ~~Review the real-tier calibration~~ and ~~answer headroom#4260~~ (both done 21 Nov).
 2. Add real bugs from flask, requests and rich to the real tier (cloud; free).
 3. Token-saver comparison on the real tier (Mac; budget from the calibration).
 4. Answer maker replies on the three issues; rerun anything they show we set up wrong.

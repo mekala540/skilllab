@@ -1,6 +1,7 @@
-# Reply on headroomlabs-ai/headroom#4260 (draft, November 2026)
+# Reply on headroomlabs-ai/headroom#4260 (21 November 2026)
 
-Answers the Devin triage questions (6 Nov) and the Mycroft comment (7 Nov). Not posted yet.
+Answers the Devin triage questions (6 Nov) and the Mycroft comment (7 Nov). Posted 21 November 2026:
+https://github.com/headroomlabs-ai/headroom/issues/4260#issuecomment-7065960250
 
 ---
 
